@@ -1,0 +1,5 @@
+#map {
+  height: 600px; /* or 100vh for full screen */
+  width: 100%;
+  border: 2px solid blue; /* optional for visual debugging */
+}
