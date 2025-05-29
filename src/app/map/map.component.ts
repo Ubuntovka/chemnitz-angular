@@ -20,7 +20,7 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.fetchLocations();
 
-    this.map = L.map('map').setView([50.8333, 12.9166], 13);
+    this.map = L.map('map').setView([50.8333, 12.9166], 15);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:

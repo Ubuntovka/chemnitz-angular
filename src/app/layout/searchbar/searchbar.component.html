@@ -1,0 +1,18 @@
+
+  <div class="search-bar">
+    <input type="text" class="mySearch" onkeyup="myFunction()" placeholder="Search.." title="Type in a category">
+    <div class="locations-list">
+      <ul class="ul">
+        @for (e of locations; track e)
+        {
+          <li class="li">
+            <div class="li-content">
+              <div class="name">{{ e.properties?.name }}</div>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+
+  </div>
+

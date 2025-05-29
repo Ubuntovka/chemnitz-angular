@@ -1,0 +1,46 @@
+.search-bar {
+  /*display: inline-block;*/
+  flex-shrink: 1; /* Prevent sidebar from shrinking */
+  width: 30dvw; /* Fixed width for the sidebar */
+  display: flex; /* Make sidebar content stack vertically */
+  flex-direction: column; /* Stack items vertically */
+  gap: 10px; /* Space between sidebar items */
+  overflow-y: auto;
+}
+.mySearch {
+  width: 15dvw;
+  margin-left: 1dvw;
+}
+
+.locations-list {
+  /*width: 30dvw;*/
+  height: 87dvh; /* or any fixed size */
+  border: 1px solid #ccc;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.ul{
+  /*margin-top: 10px;*/
+  /*list-style-type: none;*/
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto;
+}
+.li{
+  width: 100%;
+  /*background-color:  #a9c5ef;*/
+  border: black solid 1px;
+  border-bottom: 0;
+  padding: 10px 0 10px 0;
+}
+.li:last-child{
+  border-bottom: black solid 1px;
+  margin-bottom: 30px;
+}
+
+.li-content {
+  padding-left: 1dvw;
+}
