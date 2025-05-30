@@ -5,7 +5,7 @@
       <ul class="ul">
         @for (e of locations; track e)
         {
-          <li class="li">
+          <li class="li" (click)="select(e._id)">
             <div class="li-content">
               <div class="name">{{ e.properties?.name }}</div>
             </div>

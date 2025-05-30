@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiService} from '../../api.service';
+import {ApiService} from '../api.service';
 import * as L from 'leaflet';
+import {MapService} from '../services/map.service';
 
 
 @Component({
@@ -12,13 +13,15 @@ import * as L from 'leaflet';
 export class SearchbarComponent implements OnInit {
   locations: any[] = [];
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private mapService: MapService) {
+  }
+
+  select(id: string) {
+    this.mapService.focusMarker(id);
   }
 
   ngOnInit(){
     this.fetchLocations();
-
-
   }
 
   fetchLocations() {
