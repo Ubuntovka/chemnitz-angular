@@ -1,6 +1,7 @@
 #map {
-  height: 91vh; /* or 100vh for full screen */
-  width: 70%;
-  border: 2px solid blue; /* optional for visual debugging */
-  float: right;
+  height: 91vh;
+  width: 70dvw;
+  border: 1px solid black;
+  flex-grow: 1;
+  overflow: hidden;
 }
