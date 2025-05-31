@@ -28,7 +28,7 @@
 .li{
   width: 100%;
   border-bottom: 0;
-  padding: 10px 0 10px 0;
+  padding: 10px 0 30px 0;
 }
 .li:last-child{
   margin-bottom: 30px;
@@ -36,4 +36,12 @@
 
 .li-content {
   padding-left: 1dvw;
+}
+
+.address {
+  font-size: 14px;
+}
+
+.name {
+  font-size: 18px;
 }
