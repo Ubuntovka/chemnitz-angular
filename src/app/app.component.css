@@ -1,6 +1,0 @@
-.main-layout-container {
-  display: flex; /* This is the key: makes sidebar and map sit side-by-side */
-  /* Calculate height: 100% of viewport height minus header height */
-  /*height: calc(100vh - 50px);*/
-  height: 91dvh; /* Use dvh for better mobile compatibility */
-}

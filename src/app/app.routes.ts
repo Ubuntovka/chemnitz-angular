@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
-import {AppComponent} from './app.component';
-import {MapComponent} from './map/map.component';
+import {LoginComponent} from './login/login.component';
+import {MainPageWrapperComponent} from './main-page-wrapper/main-page-wrapper.component';
 
 export const routes: Routes = [
-  { path: '', component: MapComponent },
+  { path: '', component: MainPageWrapperComponent },
+  {path: 'login', component: LoginComponent},
 ];
