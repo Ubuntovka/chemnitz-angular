@@ -10,3 +10,8 @@
 
 <p>Do not have an account yet? Register <a routerLink="/register">here!</a></p>
 
+<div *ngIf="apiService.isLoggedIn()">
+  <p>Welcome, logged-in user!</p>
+</div>
+
+<a (click)="logout()">Log out</a>
