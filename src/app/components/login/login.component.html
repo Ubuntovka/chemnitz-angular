@@ -1,0 +1,12 @@
+<form (ngSubmit)="login()" #loginForm="ngForm">
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email" [(ngModel)]="user.email"><br>
+
+  <label for="passwords">Password:</label><br>
+  <input type="password" id="passwords" name="password" [(ngModel)]="user.password"><br><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+<p>Do not have an account yet? Register <a routerLink="/register">here!</a></p>
+

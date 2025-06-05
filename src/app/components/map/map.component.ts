@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import * as L from 'leaflet';
-import {ApiService} from '../api.service';
+import {ApiService} from '../../services/api.service';
 import {marker} from 'leaflet';
-import {MapService} from '../services/map.service';
+import {MapService} from '../../services/map.service';
 import {Subscription} from 'rxjs';
 
 @Component({
