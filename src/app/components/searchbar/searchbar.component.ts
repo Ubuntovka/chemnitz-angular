@@ -29,7 +29,8 @@ export class SearchbarComponent implements OnInit {
   locations: any[] = [];
   filteredLocations: any[] = [];
   searchTerm: string = '';
-  statusClass = 'filter-locations';
+  filterLocationsClass = 'filter-locations';
+  locationsListClass = 'locations-list';
 
   constructor(private apiService: ApiService, private mapService: MapService) {
   }
@@ -57,10 +58,12 @@ export class SearchbarComponent implements OnInit {
   }
 
   setActiveClass(){
-    if(this.statusClass == 'filter-locations'){
-      this.statusClass = 'filter-locations active';
+    if(this.filterLocationsClass == 'filter-locations'){
+      this.filterLocationsClass = 'filter-locations active';
+      this.locationsListClass = 'locations-list active';
     } else {
-      this.statusClass = 'filter-locations';
+      this.filterLocationsClass = 'filter-locations';
+      this.locationsListClass = 'locations-list';
     }
   }
 

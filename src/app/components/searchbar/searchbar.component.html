@@ -10,7 +10,7 @@
 <mat-icon class="filter-button" matPrefix aria-label="Search icon"
            (click)="setActiveClass()">tune</mat-icon>
 
-<div [ngClass]="statusClass">
+<div [ngClass]="filterLocationsClass">
   <mat-chip-set aria-label="Types of locations">
     <mat-chip>
       <mat-icon matChipAvatar aria-label="Museum icon">museum</mat-icon>
@@ -40,7 +40,7 @@
 </div>
 
 
-<div class="locations-list">
+<div [ngClass]="locationsListClass">
   <ul class="ul">
     @for (e of filteredLocations; track e)
     {

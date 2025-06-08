@@ -1,9 +1,13 @@
 .locations-list {
-  height: 87dvh;
+  height: 83dvh;
   /*border: 1px solid #ccc;*/
   scroll-behavior: smooth;
   scrollbar-width: none;
   width: calc(100dvw - 70dvw);
+}
+
+.locations-list.active {
+  height: 69.5dvh;
 }
 
 .ul{
