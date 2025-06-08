@@ -55,8 +55,6 @@ export class ApiService {
 
   logout(): Observable<any>{
     localStorage.removeItem('token');
-    return this.http.post(this.apiUrl + '/api/users/login', {});
+    return this.http.post(this.apiUrl + '/api/users/logout', {});
   }
-
-
 }

@@ -1,0 +1,7 @@
+.login-form-wrapper{
+  display: flex;
+  justify-content: center;  /* Horizontal center */
+  flex-direction: column; /* Stack vertically */
+  align-items: center;    /* Optional: center items horizontally */
+  height: 100vh;
+}
