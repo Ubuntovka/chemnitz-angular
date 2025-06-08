@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from '../api.service';
+import {Component, OnInit} from '@angular/core';3
+import {ApiService} from '../../services/api.service';
 import * as L from 'leaflet';
-import {MapService} from '../services/map.service';
+import {MapService} from '../../services/map.service';
 import {FormsModule} from '@angular/forms';
 
 
