@@ -35,6 +35,27 @@
 }
 
 .searchbar-form {
-  width: 20dvw;
+  width: 25dvw;
   margin-left: 10px;
+  margin-top: 10px;
 }
+
+.filter-button{
+  margin-left: 1dvw;
+  font-size: 28px;
+  margin-block-end: -0.5dvh;
+  cursor: pointer;
+}
+
+.filter-locations{
+  height: 0;
+  overflow: hidden;
+  transition: 0.2s ease-in-out;
+  margin: 0 1dvw 0;
+}
+
+.filter-locations.active {
+  height: 10dvh;
+  margin: 0.5dvh 1dvw 3dvh;
+}
+

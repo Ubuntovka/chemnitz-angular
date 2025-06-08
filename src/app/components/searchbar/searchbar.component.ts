@@ -6,6 +6,8 @@ import {FormsModule} from '@angular/forms';
 import {MatFormField, MatInput, MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
+import {NgClass} from '@angular/common';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @Component({
@@ -17,6 +19,8 @@ import {MatIcon} from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatIcon,
+    NgClass,
+    MatChipsModule,
   ],
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.css',
@@ -25,6 +29,7 @@ export class SearchbarComponent implements OnInit {
   locations: any[] = [];
   filteredLocations: any[] = [];
   searchTerm: string = '';
+  statusClass = 'filter-locations';
 
   constructor(private apiService: ApiService, private mapService: MapService) {
   }
@@ -49,6 +54,14 @@ export class SearchbarComponent implements OnInit {
     this.filteredLocations = this.locations.filter(loc =>
       loc.properties?.name?.toLowerCase().includes(term)
     );
+  }
+
+  setActiveClass(){
+    if(this.statusClass == 'filter-locations'){
+      this.statusClass = 'filter-locations active';
+    } else {
+      this.statusClass = 'filter-locations';
+    }
   }
 
 }

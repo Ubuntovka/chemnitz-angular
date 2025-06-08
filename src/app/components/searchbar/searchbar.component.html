@@ -1,4 +1,4 @@
-<mat-form-field class="searchbar-form" subscriptSizing="dynamic">
+<mat-form-field class="searchbar-form" appearance="outline" subscriptSizing="dynamic">
   <mat-label>Search ...</mat-label>
   <mat-icon matPrefix aria-label="Search icon">search</mat-icon>
   <input matInput
@@ -7,6 +7,62 @@
          (keyup)="locationsBySearch()"
   >
 </mat-form-field>
+<mat-icon class="filter-button" matPrefix aria-label="Search icon"
+           (click)="setActiveClass()">tune</mat-icon>
+
+<div [ngClass]="statusClass">
+  <mat-chip-set aria-label="Dog selection">
+    <mat-chip>
+      <img
+        matChipAvatar
+        src="https://material.angular.dev/assets/img/examples/shiba1.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      Museum
+    </mat-chip>
+    <mat-chip>
+      <img
+        matChipAvatar
+        src="https://material.angular.dev/assets/img/examples/shiba1.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      Theater
+    </mat-chip>
+    <mat-chip>
+      <img
+        matChipAvatar
+        src="https://material.angular.dev/assets/img/examples/shiba1.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      Restaurant
+    </mat-chip>
+    <mat-chip>
+      <img
+        matChipAvatar
+        src="https://material.angular.dev/assets/img/examples/shiba1.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      Hotel
+    </mat-chip>
+    <mat-chip>
+      <img
+        matChipAvatar
+        src="https://material.angular.dev/assets/img/examples/shiba1.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      Artwork
+    </mat-chip>
+    <mat-chip>
+      <img
+        matChipAvatar
+        src="https://material.angular.dev/assets/img/examples/shiba1.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      Heritage Site
+    </mat-chip>
+  </mat-chip-set>
+</div>
+
 
 <div class="locations-list">
   <ul class="ul">
