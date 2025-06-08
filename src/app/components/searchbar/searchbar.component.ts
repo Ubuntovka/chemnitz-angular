@@ -19,7 +19,7 @@ import {MatIcon} from '@angular/material/icon';
     MatIcon,
   ],
   templateUrl: './searchbar.component.html',
-  styleUrl: './searchbar.component.css'
+  styleUrl: './searchbar.component.css',
 })
 export class SearchbarComponent implements OnInit {
   locations: any[] = [];
