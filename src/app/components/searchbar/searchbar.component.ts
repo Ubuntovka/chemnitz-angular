@@ -3,12 +3,20 @@ import {ApiService} from '../../services/api.service';
 import * as L from 'leaflet';
 import {MapService} from '../../services/map.service';
 import {FormsModule} from '@angular/forms';
+import {MatFormField, MatInput, MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIcon} from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-searchbar',
   imports: [
-    FormsModule
+    FormsModule,
+    MatFormField,
+    MatInput,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIcon,
   ],
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.css'

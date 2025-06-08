@@ -1,21 +1,9 @@
-.search-bar {
-  flex-shrink: 1;
-  width: 30dvw;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
-}
-.mySearch {
-  width: 15dvw;
-  margin-left: 1dvw;
-}
-
 .locations-list {
   height: 87dvh;
-  border: 1px solid #ccc;
+  /*border: 1px solid #ccc;*/
   scroll-behavior: smooth;
   scrollbar-width: none;
+  width: calc(100dvw - 70dvw);
 }
 
 .ul{
@@ -44,4 +32,9 @@
 
 .name {
   font-size: 18px;
+}
+
+.searchbar-form {
+  width: 20dvw;
+  margin-left: 10px;
 }

@@ -1,25 +1,26 @@
-  <div class="search-bar">
-    <input
-      type="text"
-      class="mySearch"
-      [(ngModel)]="searchTerm"
-      (keyup)="locationsBySearch()"
-      placeholder="Search.."
-      title="Type in a name"
-    />
-    <div class="locations-list">
-      <ul class="ul">
-        @for (e of filteredLocations; track e)
-        {
-          <li class="li" (click)="select(e._id)">
-            <div class="li-content">
-              <div class="name">{{ e.properties?.name }}</div>
-              <div class="address">{{ e.properties?.['addr:street'] }}
-                {{ e.properties?.['addr:housenumber'] }}, {{ e.properties?.['addr:city'] }}</div>
-            </div>
-          </li>
-        }
-      </ul>
-    </div>
-  </div>
+<mat-form-field class="searchbar-form">
+  <mat-label>Search ...</mat-label>
+  <mat-icon matPrefix aria-label="Search icon">search</mat-icon>
+  <input matInput
+         type="text"
+         [(ngModel)]="searchTerm"
+         (keyup)="locationsBySearch()"
+  >
+</mat-form-field>
+
+<div class="locations-list">
+  <ul class="ul">
+    @for (e of filteredLocations; track e)
+    {
+      <li class="li" (click)="select(e._id)">
+        <div class="li-content">
+          <div class="name">{{ e.properties?.name }}</div>
+          <div class="address">{{ e.properties?.['addr:street'] }}
+            {{ e.properties?.['addr:housenumber'] }}, {{ e.properties?.['addr:city'] }}</div>
+        </div>
+      </li>
+    }
+  </ul>
+</div>
+
 
