@@ -43,7 +43,10 @@ export class FilterLocationsService {
   // search bar logic
   searchLocations(term: string, filteredByChipsLocations: any[]) {
     return filteredByChipsLocations.filter(loc =>
-      loc.properties?.name?.toLowerCase().includes(term)
+      loc.properties?.name?.toLowerCase().includes(term) ||
+      loc.properties?.landuse?.toLowerCase().includes(term) ||
+      loc.properties?.museum?.toLowerCase().includes(term) ||
+      loc.properties?.operator?.toLowerCase().includes(term)
     );
   }
 
