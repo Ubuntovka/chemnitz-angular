@@ -28,6 +28,7 @@ import {MatChipsModule} from '@angular/material/chips';
 export class SearchbarComponent implements OnInit {
   locations: any[] = [];
   filteredLocations: any[] = [];
+  filteredByChipsLocations: any[] = [];
   searchTerm: string = '';
   filterLocationsClass = 'filter-locations';
   locationsListClass = 'locations-list';
@@ -47,12 +48,39 @@ export class SearchbarComponent implements OnInit {
     this.apiService.getLocations().subscribe((data: any[]) => {
       this.locations = data;
       this.filteredLocations = data;
+      this.filteredByChipsLocations = data;
     });
   }
 
-  locationsBySearch() {
+  activeFilter: string[] = [];
+  locationsByFilter(type: string) {
+
+    if(!this.activeFilter.includes(type)){
+      this.activeFilter.push(type);
+    } else if (this.activeFilter.includes(type)) {
+      let index = this.activeFilter?.indexOf(type);
+      this.activeFilter?.splice(index, 1);
+    }
+
+    if(this.activeFilter.length > 0){
+      this.filteredByChipsLocations = this.locations.filter(location =>
+        this.activeFilter.some(filter =>
+          location.properties?.tourism?.toLowerCase().includes(filter.toLowerCase()) ||
+          location.properties?.amenity?.toLowerCase().includes(filter.toLowerCase()) ||
+          location.properties?.tourism_1?.toLowerCase().includes(filter.toLowerCase())
+        )
+      );
+      this.filteredLocations = this.filteredByChipsLocations;
+    } else {
+      this.filteredByChipsLocations = this.locations;
+      this.filteredLocations = this.filteredByChipsLocations;
+    }
+  }
+
+  locationsBySearch(){
     const term = this.searchTerm.toLowerCase();
-    this.filteredLocations = this.locations.filter(loc =>
+
+    this.filteredLocations = this.filteredByChipsLocations.filter(loc =>
       loc.properties?.name?.toLowerCase().includes(term)
     );
   }

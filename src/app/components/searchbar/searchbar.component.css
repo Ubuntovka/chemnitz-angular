@@ -1,6 +1,5 @@
 .locations-list {
   height: 83dvh;
-  /*border: 1px solid #ccc;*/
   scroll-behavior: smooth;
   scrollbar-width: none;
   width: calc(100dvw - 70dvw);
