@@ -6,7 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {MatFormField, MatInput, MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
-import {NgClass} from '@angular/common';
+import {NgClass, NgIf} from '@angular/common';
 import {MatChipsModule} from '@angular/material/chips';
 import {FilterLocationsService} from '../../services/filter-locations.service';
 
@@ -22,6 +22,7 @@ import {FilterLocationsService} from '../../services/filter-locations.service';
     MatIcon,
     NgClass,
     MatChipsModule,
+    NgIf,
   ],
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.css',

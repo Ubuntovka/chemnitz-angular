@@ -34,7 +34,14 @@
 }
 
 .name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.span-name{
   font-size: 18px;
+  cursor: pointer;
 }
 
 .searchbar-form {
