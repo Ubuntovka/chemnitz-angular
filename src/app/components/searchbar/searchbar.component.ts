@@ -8,6 +8,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {NgClass} from '@angular/common';
 import {MatChipsModule} from '@angular/material/chips';
+import {FilterLocationsService} from '../../services/filter-locations.service';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class SearchbarComponent implements OnInit {
   filterLocationsClass = 'filter-locations';
   locationsListClass = 'locations-list';
 
-  constructor(private apiService: ApiService, private mapService: MapService) {
+  constructor(private apiService: ApiService, private mapService: MapService, private filterService: FilterLocationsService) {
   }
 
   select(id: string) {
@@ -52,37 +53,21 @@ export class SearchbarComponent implements OnInit {
     });
   }
 
+  // Filter chips
   activeFilter: string[] = [];
   locationsByFilter(type: string) {
+    this.activeFilter = this.filterService.getActiveFilters();
 
-    if(!this.activeFilter.includes(type)){
-      this.activeFilter.push(type);
-    } else if (this.activeFilter.includes(type)) {
-      let index = this.activeFilter?.indexOf(type);
-      this.activeFilter?.splice(index, 1);
-    }
+    this.filteredByChipsLocations = this.filterService.filterLocationsByType(type, this.locations);
+    this.filteredLocations = this.filteredByChipsLocations;
 
-    if(this.activeFilter.length > 0){
-      this.filteredByChipsLocations = this.locations.filter(location =>
-        this.activeFilter.some(filter =>
-          location.properties?.tourism?.toLowerCase().includes(filter.toLowerCase()) ||
-          location.properties?.amenity?.toLowerCase().includes(filter.toLowerCase()) ||
-          location.properties?.tourism_1?.toLowerCase().includes(filter.toLowerCase())
-        )
-      );
-      this.filteredLocations = this.filteredByChipsLocations;
-    } else {
-      this.filteredByChipsLocations = this.locations;
-      this.filteredLocations = this.filteredByChipsLocations;
-    }
+
   }
 
+  // Search bar
   locationsBySearch(){
     const term = this.searchTerm.toLowerCase();
-
-    this.filteredLocations = this.filteredByChipsLocations.filter(loc =>
-      loc.properties?.name?.toLowerCase().includes(term)
-    );
+    this.filteredLocations = this.filterService.searchLocations(term, this.filteredByChipsLocations);
   }
 
   setActiveClass(){

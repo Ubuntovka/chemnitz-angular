@@ -1,7 +1,6 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {ApiService} from '../../services/api.service';
-import {marker} from 'leaflet';
 import {MapService} from '../../services/map.service';
 import {Subscription} from 'rxjs';
 
@@ -53,10 +52,9 @@ export class MapComponent implements OnInit, OnDestroy {
     this.locations.forEach((location: any) => {
       const [lng, lat] = location.geometry?.coordinates || [];
       if (lat && lng) {
-        const marker = L.marker([lat, lng])
+        this.markers[location._id] = L.marker([lat, lng])
           .addTo(this.map!)
           .bindPopup(location.properties?.name || location.properties?.artwork_type).openPopup();
-        this.markers[location._id] = marker;
       }
     });
   }
