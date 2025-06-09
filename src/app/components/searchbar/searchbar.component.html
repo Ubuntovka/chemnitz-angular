@@ -46,9 +46,15 @@
     {
       <li class="li" (click)="select(e._id)">
         <div class="li-content">
-          <div class="name">{{ e.properties?.name }}</div>
-          <div class="address">{{ e.properties?.['addr:street'] }}
-            {{ e.properties?.['addr:housenumber'] }}, {{ e.properties?.['addr:city'] }}</div>
+          <div class="name">{{ e.properties?.name || e.properties?.artwork_type ||
+          e.properties?.description || e.properties?.tourism || e.properties?.amenity }}</div>
+
+          @if (!e.properties?.['addr:street']){
+            <div class="address">No address data available</div>
+          } @else {
+            <div class="address">{{ e.properties?.['addr:street'] + ' ' + e.properties?.['addr:housenumber'] +
+            ', Chemnitz'}}</div>
+          }
         </div>
       </li>
     }
