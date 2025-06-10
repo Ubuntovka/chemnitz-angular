@@ -32,17 +32,13 @@
       <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
   </mat-form-field>
-    <button mat-button type="submit">Save</button>
+    <button mat-button="outlined" type="submit" aria-label="Show an example snack-bar">
+      Sign In
+    </button>
   </form>
 
   <p>Do not have an account yet? Register <a routerLink="/register">here!</a></p>
 
-
-  <div *ngIf="apiService.isLoggedIn()">
-    <p>Welcome, logged-in user!</p>
-  </div>
-
-  <a (click)="logout()">Log out</a>
 </div>
 </div>
 </div>

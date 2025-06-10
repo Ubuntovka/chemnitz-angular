@@ -1,14 +1,14 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ApiService} from '../../services/api.service';
 import {RouterLink} from '@angular/router';
-import {NgIf} from '@angular/common';
 import {MatFormField, MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {merge} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MatIcon} from '@angular/material/icon';
-import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton, MatButtonModule} from '@angular/material/button';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -16,13 +16,13 @@ import {MatButton, MatIconButton} from '@angular/material/button';
     FormsModule,
     ReactiveFormsModule,
     RouterLink,
-    NgIf,
     MatFormField,
     MatInputModule,
     MatFormFieldModule,
     MatIcon,
     MatIconButton,
     MatButton,
+    MatButtonModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -53,11 +53,14 @@ export class LoginComponent implements OnInit {
       const passwordValue = this.password.value;
       this.apiService.loginUser(emailValue, passwordValue)
         .subscribe({
-          next: response => console.log('Logged in successfully', response),
-          error: err => console.error('Log in error', err)
+          next: (response) => {
+            this.successfulSnackBar();
+            },
+          error: (err) => {
+            this.errorSnackBar();
+          },
         });
     }
-
   }
 
   logout(){
@@ -80,6 +83,23 @@ export class LoginComponent implements OnInit {
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
+  }
+
+  private _snackBar = inject(MatSnackBar);
+
+  successfulSnackBar() {
+    this._snackBar.open("You’ve signed in successfully!", "Hide", {
+      duration: 3000,
+      horizontalPosition: "start",
+      verticalPosition: "bottom",
+    });
+  }
+  errorSnackBar() {
+    this._snackBar.open("Sign-in error. Check your credentials.", "Hide", {
+      duration: 3000,
+      horizontalPosition: "start",
+      verticalPosition: "bottom",
+    });
   }
 
 }
