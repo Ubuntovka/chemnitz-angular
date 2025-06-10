@@ -1,7 +1,6 @@
 #map {
   height: 91vh;
-  width: 70dvw;
-  border: 1px solid black;
+  width: 73dvw;
   flex-grow: 1;
   overflow: hidden;
 }

@@ -1,25 +1,75 @@
-  <div class="search-bar">
-    <input
-      type="text"
-      class="mySearch"
-      [(ngModel)]="searchTerm"
-      (keyup)="locationsBySearch()"
-      placeholder="Search.."
-      title="Type in a name"
-    />
-    <div class="locations-list">
-      <ul class="ul">
-        @for (e of filteredLocations; track e)
-        {
-          <li class="li" (click)="select(e._id)">
-            <div class="li-content">
-              <div class="name">{{ e.properties?.name }}</div>
-              <div class="address">{{ e.properties?.['addr:street'] }}
-                {{ e.properties?.['addr:housenumber'] }}, {{ e.properties?.['addr:city'] }}</div>
-            </div>
-          </li>
-        }
-      </ul>
-    </div>
-  </div>
+<mat-form-field class="searchbar-form" appearance="outline" subscriptSizing="dynamic">
+  <mat-label>Search ...</mat-label>
+  <mat-icon matPrefix aria-label="Search icon">search</mat-icon>
+  <input matInput
+         type="text"
+         [(ngModel)]="searchTerm"
+         (keyup)="locationsBySearch()"
+  >
+</mat-form-field>
+<mat-icon class="filter-button" matPrefix aria-label="Search icon"
+           (click)="setActiveClass()">tune</mat-icon>
+
+<div [ngClass]="filterLocationsClass">
+  <mat-chip-set aria-label="Types of locations">
+    <mat-chip (click)="locationsByFilter('museum')" [highlighted]="activeFilter.includes('museum')">
+      <mat-icon matChipAvatar aria-label="Museum icon">museum</mat-icon>
+      Museum
+    </mat-chip>
+    <mat-chip (click)="locationsByFilter('theatre')" [highlighted]="activeFilter.includes('theatre')">
+      <mat-icon matChipAvatar aria-label="Theatre icon">theater_comedy</mat-icon>
+      Theater
+    </mat-chip>
+    <mat-chip (click)="locationsByFilter('restaurant')" [highlighted]="activeFilter.includes('restaurant')">
+      <mat-icon matChipAvatar aria-label="Restaurant icon">restaurant</mat-icon>
+      Restaurant
+    </mat-chip>
+    <mat-chip (click)="locationsByFilter('hotel')" [highlighted]="activeFilter.includes('hotel')">
+      <mat-icon matChipAvatar aria-label="Hotel icon">hotel</mat-icon>
+      Hotel
+    </mat-chip>
+    <mat-chip (click)="locationsByFilter('artwork')" [highlighted]="activeFilter.includes('artwork')">
+      <mat-icon matChipAvatar aria-label="Brush icon">brush</mat-icon>
+      Artwork
+    </mat-chip>
+    <mat-chip (click)="locationsByFilter('heritage')" [highlighted]="activeFilter.includes('heritage')">
+      <mat-icon matChipAvatar aria-label="Local see icon">local_see</mat-icon>
+      Heritage Site
+    </mat-chip>
+  </mat-chip-set>
+</div>
+
+
+<div [ngClass]="locationsListClass">
+  <ul class="ul">
+    @for (e of filteredLocations; track e)
+    {
+      <li class="li" (click)="select(e._id)">
+        <div class="li-content">
+          <div class="name">
+            <mat-icon *ngIf="e.properties?.tourism === 'museum'" aria-label="Museum icon">museum</mat-icon>
+            <mat-icon *ngIf="e.properties?.tourism === 'theatre' || e.properties?.amenity === 'theatre'"
+                      aria-label="Museum icon">theater_comedy</mat-icon>
+            <mat-icon *ngIf="e.properties?.amenity === 'restaurant'" aria-label="Museum icon">restaurant</mat-icon>
+            <mat-icon *ngIf="e.properties?.tourism === 'hotel'" aria-label="Museum icon">hotel</mat-icon>
+            <mat-icon *ngIf="e.properties?.tourism === 'artwork'" aria-label="Museum icon">brush</mat-icon>
+            <mat-icon *ngIf="e.properties?.tourism === 'heritage' || e.properties?.tourism_1 === 'heritage'" aria-label="Museum icon">local_see</mat-icon>
+            <span class="span-name">
+              {{ e.properties?.name || e.properties?.artwork_type ||
+            e.properties?.description || e.properties?.tourism || e.properties?.amenity }}
+            </span>
+          </div>
+
+          @if (!e.properties?.['addr:street']){
+            <div class="address">No address data available</div>
+          } @else {
+            <div class="address">{{ e.properties?.['addr:street'] + ' ' + e.properties?.['addr:housenumber'] +
+            ', Chemnitz'}}</div>
+          }
+        </div>
+      </li>
+    }
+  </ul>
+</div>
+
 
