@@ -46,3 +46,7 @@
   text-align: left;
   margin: 0 0 0.5rem;
 }
+
+.sign-in-button {
+  margin-bottom: 8dvh;
+}

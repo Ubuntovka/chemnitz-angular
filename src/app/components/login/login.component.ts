@@ -85,6 +85,7 @@ export class LoginComponent implements OnInit {
     event.stopPropagation();
   }
 
+  // Snackbars
   private _snackBar = inject(MatSnackBar);
 
   successfulSnackBar() {
