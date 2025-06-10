@@ -32,7 +32,7 @@ export class ApiService {
     return this.http.post(this.apiUrl + '/api/users/register', body, { headers });
   }
 
-  loginUser(email: string, password: string): Observable<LoginResponse> {
+  loginUser(email: string | null, password: string | null): Observable<LoginResponse> {
     const body = {
       email: email,
       password: password
