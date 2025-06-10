@@ -5,3 +5,48 @@
 .mat-mdc-form-field {
   margin-top: 16px;
 }
+
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 91dvh;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+
+.registration-page {
+  display: flex;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  width: 30dvw;
+}
+
+.registration-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+.title {
+  margin-bottom: 4dvh;
+}
+
+.to-login {
+  margin-top: 4dvh;
+}
+
+.username {
+  width: 20dvw;
+}
+
+.email {
+  width: 20dvw;
+}
+
+.password {
+  width: 20dvw;
+}

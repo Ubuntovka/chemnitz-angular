@@ -8,6 +8,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {merge} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +23,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
     MatFormField,
     MatIconButton,
     MatButton,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
