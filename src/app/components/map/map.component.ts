@@ -50,11 +50,29 @@ export class MapComponent implements OnInit, OnDestroy {
     }).addTo(this.map);
 
     this.locations.forEach((location: any) => {
+      const popupHtml = `
+        <div class="popup-card">
+          <div class="popup-header">
+            <h4>${location.properties?.name || 'Unknown Location'}</h4>
+            <span class="popup-subtitle">${location.properties?.type || 'type'}</span>
+          </div>
+          <div class="popup-actions">
+            <button onclick="window.dispatchEvent(new CustomEvent('fav', { detail: '${location._id}' }))">⭐ Add to Favourites</button>
+            <button onclick="window.dispatchEvent(new CustomEvent('route', { detail: '${location._id}' }))">🧭 Route</button>
+          </div>
+        </div>
+      `;
+
+
       const [lng, lat] = location.geometry?.coordinates || [];
       if (lat && lng) {
         this.markers[location._id] = L.marker([lat, lng])
           .addTo(this.map!)
-          .bindPopup(location.properties?.name || location.properties?.artwork_type).openPopup();
+          .bindPopup(popupHtml, {
+            className: 'custom-popup',
+            autoPan: true,
+            closeButton: true
+          }).openPopup();
       }
     });
   }
