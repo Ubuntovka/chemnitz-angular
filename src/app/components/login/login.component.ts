@@ -1,7 +1,7 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ApiService} from '../../services/api.service';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {MatFormField, MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {merge} from 'rxjs';
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
   errorMessage = signal('');
 
-  constructor(protected apiService: ApiService) {
+  constructor(protected apiService: ApiService, private router: Router) {
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
       this.apiService.loginUser(emailValue, passwordValue)
         .subscribe({
           next: (response) => {
+            this.router.navigate(['/']);
             this.successfulSnackBar();
             },
           error: (err) => {
