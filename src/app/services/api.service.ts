@@ -21,7 +21,7 @@ export class ApiService {
     return this.http.get(this.apiUrl + "/locations", {headers: {Accept: 'application/json'}});
   }
 
-  registerUser(username: string, email: string, password: string) {
+  registerUser(username: string | null | undefined, email: string | null | undefined, password: string | null | undefined) {
     const body = {
       name: username,
       email: email,
@@ -32,7 +32,7 @@ export class ApiService {
     return this.http.post(this.apiUrl + '/api/users/register', body, { headers });
   }
 
-  loginUser(email: string, password: string): Observable<LoginResponse> {
+  loginUser(email: string | null, password: string | null): Observable<LoginResponse> {
     const body = {
       email: email,
       password: password

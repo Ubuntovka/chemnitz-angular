@@ -1,14 +1,73 @@
-<form (ngSubmit)="register()" #registerForm="ngForm">
-  <label for="name">Username:</label><br>
-  <input type="text" id="name" name="username" [(ngModel)]="user.name"><br>
-
-  <label for="email">Email:</label><br>
-  <input type="email" id="email" name="email" [(ngModel)]="user.email"><br>
-
-  <label for="passwords">Password:</label><br>
-  <input type="password" id="passwords" name="password" [(ngModel)]="user.password"><br><br>
-
-  <input type="submit" value="Submit">
-</form>
-
-<p>Already have an account? Sign in <a routerLink="/login">here!</a></p>
+<div class="registration-container">
+  <div class="registration-page">
+    <div class="registration-form-wrapper">
+      <h1 class="title">Registration</h1>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Fill out your username</ng-template>
+      <mat-form-field class="username">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="quickSquirrel" formControlName="username" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out your email</ng-template>
+      <mat-form-field class="email">
+        <mat-label>Email</mat-label>
+        <input
+          formControlName="email"
+          matInput
+          placeholder="pat@example.com"
+          required
+        />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup">
+      <ng-template matStepLabel>Fill out your password</ng-template>
+      <mat-form-field class="password">
+        <mat-label>Password</mat-label>
+        <input
+          matInput [type]="hide() ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>Press "Finish" if you are done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="register()">Finish</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+      <p class="to-login">Already have an account? Sign in <a routerLink="/login">here!</a></p>
+    </div>
+  </div>
+</div>
