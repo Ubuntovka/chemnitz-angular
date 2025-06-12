@@ -1,9 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {ApiService} from '../../services/api.service';
 import {MapService} from '../../services/map.service';
 import {Subscription} from 'rxjs';
 import {MatIcon} from '@angular/material/icon';
+import {marker} from 'leaflet';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map',
@@ -19,7 +21,7 @@ export class MapComponent implements OnInit, OnDestroy {
   private sub: Subscription | undefined;
   private markers: { [id: string]: L.Marker } = {};
 
-  constructor(private apiService: ApiService, private mapService: MapService) {
+  constructor(private apiService: ApiService, private mapService: MapService, private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -51,12 +53,11 @@ export class MapComponent implements OnInit, OnDestroy {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-
-
     this.locations.forEach((location: any) => {
       const otherDetailsHtml = Object.entries(location.properties || {})
         .map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`)
         .join('');
+      const buttonId = `fav-btn-${location._id}`;
 
       const popupHtml = `
         <div class="popup-card">
@@ -74,26 +75,39 @@ export class MapComponent implements OnInit, OnDestroy {
             <p>Opening hours: ${location.properties?.opening_hours || "-//-"}</p>
           </div>
           <div class="popup-actions">
-            <button onclick="window.dispatchEvent(new CustomEvent('fav', { detail: '${location._id}' }))">⭐ Add to Favourites</button>
+                <button id="${buttonId}">⭐ Add to Favourites</button>
           </div>
           <div class="popup-body">
           Other information:
           <p>${otherDetailsHtml}</p>
-
           </div>
         </div>
       `;
 
-
       const [lng, lat] = location.geometry?.coordinates || [];
+
       if (lat && lng) {
-        this.markers[location._id] = L.marker([lat, lng])
+        const marker = L.marker([lat, lng])
           .addTo(this.map!)
           .bindPopup(popupHtml, {
             className: 'custom-popup',
             autoPan: true,
             closeButton: true
-          }).openPopup();
+          });
+        this.markers[location._id] = marker;
+
+        marker.on('popupopen', () => {
+          const btn = document.getElementById(buttonId);
+          if (btn) {
+            btn.addEventListener('click', () => {
+              this.apiService.addFavorite(location._id).subscribe(() => {
+                this.snackBar.open('Added to favorites!', 'Hide', {
+                  duration: 3000,
+                });
+              });
+            });
+          }
+        });
       }
     });
   }

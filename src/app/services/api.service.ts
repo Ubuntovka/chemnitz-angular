@@ -57,4 +57,13 @@ export class ApiService {
     localStorage.removeItem('token');
     return this.http.post(this.apiUrl + '/api/users/logout', {});
   }
+
+  addFavorite(locationId: any){
+    console.log("here");
+
+    const body = {
+      location: locationId,
+    }
+    return this.http.post(this.apiUrl + "/api/users/add-favorite", body, {headers: {Accept: 'application/json'}});
+  }
 }
