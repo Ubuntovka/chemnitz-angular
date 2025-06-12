@@ -10,17 +10,20 @@ html, body {
 }
 
 .custom-popup .leaflet-popup-content-wrapper {
-/*.custom-popup .leaflet-popup-tip {*/
-  background: rgba(255, 255, 255, 0.50); /* white with transparency */
-  backdrop-filter: blur(10px); /* blur the background behind */
-  /*-webkit-backdrop-filter: blur(10px); !* Safari support *!*/
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* for safari */
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   padding: 16px;
+
+  max-height: 35dvh;       /* Adjust based on your design */
+  overflow-y: auto;
+  /*padding-right: 5px;*/
 }
 
 .custom-popup .leaflet-popup-tip {
-  background: rgba(255, 255, 255, 0.50);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
@@ -57,4 +60,8 @@ html, body {
 
 .popup-actions button:hover {
   background: #e0e0e0;
+}
+
+.popup-body {
+  margin-top: 3vh;
 }

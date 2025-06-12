@@ -3,10 +3,12 @@ import * as L from 'leaflet';
 import {ApiService} from '../../services/api.service';
 import {MapService} from '../../services/map.service';
 import {Subscription} from 'rxjs';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-map',
   imports: [
+    MatIcon,
   ],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
@@ -49,16 +51,35 @@ export class MapComponent implements OnInit, OnDestroy {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
+
+
     this.locations.forEach((location: any) => {
+      const otherDetailsHtml = Object.entries(location.properties || {})
+        .map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`)
+        .join('');
+
       const popupHtml = `
         <div class="popup-card">
           <div class="popup-header">
-            <h4>${location.properties?.name || 'Unknown Location'}</h4>
-            <span class="popup-subtitle">${location.properties?.type || 'type'}</span>
+            <h4>${location.properties?.name || location.properties?.artwork_type ||
+      location.properties?.description || location.properties?.tourism || location.properties?.amenity || 'Unknown Location'}</h4>
+            <span class="popup-subtitle">${location.properties?.tourism || location.properties?.amenity ||
+                                          location.properties?.tourism_1}</span>
+          </div>
+          <div class="popup-body">
+            <span>Phone number: ${location.properties?.phone || "-//-"}</span>
+            <p>Website: ${location.properties?.website || "-//-"}</p>
+            <p>Address: ${location.properties?.['addr:street'] + ' ' + location.properties?.['addr:housenumber'] +
+      ', Chemnitz'}</p>
+            <p>Opening hours: ${location.properties?.opening_hours || "-//-"}</p>
           </div>
           <div class="popup-actions">
             <button onclick="window.dispatchEvent(new CustomEvent('fav', { detail: '${location._id}' }))">⭐ Add to Favourites</button>
-            <button onclick="window.dispatchEvent(new CustomEvent('route', { detail: '${location._id}' }))">🧭 Route</button>
+          </div>
+          <div class="popup-body">
+          Other information:
+          <p>${otherDetailsHtml}</p>
+
           </div>
         </div>
       `;
