@@ -1,38 +1,34 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, createComponent, EnvironmentInjector, OnDestroy, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {ApiService} from '../../services/api.service';
 import {MapService} from '../../services/map.service';
 import {Subscription} from 'rxjs';
-import {MatIcon} from '@angular/material/icon';
-import {marker} from 'leaflet';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {PopupComponent} from './popup/popup.component';
+import {Icon} from 'leaflet';
 
 @Component({
   selector: 'app-map',
-  imports: [
-    MatIcon,
-  ],
+  imports: [],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
 export class MapComponent implements OnInit, OnDestroy {
-  private map?: L.Map = undefined;
   locations: any[] = [];
-  private sub: Subscription | undefined;
-  private markers: { [id: string]: L.Marker } = {};
-  favoriteLocations: Set<string> = new Set();
+  favoriteLocations: string[] = [];
 
-  constructor(private apiService: ApiService, private mapService: MapService, private snackBar: MatSnackBar) {
+  private map?: L.Map = undefined;
+  private sub?: Subscription;
+  private markers: { [id: string]: L.Marker } = {};
+
+  constructor(
+    private apiService: ApiService,
+    private mapService: MapService,
+    private injector: EnvironmentInjector
+  ) {
   }
 
   ngOnInit() {
     this.fetchLocations();
-    this.apiService.favorites().subscribe(data => {
-      console.log("data");
-      console.log(data);
-      this.favoriteLocations;
-      console.log(this.favoriteLocations);
-    })
 
     // Highlight chosen marker
     this.sub = this.mapService.markerFocus$.subscribe(id => {
@@ -41,16 +37,24 @@ export class MapComponent implements OnInit, OnDestroy {
         this.map!.setView(marker.getLatLng(), 15);
         marker.openPopup();
       }
-
-
     });
-
   }
 
   fetchLocations() {
     this.apiService.getLocations().subscribe((data: any[]) => {
       this.locations = data;
-      this.createMapAndMarkers();
+
+      this.apiService.favorites().subscribe({
+        next: (favorites: any) => {
+          this.favoriteLocations = favorites.favorites;
+          console.log("fetched favorite locations");
+        },
+        complete: () => {
+          console.log("creating map and markers");
+          this.createMapAndMarkers();
+        }
+      })
+
     });
   }
 
@@ -62,64 +66,30 @@ export class MapComponent implements OnInit, OnDestroy {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
+    let redIcon = this.createIcon('media/marker-icon-red.png');
+    let blueIcon = this.createIcon('media/marker-icon-blue.png');
+
     this.locations.forEach((location: any) => {
-      const otherDetailsHtml = Object.entries(location.properties || {})
-        .map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`)
-        .join('');
-      const buttonId = `fav-btn-${location._id}`;
+      const isFavorite = this.favoriteLocations.includes(location._id);
 
-      const isFavorite = this.favoriteLocations.has(location._id.toString());
-
-
-      const popupHtml = `
-        <div class="popup-card">
-          <div class="popup-header">
-            <h4>${location.properties?.name || location.properties?.artwork_type ||
-      location.properties?.description || location.properties?.tourism || location.properties?.amenity || 'Unknown Location'}</h4>
-            <span class="popup-subtitle">${location.properties?.tourism || location.properties?.amenity ||
-                                          location.properties?.tourism_1}</span>
-          </div>
-          <div class="popup-body">
-            <span>Phone number: ${location.properties?.phone || "-//-"}</span>
-            <p>Website: ${location.properties?.website || "-//-"}</p>
-            <p>Address: ${location.properties?.['addr:street'] + ' ' + location.properties?.['addr:housenumber'] +
-      ', Chemnitz'}</p>
-            <p>Opening hours: ${location.properties?.opening_hours || "-//-"}</p>
-          </div>
-          <div class="popup-actions">
-                <button id="${buttonId}">${isFavorite ? '❌ Remove from Favorites' : '⭐ Add to Favorites'}</button>
-          </div>
-          <div class="popup-body">
-          Other information:
-          <p>${otherDetailsHtml}</p>
-          </div>
-        </div>
-      `;
+      // use angular component as popup, bind inputs and run change detection
+      let component = createComponent(PopupComponent, {environmentInjector: this.injector});
+      component.instance.location = location;
+      console.log(location._id);
+      console.log(this.favoriteLocations)
+      component.instance.isFavorite = isFavorite;
+      component.changeDetectorRef.detectChanges();
 
       const [lng, lat] = location.geometry?.coordinates || [];
 
       if (lat && lng) {
-        const marker = L.marker([lat, lng])
+        this.markers[location._id] = L.marker([lat, lng], {icon: isFavorite ? redIcon : blueIcon})
           .addTo(this.map!)
-          .bindPopup(popupHtml, {
+          .bindPopup(component.location.nativeElement, {
             className: 'custom-popup',
             autoPan: true,
             closeButton: true
           });
-        this.markers[location._id] = marker;
-
-        marker.on('popupopen', () => {
-          const btn = document.getElementById(buttonId);
-          if (btn) {
-            btn.addEventListener('click', () => {
-              this.apiService.addFavorite(location._id).subscribe(() => {
-                this.snackBar.open('Added to favorites!', 'Hide', {
-                  duration: 3000,
-                });
-              });
-            });
-          }
-        });
       }
     });
   }
@@ -130,5 +100,17 @@ export class MapComponent implements OnInit, OnDestroy {
       this.map.remove()
     }
     this.sub?.unsubscribe();
+  }
+
+  private createIcon(iconUrl: string): Icon {
+    return L.icon({
+      iconUrl: iconUrl,
+      shadowUrl: 'media/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41]
+    });
   }
 }

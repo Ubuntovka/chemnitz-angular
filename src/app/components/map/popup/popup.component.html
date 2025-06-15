@@ -1,0 +1,30 @@
+@if (location) {
+  <div class="popup-card">
+    <div class="popup-header">
+      <h4>{{location.properties?.name || location.properties?.artwork_type ||
+        location.properties?.description || location.properties?.tourism || location.properties?.amenity || 'Unknown Location'}}</h4>
+      <span class="popup-subtitle">{{location.properties?.tourism || location.properties?.amenity ||
+                                            location.properties?.tourism_1}}</span>
+    </div>
+    <div class="popup-body">
+      <span>Phone number: {{location.properties?.phone || "-//-"}}</span>
+      <p>Website: {{location.properties?.website || "-//-"}}</p>
+      <p>Address: {{location.properties?.['addr:street'] + ' ' + location.properties?.['addr:housenumber'] +
+        ', Chemnitz'}}</p>
+      <p>Opening hours: {{location.properties?.opening_hours || "-//-"}}</p>
+    </div>
+    <div class="popup-actions">
+      <button (click)="toggleFavourite()">{{isFavorite ? '❌ Remove from Favorites' : '⭐ Add to Favorites'}}</button>
+    </div>
+    <div class="popup-body">
+      Other information:
+      <!--div>
+        @for (property of location.properties; track property) {
+          <p><strong>{{property.key}}:</strong> {{property.value}}</p>
+        }
+      </div-->
+    </div>
+  </div>
+} @else {
+  <b>Nothing here</b>
+}
