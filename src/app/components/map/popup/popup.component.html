@@ -19,7 +19,7 @@
     <div class="popup-body">
       <h2>Other information:</h2>
       <div>
-        @for (property of getProperties(); track property) {
+        @for (property of getProperties(); track property.title) {
           <div><b>{{property.title}}:</b> {{property.value}}</div>
         }
       </div>
