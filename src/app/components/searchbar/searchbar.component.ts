@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';3
+import {Component, OnInit} from '@angular/core';
+
+3
 import {ApiService} from '../../services/api.service';
 import * as L from 'leaflet';
 import {MapService} from '../../services/map.service';
@@ -35,14 +37,18 @@ export class SearchbarComponent implements OnInit {
   filterLocationsClass = 'filter-locations';
   locationsListClass = 'locations-list';
 
-  constructor(private apiService: ApiService, private mapService: MapService, private filterService: FilterLocationsService) {
+  constructor(
+    private apiService: ApiService,
+    private mapService: MapService,
+    private filterService: FilterLocationsService
+  ) {
   }
 
   select(id: string) {
     this.mapService.focusMarker(id);
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.fetchLocations();
   }
 
@@ -56,6 +62,7 @@ export class SearchbarComponent implements OnInit {
 
   // Filter chips
   activeFilter: string[] = [];
+
   locationsByFilter(type: string) {
     this.activeFilter = this.filterService.getActiveFilters();
 
@@ -66,13 +73,13 @@ export class SearchbarComponent implements OnInit {
   }
 
   // Search bar
-  locationsBySearch(){
+  locationsBySearch() {
     const term = this.searchTerm.toLowerCase();
     this.filteredLocations = this.filterService.searchLocations(term, this.filteredByChipsLocations);
   }
 
-  setActiveClass(){
-    if(this.filterLocationsClass == 'filter-locations'){
+  setActiveClass() {
+    if (this.filterLocationsClass == 'filter-locations') {
       this.filterLocationsClass = 'filter-locations active';
       this.locationsListClass = 'locations-list active';
     } else {

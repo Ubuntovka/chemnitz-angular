@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ApiService} from '../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {MapService} from '../../../services/map.service';
 
 @Component({
   selector: 'app-popup',
@@ -15,18 +16,32 @@ export class PopupComponent {
   constructor(
     private apiService: ApiService,
     private snackBar: MatSnackBar,
+    private mapService: MapService
   ) {}
 
   toggleFavourite() {
-    this.apiService.addFavorite(this.location).subscribe({
+    if (this.isFavorite) {
+      this.apiService.removeFavorite(this.location._id).subscribe(this.handleFavoriteResult())
+    } else {
+      this.apiService.addFavorite(this.location._id).subscribe(this.handleFavoriteResult())
+    }
+  }
+
+  private handleFavoriteResult() {
+    return {
       next: (result: any) => {
-        this.snackBar.open(result.message)
+        this.snackBar.open(result.message, "Hide");
+        if (this.isFavorite) {
+          this.mapService.removeFavorite(this.location._id);
+        } else {
+          this.mapService.addFavorite(this.location._id);
+        }
       },
-      error: err => {
+      error: (err: any) => {
         console.log(err);
-        this.snackBar.open(err.error)
+        this.snackBar.open(err.error, "Hide")
       }
-    })
+    };
   }
 
   getProperties(): {title: string, value: any}[] {

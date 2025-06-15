@@ -91,16 +91,12 @@ export class LoginComponent implements OnInit {
 
   successfulSnackBar() {
     this._snackBar.open("You’ve signed in successfully!", "Hide", {
-      duration: 3000,
-      horizontalPosition: "start",
-      verticalPosition: "bottom",
+      duration: 3000
     });
   }
   errorSnackBar() {
     this._snackBar.open("Sign-in error. Check your credentials.", "Hide", {
-      duration: 3000,
-      horizontalPosition: "start",
-      verticalPosition: "bottom",
+      duration: 3000
     });
   }
 

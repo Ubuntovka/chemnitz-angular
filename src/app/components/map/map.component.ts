@@ -1,4 +1,4 @@
-import {Component, createComponent, EnvironmentInjector, OnDestroy, OnInit} from '@angular/core';
+import {Component, ComponentRef, createComponent, EnvironmentInjector, OnDestroy, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {ApiService} from '../../services/api.service';
 import {MapService} from '../../services/map.service';
@@ -17,27 +17,45 @@ export class MapComponent implements OnInit, OnDestroy {
   favoriteLocations: string[] = [];
 
   private map?: L.Map = undefined;
-  private sub?: Subscription;
+  private markerFocusSub: Subscription;
+  private favoriteChangeSub: Subscription;
   private markers: { [id: string]: L.Marker } = {};
+
+  private popupComponents: Map<string, ComponentRef<PopupComponent>> = new Map();
+
+  redIcon: Icon
+  blueIcon: Icon
 
   constructor(
     private apiService: ApiService,
     private mapService: MapService,
     private injector: EnvironmentInjector
   ) {
-  }
+    this.redIcon = this.createIcon('media/marker-icon-red.png');
+    this.blueIcon = this.createIcon('media/marker-icon-blue.png');
 
-  ngOnInit() {
-    this.fetchLocations();
-
-    // Highlight chosen marker
-    this.sub = this.mapService.markerFocus$.subscribe(id => {
+    this.markerFocusSub = this.mapService.markerFocus$.subscribe(id => {
       const marker = this.markers[id];
       if (marker) {
         this.map!.setView(marker.getLatLng(), 15);
         marker.openPopup();
       }
     });
+
+    this.favoriteChangeSub = this.mapService.favoriteChange.subscribe(changeEvent => {
+      let component = this.popupComponents.get(changeEvent.favoriteId)
+      if (component) {
+        component.instance.isFavorite = changeEvent.isFavorite;
+        component.changeDetectorRef.detectChanges();
+      }
+
+      this.markers[changeEvent.favoriteId].setIcon(changeEvent.isFavorite ? this.redIcon : this.blueIcon)
+    });
+  }
+
+  ngOnInit() {
+    this.fetchLocations();
+
   }
 
   fetchLocations() {
@@ -46,7 +64,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
       this.apiService.favorites().subscribe({
         next: (favorites: any) => {
-          this.favoriteLocations = favorites.favorites;
+          this.favoriteLocations = favorites;
           console.log("fetched favorite locations");
         },
         complete: () => {
@@ -66,30 +84,27 @@ export class MapComponent implements OnInit, OnDestroy {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    let redIcon = this.createIcon('media/marker-icon-red.png');
-    let blueIcon = this.createIcon('media/marker-icon-blue.png');
-
     this.locations.forEach((location: any) => {
       const isFavorite = this.favoriteLocations.includes(location._id);
 
       // use angular component as popup, bind inputs and run change detection
       let component = createComponent(PopupComponent, {environmentInjector: this.injector});
       component.instance.location = location;
-      console.log(location._id);
-      console.log(this.favoriteLocations)
       component.instance.isFavorite = isFavorite;
       component.changeDetectorRef.detectChanges();
 
       const [lng, lat] = location.geometry?.coordinates || [];
 
       if (lat && lng) {
-        this.markers[location._id] = L.marker([lat, lng], {icon: isFavorite ? redIcon : blueIcon})
+        this.markers[location._id] = L.marker([lat, lng], {icon: isFavorite ? this.redIcon : this.blueIcon})
           .addTo(this.map!)
           .bindPopup(component.location.nativeElement, {
             className: 'custom-popup',
             autoPan: true,
             closeButton: true
           });
+
+        this.popupComponents.set(location._id, component);
       }
     });
   }
@@ -99,7 +114,8 @@ export class MapComponent implements OnInit, OnDestroy {
       this.map.off();
       this.map.remove()
     }
-    this.sub?.unsubscribe();
+    this.markerFocusSub?.unsubscribe();
+    this.favoriteChangeSub?.unsubscribe();
   }
 
   private createIcon(iconUrl: string): Icon {

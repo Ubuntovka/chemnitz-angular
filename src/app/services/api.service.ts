@@ -57,12 +57,14 @@ export class ApiService {
     return this.http.post(this.apiUrl + '/api/users/logout', {});
   }
 
-  addFavorite(locationId: any) {
+  addFavorite(locationId: string) {
+    const body = {location: locationId}
+    return this.http.post(this.apiUrl + "/api/users/favorite/add", body, {headers: {Accept: 'application/json'}});
+  }
 
-    const body = {
-      location: locationId,
-    }
-    return this.http.post(this.apiUrl + "/api/users/add-favorite", body, {headers: {Accept: 'application/json'}});
+  removeFavorite(locationId: string) {
+    const body = {location: locationId}
+    return this.http.post(this.apiUrl + "/api/users/favorite/remove", body, {headers: {Accept: 'application/json'}});
   }
 
   favorites(): Observable<any> {
