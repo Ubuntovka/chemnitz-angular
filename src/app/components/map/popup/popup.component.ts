@@ -28,4 +28,20 @@ export class PopupComponent {
       }
     })
   }
+
+  getProperties(): {title: string, value: any}[] {
+    let result: {title: string, value: any}[] = [];
+    for (let property in this.location.properties) {
+      result.push({title: this.getPropertyTitle(property), value: this.location.properties[property]});
+    }
+    return result;
+  }
+
+  private getPropertyTitle(key: string): string {
+    return key
+      .replace(/[:_]/g, ' ')
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
 }

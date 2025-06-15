@@ -17,12 +17,12 @@
       <button (click)="toggleFavourite()">{{isFavorite ? '❌ Remove from Favorites' : '⭐ Add to Favorites'}}</button>
     </div>
     <div class="popup-body">
-      Other information:
-      <!--div>
-        @for (property of location.properties; track property) {
-          <p><strong>{{property.key}}:</strong> {{property.value}}</p>
+      <h2>Other information:</h2>
+      <div>
+        @for (property of getProperties(); track property) {
+          <div><b>{{property.title}}:</b> {{property.value}}</div>
         }
-      </div-->
+      </div>
     </div>
   </div>
 } @else {
