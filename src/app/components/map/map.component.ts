@@ -20,12 +20,19 @@ export class MapComponent implements OnInit, OnDestroy {
   locations: any[] = [];
   private sub: Subscription | undefined;
   private markers: { [id: string]: L.Marker } = {};
+  favoriteLocations: Set<string> = new Set();
 
   constructor(private apiService: ApiService, private mapService: MapService, private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
     this.fetchLocations();
+    this.apiService.favorites().subscribe(data => {
+      console.log("data");
+      console.log(data);
+      this.favoriteLocations;
+      console.log(this.favoriteLocations);
+    })
 
     // Highlight chosen marker
     this.sub = this.mapService.markerFocus$.subscribe(id => {
@@ -34,6 +41,8 @@ export class MapComponent implements OnInit, OnDestroy {
         this.map!.setView(marker.getLatLng(), 15);
         marker.openPopup();
       }
+
+
     });
 
   }
@@ -59,6 +68,9 @@ export class MapComponent implements OnInit, OnDestroy {
         .join('');
       const buttonId = `fav-btn-${location._id}`;
 
+      const isFavorite = this.favoriteLocations.has(location._id.toString());
+
+
       const popupHtml = `
         <div class="popup-card">
           <div class="popup-header">
@@ -75,7 +87,7 @@ export class MapComponent implements OnInit, OnDestroy {
             <p>Opening hours: ${location.properties?.opening_hours || "-//-"}</p>
           </div>
           <div class="popup-actions">
-                <button id="${buttonId}">⭐ Add to Favourites</button>
+                <button id="${buttonId}">${isFavorite ? '❌ Remove from Favorites' : '⭐ Add to Favorites'}</button>
           </div>
           <div class="popup-body">
           Other information:

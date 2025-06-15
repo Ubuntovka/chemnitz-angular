@@ -59,11 +59,18 @@ export class ApiService {
   }
 
   addFavorite(locationId: any){
-    console.log("here");
 
     const body = {
       location: locationId,
     }
     return this.http.post(this.apiUrl + "/api/users/add-favorite", body, {headers: {Accept: 'application/json'}});
   }
+
+  favorites(): Observable<any> {
+    console.log("service");
+    return this.http.get(this.apiUrl + "/api/users/favorites", {});
+  }
+
+
+
 }
