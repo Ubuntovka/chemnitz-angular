@@ -96,16 +96,12 @@ export class RegisterComponent implements OnInit {
 
   successfulSnackBar() {
     this._snackBar.open("You’ve registered successfully! Please sign in using the email and password that you mentioned earlier.", "Hide", {
-      duration: 20000,
-      horizontalPosition: "start",
-      verticalPosition: "bottom",
+      duration: 20000
     });
   }
   errorSnackBar() {
     this._snackBar.open("Registration error.", "Hide", {
-      duration: 5000,
-      horizontalPosition: "start",
-      verticalPosition: "bottom",
+      duration: 5000
     });
   }
 

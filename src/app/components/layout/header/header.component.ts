@@ -30,9 +30,7 @@ export class HeaderComponent implements OnInit {
 
   logoutSnackBar() {
     this._snackBar.open("You are logged out.", "Hide", {
-      duration: 3000,
-      horizontalPosition: "start",
-      verticalPosition: "bottom",
+      duration: 3000
     });
   }
 }

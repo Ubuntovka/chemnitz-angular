@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
-import {LoginComponent} from '../components/login/login.component';
 
 interface LoginResponse {
   token: string;
@@ -28,8 +27,8 @@ export class ApiService {
       password: password
     };
 
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl + '/api/users/register', body, { headers });
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post(this.apiUrl + '/api/users/register', body, {headers});
   }
 
   loginUser(email: string | null, password: string | null): Observable<LoginResponse> {
@@ -37,8 +36,8 @@ export class ApiService {
       email: email,
       password: password
     };
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<LoginResponse>(this.apiUrl + '/api/users/login', body, { headers }).pipe(
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<LoginResponse>(this.apiUrl + '/api/users/login', body, {headers}).pipe(
       tap(response => {
         localStorage.setItem('token', response.token); // Store token
       })
@@ -53,8 +52,25 @@ export class ApiService {
     return !!this.getToken();
   }
 
-  logout(): Observable<any>{
+  logout(): Observable<any> {
     localStorage.removeItem('token');
     return this.http.post(this.apiUrl + '/api/users/logout', {});
   }
+
+  addFavorite(locationId: string) {
+    const body = {location: locationId}
+    return this.http.post(this.apiUrl + "/api/users/favorite/add", body, {headers: {Accept: 'application/json'}});
+  }
+
+  removeFavorite(locationId: string) {
+    const body = {location: locationId}
+    return this.http.post(this.apiUrl + "/api/users/favorite/remove", body, {headers: {Accept: 'application/json'}});
+  }
+
+  favorites(): Observable<any> {
+    console.log("service");
+    return this.http.get(this.apiUrl + "/api/users/favorites", {});
+  }
+
+
 }

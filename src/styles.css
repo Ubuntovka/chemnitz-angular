@@ -8,3 +8,60 @@ html, body {
   width: 100%;
   height: 100%;
 }
+
+.custom-popup .leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* for safari */
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+
+  max-height: 35dvh;       /* Adjust based on your design */
+  overflow-y: auto;
+  /*padding-right: 5px;*/
+}
+
+.custom-popup .leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.popup-card {
+  padding: 16px;
+}
+
+.popup-header h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.popup-subtitle {
+  color: #666;
+  font-size: 13px;
+}
+
+.popup-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.popup-actions button {
+  flex: 1;
+  padding: 8px;
+  background: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.popup-actions button:hover {
+  background: #e0e0e0;
+}
+
+.popup-body {
+  margin-top: 3vh;
+}
