@@ -3,7 +3,7 @@
   <div class="header-right">
     <a *ngIf="apiService.isLoggedIn()" routerLink="/profile">Account</a>
     <a *ngIf="apiService.isLoggedIn()" class="active" (click)="logout()">Logout</a>
-    <a *ngIf="!apiService.isLoggedIn()" class="active" routerLink="/login" >Sign in</a>
+    <a *ngIf="!apiService.isLoggedIn()" class="active" routerLink="/login">Sign in</a>
     <a href="#contact">Contact</a>
     <a href="#about">About</a>
   </div>

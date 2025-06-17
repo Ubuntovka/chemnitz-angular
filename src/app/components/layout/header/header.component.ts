@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   logout(){
     this.apiService.logout();
     this.logoutSnackBar();
-
+    window.location.reload();
   }
 
   private _snackBar = inject(MatSnackBar);

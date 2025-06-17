@@ -29,9 +29,9 @@ export class MapComponent implements OnInit, OnDestroy {
   constructor(
     private apiService: ApiService,
     private mapService: MapService,
-    private injector: EnvironmentInjector
+    private injector: EnvironmentInjector,
   ) {
-    this.redIcon = this.createIcon('media/marker-icon-red.png');
+    this.redIcon = this.createIcon('media/marker-icon-yellow.png');
     this.blueIcon = this.createIcon('media/marker-icon-blue.png');
 
     this.markerFocusSub = this.mapService.markerFocus$.subscribe(id => {
@@ -62,16 +62,20 @@ export class MapComponent implements OnInit, OnDestroy {
     this.apiService.getLocations().subscribe((data: any[]) => {
       this.locations = data;
 
-      this.apiService.favorites().subscribe({
-        next: (favorites: any) => {
-          this.favoriteLocations = favorites;
-          console.log("fetched favorite locations");
-        },
-        complete: () => {
-          console.log("creating map and markers");
-          this.createMapAndMarkers();
-        }
-      })
+      if (this.apiService.isLoggedIn()){
+        this.apiService.favorites().subscribe({
+          next: (favorites: any) => {
+            this.favoriteLocations = favorites;
+            console.log("fetched favorite locations");
+          },
+          complete: () => {
+            console.log("creating map and markers");
+            this.createMapAndMarkers();
+          }
+        })
+      } else {
+        this.createMapAndMarkers();
+      }
 
     });
   }
