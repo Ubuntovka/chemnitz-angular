@@ -26,7 +26,9 @@
   margin-bottom: 1rem;
   margin-left: 0.5dvw;
   width: 25.5dvw;
+  cursor: pointer;
 }
+
 .li:last-child{
   margin-bottom: 30px;
 }
@@ -43,7 +45,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  cursor: pointer;
 }
 
 .span-name{
