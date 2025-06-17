@@ -59,6 +59,7 @@
               {{ e.properties?.name || e.properties?.artwork_type ||
             e.properties?.description || e.properties?.tourism || e.properties?.amenity }}
             </span>
+            <mat-icon *ngIf="favoriteLocations.includes(e._id)" matChipAvatar aria-label="favorite icon" style="color: gold; padding-right: 1dvw">star</mat-icon>
           </div>
 
           @if (!e.properties?.['addr:street']){

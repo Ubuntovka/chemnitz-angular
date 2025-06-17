@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-
-3
 import {ApiService} from '../../services/api.service';
 import * as L from 'leaflet';
 import {MapService} from '../../services/map.service';
@@ -36,6 +34,7 @@ export class SearchbarComponent implements OnInit {
   searchTerm: string = '';
   filterLocationsClass = 'filter-locations';
   locationsListClass = 'locations-list';
+  favoriteLocations: string[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -58,6 +57,15 @@ export class SearchbarComponent implements OnInit {
       this.filteredLocations = data;
       this.filteredByChipsLocations = data;
     });
+
+    if (this.apiService.isLoggedIn()){
+      this.apiService.favorites().subscribe({
+        next: (favorites: any) => {
+          this.favoriteLocations = favorites;
+        }
+      })
+    }
+
   }
 
   // Filter chips
