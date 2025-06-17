@@ -63,8 +63,9 @@
           @if (!e.properties?.['addr:street']){
             <div class="address">No address data available</div>
           } @else {
-            <div class="address">{{ e.properties?.['addr:street'] + ' ' + e.properties?.['addr:housenumber'] +
-            ', Chemnitz'}}</div>
+            <div class="address">{{ (e.properties?.['addr:street'] ? ' ' + e.properties['addr:street'] : '') +
+            (e.properties?.['addr:housenumber'] ? ' ' + e.properties['addr:housenumber'] : '') +
+            ', ' + e.properties?.['addr:city']}}</div>
           }
         </div>
       </li>
