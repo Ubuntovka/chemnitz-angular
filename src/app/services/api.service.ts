@@ -57,6 +57,14 @@ export class ApiService {
     return this.http.post(this.apiUrl + '/api/users/logout', {});
   }
 
+  me(): Observable<any> {
+    const headers = {
+      Authorization: `Bearer ${this.getToken()}`
+    };
+
+    return this.http.get<any>(this.apiUrl + '/api/users/me', { headers });
+  }
+
   addFavorite(locationId: string) {
     const body = {location: locationId}
     return this.http.post(this.apiUrl + "/api/users/favorite/add", body, {headers: {Accept: 'application/json'}});
