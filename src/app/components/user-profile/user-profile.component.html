@@ -1,30 +1,26 @@
-<!--<p *ngIf="user">{{ user.name }}</p>-->
-
 <div class="login-container">
   <div class="login-page">
     <div class="login-form-wrapper">
       <h1 class="title">Account data</h1>
       <p>In order to change your account details type new data in the respective fields.</p>
       <p class="field-name">Your username:</p>
-      <form [formGroup]="accountForm" (ngSubmit)="login()">
+      <form [formGroup]="accountForm" (ngSubmit)="updateUserInfo()">
 
         <mat-form-field class="email" appearance="outline">
           <mat-label>{{ user.name }}</mat-label>
-          <input matInput placeholder="Choose a new one">
-<!--          <mat-hint>Hint</mat-hint>-->
+          <input matInput placeholder="Choose a new one" formControlName="name">
         </mat-form-field>
 
         <p class="field-name">Your email:</p>
           <mat-form-field class="email" appearance="outline">
             <mat-label>{{ user.email }}</mat-label>
-            <input matInput placeholder="Choose a new one">
-            <!--          <mat-hint>Hint</mat-hint>-->
+            <input matInput placeholder="Choose a new one" formControlName="email">
           </mat-form-field>
 
         <p class="field-name">Your password:</p>
         <mat-form-field class="email" appearance="outline">
           <mat-label>Enter your current password</mat-label>
-          <input matInput [type]="hide() ? 'password' : 'text'" />
+          <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password"/>
           <button
             mat-icon-button
             matSuffix
@@ -36,33 +32,33 @@
           </button>
         </mat-form-field>
 
-        <mat-form-field class="email" appearance="outline">
-          <mat-label>Enter a new password</mat-label>
-          <input matInput [type]="hide() ? 'password' : 'text'" />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="clickEvent($event)"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide()"
-          >
-            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-        </mat-form-field>
+<!--        <mat-form-field class="email" appearance="outline">-->
+<!--          <mat-label>Enter a new password</mat-label>-->
+<!--          <input matInput [type]="hide() ? 'password' : 'text'" />-->
+<!--          <button-->
+<!--            mat-icon-button-->
+<!--            matSuffix-->
+<!--            (click)="clickEvent($event)"-->
+<!--            [attr.aria-label]="'Hide password'"-->
+<!--            [attr.aria-pressed]="hide()"-->
+<!--          >-->
+<!--            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>-->
+<!--          </button>-->
+<!--        </mat-form-field>-->
 
-        <mat-form-field class="email" appearance="outline">
-          <mat-label>Repeat the new password</mat-label>
-          <input matInput [type]="hide() ? 'password' : 'text'" />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="clickEvent($event)"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide()"
-          >
-            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-        </mat-form-field>
+<!--        <mat-form-field class="email" appearance="outline">-->
+<!--          <mat-label>Repeat the new password</mat-label>-->
+<!--          <input matInput [type]="hide() ? 'password' : 'text'" />-->
+<!--          <button-->
+<!--            mat-icon-button-->
+<!--            matSuffix-->
+<!--            (click)="clickEvent($event)"-->
+<!--            [attr.aria-label]="'Hide password'"-->
+<!--            [attr.aria-pressed]="hide()"-->
+<!--          >-->
+<!--            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>-->
+<!--          </button>-->
+<!--        </mat-form-field>-->
 
         <button class="sign-in-button" mat-button="outlined" type="submit" aria-label="Show an example snack-bar">
           Submit

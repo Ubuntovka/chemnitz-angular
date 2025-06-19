@@ -1,22 +1,19 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {MatError, MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
+import { MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {Router, RouterLink} from '@angular/router';
 import {MatIcon} from '@angular/material/icon';
 import {ApiService} from '../../services/api.service';
 import {merge} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {NgIf} from '@angular/common';
-import {MatHint} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-user-profile',
   imports: [
     FormsModule,
     MatButton,
-    MatError,
     MatFormField,
     MatIcon,
     MatIconButton,
@@ -25,22 +22,20 @@ import {MatHint} from '@angular/material/form-field';
     MatSuffix,
     ReactiveFormsModule,
     RouterLink,
-    NgIf,
-    MatHint
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit {
 
-  readonly email = new FormControl('', [Validators.required, Validators.email]);
-  readonly password = new FormControl('', [Validators.required]);
-  readonly username = new FormControl('', [Validators.required]);
+  readonly email = new FormControl('', [Validators.email]);
+  readonly password = new FormControl('', []);
+  readonly name = new FormControl('', []);
   user: any = "";
 
   accountForm = new FormGroup({
     password: this.password,
-    username: this.username,
+    name: this.name,
     email: this.email,
   });
 
@@ -56,27 +51,30 @@ export class UserProfileComponent implements OnInit {
     this.meInfo();
   }
 
-  login(){
-    if (this.accountForm.valid){
-      const emailValue = this.email.value;
-      const passwordValue = this.password.value;
-      this.apiService.loginUser(emailValue, passwordValue)
+  updateUserInfo(){
+    if (this.accountForm.valid) {
+      const usernameValue = this.name.value ?? undefined;
+      const emailValue = this.email.value ?? undefined;
+      const passwordValue = this.password.value ?? undefined;
+
+      this.apiService.updateUser(usernameValue, emailValue, passwordValue)
         .subscribe({
           next: (response) => {
-            this.router.navigate(['/']);
             this.successfulSnackBar();
+            this.meInfo();
           },
           error: (err) => {
             this.errorSnackBar();
           },
         });
+    } else {
+      this.errorSnackBar();
     }
   }
 
   meInfo(){
     this.apiService.me().subscribe((data: any) => {
       this.user = data.user;
-      console.log('User inside subscribe:', this.user.email);
     });
   }
 
@@ -102,12 +100,12 @@ export class UserProfileComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
 
   successfulSnackBar() {
-    this._snackBar.open("You’ve signed in successfully!", "Hide", {
+    this._snackBar.open("You’ve changed your data successfully!", "Hide", {
       duration: 3000
     });
   }
   errorSnackBar() {
-    this._snackBar.open("Sign-in error. Check your credentials.", "Hide", {
+    this._snackBar.open("Error.", "Hide", {
       duration: 3000
     });
   }
