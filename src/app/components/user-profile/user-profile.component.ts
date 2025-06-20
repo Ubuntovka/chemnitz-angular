@@ -29,14 +29,19 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class UserProfileComponent implements OnInit {
 
   readonly email = new FormControl('', [Validators.email]);
-  readonly password = new FormControl('', []);
+  readonly currentPassword = new FormControl('', [Validators.required]);
+  readonly newPassword = new FormControl('', []);
+  readonly againNewPassword = new FormControl('', []);
   readonly name = new FormControl('', []);
+
   user: any = "";
 
   accountForm = new FormGroup({
-    password: this.password,
     name: this.name,
     email: this.email,
+    currentPassword: this.currentPassword,
+    newPassword: this.newPassword,
+    againNewPassword: this.againNewPassword,
   });
 
   errorMessage = signal('');
@@ -53,11 +58,15 @@ export class UserProfileComponent implements OnInit {
 
   updateUserInfo(){
     if (this.accountForm.valid) {
+
       const usernameValue = this.name.value ?? undefined;
       const emailValue = this.email.value ?? undefined;
-      const passwordValue = this.password.value ?? undefined;
+      const currentPasswordValue = this.currentPassword.value ?? undefined;
+      const newPasswordValue = this.newPassword.value ?? undefined;
+      const againNewPasswordValue = this.againNewPassword.value ?? undefined;
 
-      this.apiService.updateUser(usernameValue, emailValue, passwordValue)
+
+      this.apiService.updateUser(currentPasswordValue, usernameValue, emailValue, newPasswordValue)
         .subscribe({
           next: (response) => {
             this.successfulSnackBar();
@@ -71,6 +80,8 @@ export class UserProfileComponent implements OnInit {
       this.errorSnackBar();
     }
   }
+
+
 
   meInfo(){
     this.apiService.me().subscribe((data: any) => {

@@ -65,8 +65,9 @@ export class ApiService {
     return this.http.get<any>(this.apiUrl + '/api/users/me', { headers });
   }
 
-  updateUser(name: string | undefined, email: string | undefined, password: string | undefined): Observable<any> {
+  updateUser(oldPassword: string | undefined, name: string | undefined, email: string | undefined, password: string | undefined): Observable<any> {
     const body: any = {};
+    body.oldPassword = oldPassword;
     body.name = name;
     body.email = email;
     body.password = password;
