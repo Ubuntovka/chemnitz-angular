@@ -6,19 +6,19 @@
       <p class="field-name">Your username:</p>
       <form [formGroup]="accountForm" (ngSubmit)="updateUserInfo()">
 
-        <mat-form-field class="email" appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>{{ user.name }}</mat-label>
           <input matInput placeholder="Choose a new one" formControlName="name">
         </mat-form-field>
 
         <p class="field-name">Your email:</p>
-          <mat-form-field class="email" appearance="outline">
+          <mat-form-field class="form-field" appearance="outline">
             <mat-label>{{ user.email }}</mat-label>
             <input matInput placeholder="Choose a new one" formControlName="email">
           </mat-form-field>
 
         <p class="field-name">Your current password:</p>
-        <mat-form-field class="email" appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>Enter your current password</mat-label>
           <input matInput [type]="hide() ? 'password' : 'text'" formControlName="currentPassword" required/>
           <button
@@ -32,7 +32,8 @@
           </button>
         </mat-form-field>
 
-        <mat-form-field class="email" appearance="outline">
+        <p class="field-name">To change your password:</p>
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>Enter a new password</mat-label>
           <input matInput [type]="hide() ? 'password' : 'text'" formControlName="newPassword"/>
           <button
@@ -46,7 +47,7 @@
           </button>
         </mat-form-field>
 
-        <mat-form-field class="email" appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>Repeat the new password</mat-label>
           <input matInput [type]="hide() ? 'password' : 'text'" formControlName="againNewPassword"/>
           <button

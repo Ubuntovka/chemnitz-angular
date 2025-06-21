@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {booleanAttribute, Component, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import { MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
@@ -65,23 +65,34 @@ export class UserProfileComponent implements OnInit {
       const newPasswordValue = this.newPassword.value ?? undefined;
       const againNewPasswordValue = this.againNewPassword.value ?? undefined;
 
+      let isFormValid: boolean = false;
 
-      this.apiService.updateUser(currentPasswordValue, usernameValue, emailValue, newPasswordValue)
-        .subscribe({
-          next: (response) => {
-            this.successfulSnackBar();
-            this.meInfo();
-          },
-          error: (err) => {
-            this.errorSnackBar();
-          },
-        });
-    } else {
-      this.errorSnackBar();
-    }
+      if (newPasswordValue && newPasswordValue !== againNewPasswordValue) {
+        this.notTheSamePasswordSnackBar();
+      } else if (!currentPasswordValue) {
+        this.noCurrentPasswordSnackBar();
+      } else {
+        isFormValid = true;
+      }
+
+      if (isFormValid) {
+        this.apiService.updateUser(currentPasswordValue, usernameValue, emailValue, newPasswordValue)
+          .subscribe({
+            next: (response) => {
+              this.successfulSnackBar();
+              this.meInfo();
+            },
+            error: (err) => {
+              this.errorSnackBar();
+            },
+          });
+      } else {
+        this.errorSnackBar();
+      }
+
+      }
+
   }
-
-
 
   meInfo(){
     this.apiService.me().subscribe((data: any) => {
@@ -116,9 +127,19 @@ export class UserProfileComponent implements OnInit {
     });
   }
   errorSnackBar() {
-    this._snackBar.open("Error.", "Hide", {
+    this._snackBar.open("Error. Something went wrong...", "Hide", {
       duration: 3000
     });
+  }
+  notTheSamePasswordSnackBar(){
+    this._snackBar.open("Error. New passwords do not match.", "Hide", {
+      duration: 10000
+    });
+  }
+  noCurrentPasswordSnackBar(){
+    this._snackBar.open("Error. Please provide your current password.", "Hide", {
+      duration: 10000
+    })
   }
 
 }
