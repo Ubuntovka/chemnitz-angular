@@ -50,3 +50,31 @@
 .sign-in-button {
   margin-bottom: 8dvh;
 }
+
+@media (max-width: 480px) {
+  .login-page {
+    width: 90dvw;
+  }
+
+  .login-container {
+    height: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .email {
+    width: 75dvw;
+  }
+
+  .password {
+    width: 75dvw;
+  }
+
+  .sign-in-button {
+    font-size: 1rem;
+  }
+}
