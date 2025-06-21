@@ -23,16 +23,20 @@ export class MapComponent implements OnInit, OnDestroy {
 
   private popupComponents: Map<string, ComponentRef<PopupComponent>> = new Map();
 
-  redIcon: Icon
+  yellowIcon: Icon
   blueIcon: Icon
+  greenIcon: Icon
+  redIcon: Icon
 
   constructor(
     private apiService: ApiService,
     private mapService: MapService,
-    private injector: EnvironmentInjector
+    private injector: EnvironmentInjector,
   ) {
-    this.redIcon = this.createIcon('media/marker-icon-red.png');
+    this.yellowIcon = this.createIcon('media/marker-icon-yellow.png');
     this.blueIcon = this.createIcon('media/marker-icon-blue.png');
+    this.greenIcon = this.createIcon('media/marker-icon-green.png');
+    this.redIcon = this.createIcon('media/marker-icon-red.png');
 
     this.markerFocusSub = this.mapService.markerFocus$.subscribe(id => {
       const marker = this.markers[id];
@@ -49,7 +53,21 @@ export class MapComponent implements OnInit, OnDestroy {
         component.changeDetectorRef.detectChanges();
       }
 
-      this.markers[changeEvent.favoriteId].setIcon(changeEvent.isFavorite ? this.redIcon : this.blueIcon)
+      const location = this.locations.find(loc => loc._id === changeEvent.favoriteId);
+      if (!location) return;
+
+      let icon: Icon;
+
+      if (changeEvent.isFavorite) {
+        icon = this.yellowIcon;
+      } else {
+        icon = this.iconColor(location);
+      }
+
+      this.markers[changeEvent.favoriteId].setIcon(icon);
+
+
+      // this.markers[changeEvent.favoriteId].setIcon(changeEvent.isFavorite ? this.redIcon : this.blueIcon)
     });
   }
 
@@ -62,16 +80,20 @@ export class MapComponent implements OnInit, OnDestroy {
     this.apiService.getLocations().subscribe((data: any[]) => {
       this.locations = data;
 
-      this.apiService.favorites().subscribe({
-        next: (favorites: any) => {
-          this.favoriteLocations = favorites;
-          console.log("fetched favorite locations");
-        },
-        complete: () => {
-          console.log("creating map and markers");
-          this.createMapAndMarkers();
-        }
-      })
+      if (this.apiService.isLoggedIn()){
+        this.apiService.favorites().subscribe({
+          next: (favorites: any) => {
+            this.favoriteLocations = favorites;
+            console.log("fetched favorite locations");
+          },
+          complete: () => {
+            console.log("creating map and markers");
+            this.createMapAndMarkers();
+          }
+        })
+      } else {
+        this.createMapAndMarkers();
+      }
 
     });
   }
@@ -95,8 +117,16 @@ export class MapComponent implements OnInit, OnDestroy {
 
       const [lng, lat] = location.geometry?.coordinates || [];
 
+      let icon;
+
+      if (isFavorite) {
+        icon = this.yellowIcon;
+      } else {
+        icon = this.iconColor(location);
+      }
+
       if (lat && lng) {
-        this.markers[location._id] = L.marker([lat, lng], {icon: isFavorite ? this.redIcon : this.blueIcon})
+        this.markers[location._id] = L.marker([lat, lng], {icon: icon})
           .addTo(this.map!)
           .bindPopup(component.location.nativeElement, {
             className: 'custom-popup',
@@ -128,5 +158,22 @@ export class MapComponent implements OnInit, OnDestroy {
       tooltipAnchor: [16, -28],
       shadowSize: [41, 41]
     });
+  }
+
+  private iconColor(location: any) {
+    if (location.properties?.tourism === 'museum' ||
+      location.properties?.tourism === 'theatre' ||
+      location.properties?.amenity === 'theatre') {
+      return this.greenIcon;
+    } else if (location.properties?.amenity === 'restaurant' ||
+      location.properties?.tourism === 'hotel'){
+      return this.blueIcon;
+    } else if (location.properties?.tourism === 'artwork' ||
+      location.properties?.tourism === 'heritage' ||
+      location.properties?.tourism_1 === 'heritage') {
+      return this.redIcon;
+    } else {
+      return this.blueIcon;
+    }
   }
 }

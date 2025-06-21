@@ -1,0 +1,71 @@
+
+.login-container {
+  /*display: flex;*/
+  /*justify-content: center;*/
+  /*align-items: center;*/
+  /*height: 91dvh;*/
+  /*!*height: 100%;*!*/
+  /*width: 100%;*/
+  /*background-color: #f5f5f5;*/
+
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #f5f5f5;
+  padding-top: 5vh; /* Top space */
+  padding-bottom: 10vh; /* Bottom space */
+  min-height: 100vh; /* Ensure full page height */
+  box-sizing: border-box;
+}
+
+.login-page {
+  display: flex;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  width: 30dvw;
+}
+
+.login-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+.example-container mat-form-field + mat-form-field {
+  margin-left: 0;
+}
+
+.form-field {
+  width: 25dvw;
+  margin-bottom: 2dvh;
+}
+
+.password {
+  width: 25dvw;
+
+}
+
+.title {
+  margin-bottom: 8dvh;
+}
+
+.field-name {
+  align-self: flex-start;
+  text-align: left;
+  margin: 0 0 0.5rem;
+}
+
+.sign-in-button {
+  margin-bottom: 8dvh;
+}
+
+.cancel-button {
+  margin-bottom: 8dvh;
+}
+
+.cancel-button:hover {
+  background-color: rgba(243, 9, 9, 0.29);
+}

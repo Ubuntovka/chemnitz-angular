@@ -57,6 +57,24 @@ export class ApiService {
     return this.http.post(this.apiUrl + '/api/users/logout', {});
   }
 
+  me(): Observable<any> {
+    const headers = {
+      Authorization: `Bearer ${this.getToken()}`
+    };
+
+    return this.http.get<any>(this.apiUrl + '/api/users/me', { headers });
+  }
+
+  updateUser(oldPassword: string | undefined, name: string | undefined, email: string | undefined, password: string | undefined): Observable<any> {
+    const body: any = {};
+    body.oldPassword = oldPassword;
+    body.name = name;
+    body.email = email;
+    body.password = password;
+
+    return this.http.patch(this.apiUrl + '/api/users/update', body, {});
+  }
+
   addFavorite(locationId: string) {
     const body = {location: locationId}
     return this.http.post(this.apiUrl + "/api/users/favorite/add", body, {headers: {Accept: 'application/json'}});
