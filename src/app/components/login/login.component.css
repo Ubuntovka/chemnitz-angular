@@ -51,7 +51,7 @@
   margin-bottom: 8dvh;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .login-page {
     width: 90dvw;
   }
