@@ -137,6 +137,21 @@ export class MapComponent implements OnInit, OnDestroy {
         this.popupComponents.set(location._id, component);
       }
     });
+
+    this.map.locate({setView: true, maxZoom: 16});
+
+    const onLocationFound = (e: any) => {
+      const radius = e.accuracy;
+
+      // L.marker(e.latlng).addTo(this.map!)
+      //   .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+      L.circle(e.latlng, radius).addTo(this.map!);
+    };
+
+    this.map.on('locationfound', onLocationFound);
+
+
   }
 
   ngOnDestroy() {
