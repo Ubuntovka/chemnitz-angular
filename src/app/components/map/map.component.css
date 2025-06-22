@@ -4,3 +4,15 @@
   flex-grow: 1;
   overflow: hidden;
 }
+
+@media screen and (max-width: 600px) {
+
+  #map{
+    display: flex;
+    flex-direction: column;
+    width: 100dvw;
+    /*margin-top: 1dvh;*/
+    margin-left: 0;
+  }
+
+}

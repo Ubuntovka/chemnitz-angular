@@ -1,3 +1,4 @@
+
 <mat-form-field class="searchbar-form" appearance="outline" subscriptSizing="dynamic">
   <mat-label>Search ...</mat-label>
   <mat-icon matPrefix aria-label="Search icon">search</mat-icon>
@@ -7,9 +8,11 @@
          (keyup)="locationsBySearch()"
   >
 </mat-form-field>
+
 <mat-icon class="filter-button" matPrefix aria-label="Search icon"
            (click)="setActiveClass()">tune</mat-icon>
 
+<div class="search-page">
 <div [ngClass]="filterLocationsClass">
   <mat-chip-set aria-label="Types of locations">
     <mat-chip (click)="locationsByFilter('museum')" [highlighted]="activeFilter.includes('museum')">
@@ -75,4 +78,4 @@
   </ul>
 </div>
 
-
+</div>

@@ -82,6 +82,7 @@ export class SearchbarComponent implements OnInit {
 
   // Search bar
   locationsBySearch() {
+
     const term = this.searchTerm.toLowerCase();
     this.filteredLocations = this.filterService.searchLocations(term, this.filteredByChipsLocations);
   }
@@ -95,5 +96,7 @@ export class SearchbarComponent implements OnInit {
       this.locationsListClass = 'locations-list';
     }
   }
+
+
 
 }
