@@ -12,7 +12,7 @@
 <mat-icon class="filter-button" matPrefix aria-label="Search icon"
            (click)="setActiveClass()">tune</mat-icon>
 
-<div class="search-page">
+<div [ngClass]="listForMobileClass">
 <div [ngClass]="filterLocationsClass">
   <mat-chip-set aria-label="Types of locations">
     <mat-chip (click)="locationsByFilter('museum')" [highlighted]="activeFilter.includes('museum')">

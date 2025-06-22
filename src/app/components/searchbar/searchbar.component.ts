@@ -35,6 +35,7 @@ export class SearchbarComponent implements OnInit {
   filterLocationsClass = 'filter-locations';
   locationsListClass = 'locations-list';
   favoriteLocations: string[] = [];
+  listForMobileClass: string = 'search-page';
 
   constructor(
     private apiService: ApiService,
@@ -45,6 +46,7 @@ export class SearchbarComponent implements OnInit {
 
   select(id: string) {
     this.mapService.focusMarker(id);
+    this.listForMobileClass = 'search-page';
   }
 
   ngOnInit() {
@@ -82,18 +84,28 @@ export class SearchbarComponent implements OnInit {
 
   // Search bar
   locationsBySearch() {
-
     const term = this.searchTerm.toLowerCase();
     this.filteredLocations = this.filterService.searchLocations(term, this.filteredByChipsLocations);
+    this.setActiveMobileClass();
   }
 
   setActiveClass() {
     if (this.filterLocationsClass == 'filter-locations') {
       this.filterLocationsClass = 'filter-locations active';
       this.locationsListClass = 'locations-list active';
+      this.listForMobileClass = 'search-page active';
     } else {
       this.filterLocationsClass = 'filter-locations';
       this.locationsListClass = 'locations-list';
+      this.listForMobileClass = 'search-page';
+    }
+  }
+
+  setActiveMobileClass() {
+    if (this.listForMobileClass == 'search-page'){
+      this.listForMobileClass = 'search-page active';
+    } else {
+      this.listForMobileClass = 'search-page';
     }
   }
 
