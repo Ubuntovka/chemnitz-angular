@@ -15,27 +15,27 @@
 <div [ngClass]="listForMobileClass">
 <div [ngClass]="filterLocationsClass">
   <mat-chip-set aria-label="Types of locations">
-    <mat-chip (click)="locationsByFilter('museum')" [highlighted]="activeFilter.includes('museum')">
+    <mat-chip class="filter-filters" (click)="locationsByFilter('museum')" [highlighted]="activeFilter.includes('museum')">
       <mat-icon matChipAvatar aria-label="Museum icon" style="color: #148c56">museum</mat-icon>
       Museum
     </mat-chip>
-    <mat-chip (click)="locationsByFilter('theatre')" [highlighted]="activeFilter.includes('theatre')">
+    <mat-chip class="filter-filters" (click)="locationsByFilter('theatre')" [highlighted]="activeFilter.includes('theatre')">
       <mat-icon matChipAvatar aria-label="Theatre icon" style="color: #148c56">theater_comedy</mat-icon>
       Theater
     </mat-chip>
-    <mat-chip (click)="locationsByFilter('restaurant')" [highlighted]="activeFilter.includes('restaurant')">
+    <mat-chip  class="filter-filters"(click)="locationsByFilter('restaurant')" [highlighted]="activeFilter.includes('restaurant')">
       <mat-icon matChipAvatar aria-label="Restaurant icon" style="color: #277fca">restaurant</mat-icon>
       Restaurant
     </mat-chip>
-    <mat-chip (click)="locationsByFilter('hotel')" [highlighted]="activeFilter.includes('hotel')">
+    <mat-chip class="filter-filters" (click)="locationsByFilter('hotel')" [highlighted]="activeFilter.includes('hotel')">
       <mat-icon matChipAvatar aria-label="Hotel icon" style="color: #277fca">hotel</mat-icon>
       Hotel
     </mat-chip>
-    <mat-chip (click)="locationsByFilter('artwork')" [highlighted]="activeFilter.includes('artwork')">
+    <mat-chip class="filter-filters" (click)="locationsByFilter('artwork')" [highlighted]="activeFilter.includes('artwork')">
       <mat-icon matChipAvatar aria-label="Brush icon" style="color: #bc614d">brush</mat-icon>
       Artwork
     </mat-chip>
-    <mat-chip (click)="locationsByFilter('heritage')" [highlighted]="activeFilter.includes('heritage')">
+    <mat-chip class="filter-filters" (click)="locationsByFilter('heritage')" [highlighted]="activeFilter.includes('heritage')">
       <mat-icon matChipAvatar aria-label="Local see icon" style="color: #bc614d">local_see</mat-icon>
       Heritage Site
     </mat-chip>
