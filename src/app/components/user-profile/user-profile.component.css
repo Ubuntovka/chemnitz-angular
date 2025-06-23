@@ -1,20 +1,11 @@
-
 .login-container {
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-  /*height: 91dvh;*/
-  /*!*height: 100%;*!*/
-  /*width: 100%;*/
-  /*background-color: #f5f5f5;*/
-
   display: flex;
   justify-content: center;
   width: 100%;
   background-color: #f5f5f5;
-  padding-top: 5vh; /* Top space */
-  padding-bottom: 10vh; /* Bottom space */
-  min-height: 100vh; /* Ensure full page height */
+  padding-top: 5vh;
+  padding-bottom: 10vh;
+  min-height: 100vh;
   box-sizing: border-box;
 }
 
@@ -68,4 +59,20 @@
 
 .cancel-button:hover {
   background-color: rgba(243, 9, 9, 0.29);
+}
+
+@media (max-width: 600px) {
+
+  .login-container {
+    padding-top: 0;
+  }
+
+  .login-page {
+    width: 100%;
+  }
+
+  .form-field {
+    width: 80dvw;
+  }
+
 }
