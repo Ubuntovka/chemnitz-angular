@@ -16,7 +16,7 @@ html, body {
   -webkit-backdrop-filter: blur(10px); /* for safari */
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  padding: 16px;
+  /*padding: 16px;*/
 
   max-height: 35dvh;       /* Adjust based on your design */
   overflow-y: auto;
@@ -65,4 +65,18 @@ html, body {
 
 .popup-body {
   margin-top: 3vh;
+}
+
+@media screen and (max-width: 600px) {
+
+  .custom-popup .leaflet-popup-content-wrapper {
+    max-height: 30dvh;
+    width: 70dvw;
+  }
+
+  .popup-card {
+    padding: 0;
+    max-width: 70dvw;
+  }
+
 }
