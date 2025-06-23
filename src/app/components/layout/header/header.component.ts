@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
     this.apiService.logout();
     this.logoutSnackBar();
     window.location.reload();
+    this.mobileMenuClass = "header-right";
   }
 
   private _snackBar = inject(MatSnackBar);
