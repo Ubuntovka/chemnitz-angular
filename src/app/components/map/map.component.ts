@@ -99,7 +99,11 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   createMapAndMarkers() {
-    this.map = L.map('map').setView([50.8333, 12.9166], 15);
+    this.map = L.map('map', {zoomControl: false}).setView([50.8333, 12.9166], 15);
+
+    L.control.zoom({
+      position: 'bottomleft'
+    }).addTo(this.map);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:

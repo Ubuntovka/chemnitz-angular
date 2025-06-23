@@ -1,6 +1,25 @@
 .main-layout-container {
-  display: flex; /* This is the key: makes sidebar and map sit side-by-side */
-  /* Calculate height: 100% of viewport height minus headers height */
-  /*height: calc(100vh - 50px);*/
-  height: 91dvh; /* Use dvh for better mobile compatibility */
+  display: flex;
+  height: 91dvh;
+}
+
+@media screen and (max-width: 600px) {
+
+  .main-layout-container {
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    height: 100vh; /* Or 91dvh, depending on what you want */
+    position: relative;
+  }
+
+  .searchbar {
+    position: absolute;
+    z-index: 11;
+  }
+
+  .map {
+    position: absolute;
+    z-index: 10;
+  }
+
 }

@@ -35,3 +35,36 @@
 .header-right {
   float: right;
 }
+
+.menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* Mobile optimization */
+@media (max-width: 600px) {
+  .menu-toggle {
+    display: block;
+    float: right;
+  }
+
+  .header-right {
+    display: none;
+  }
+
+  .header-right.mobile{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 1rem;
+  }
+
+  .header-right a {
+    padding: 1rem 0;
+    width: 100%;
+  }
+}

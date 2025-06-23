@@ -84,3 +84,44 @@
   margin: 0.5dvh 1dvw 2dvh;
 }
 
+@media screen and (max-width: 600px) {
+
+  .search-page {
+    display: none;
+  }
+
+  .search-page.active {
+    display: block;
+  }
+
+  .searchbar-form {
+    width: 85vw;
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* for safari */
+  }
+
+  .filter-filters {
+    background: rgba(255, 255, 255, 0.50) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px) !important; /* for safari */
+    font-size: 10rem !important;
+  }
+
+  .ul {
+    width: 100dvw;
+  }
+
+  .li {
+    width: 95dvw;
+    padding-left: 2dvw;
+    padding-bottom: 3dvw;
+    margin-left: 1.5dvw;
+    margin-bottom: 1.5dvw;
+  }
+
+  .li-content {
+    padding-left: 0;
+  }
+
+}

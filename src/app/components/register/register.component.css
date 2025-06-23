@@ -50,3 +50,31 @@
 .password {
   width: 20dvw;
 }
+
+@media (max-width: 600px) {
+  .registration-container {
+    height: auto;
+  }
+
+  .registration-page {
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .username {
+    width: 60dvw;
+  }
+
+  .email {
+    width: 60dvw;
+  }
+
+  .password {
+    width: 60dvw;
+  }
+}
