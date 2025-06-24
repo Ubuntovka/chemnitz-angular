@@ -2,16 +2,20 @@ import {Component, Input} from '@angular/core';
 import {ApiService} from '../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MapService} from '../../../services/map.service';
+import {JsonPipe} from '@angular/common';
 
 @Component({
   selector: 'app-popup',
-  imports: [],
+  imports: [
+    JsonPipe
+  ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'
 })
 export class PopupComponent {
   @Input() location: any;
   @Input() isFavorite: boolean = false;
+  @Input() latLng: any;
 
   constructor(
     private apiService: ApiService,
@@ -26,6 +30,10 @@ export class PopupComponent {
       this.apiService.addFavorite(this.location._id).subscribe(this.handleFavoriteResult())
     }
   }
+
+  // toggleVisited() {
+  //
+  // }
 
   private handleFavoriteResult() {
     return {

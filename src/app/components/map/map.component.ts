@@ -20,6 +20,7 @@ export class MapComponent implements OnInit, OnDestroy {
   private markerFocusSub: Subscription;
   private favoriteChangeSub: Subscription;
   private markers: { [id: string]: L.Marker } = {};
+  private currentPosMarker?: L.Circle;
 
   private popupComponents: Map<string, ComponentRef<PopupComponent>> = new Map();
 
@@ -142,21 +143,36 @@ export class MapComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.map.locate({setView: true, maxZoom: 16});
-
-    const onLocationFound = (e: any) => {
-      const radius = e.accuracy;
-
-      // L.marker(e.latlng).addTo(this.map!)
-      //   .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-      L.circle(e.latlng, radius).addTo(this.map!);
-    };
-
-    this.map.on('locationfound', onLocationFound);
-
-
+    this.requestAndUpdateLocation();
   }
+
+  requestAndUpdateLocation() {
+    if (!this.map) return;
+    this.map.locate({watch: true, setView: true, maxZoom: 16});
+    this.map.on('locationfound', (e) => {
+      this.onLocationFound(e)
+    });
+  }
+
+
+  private onLocationFound(e: any) {
+    const radius = e.accuracy;
+    const latLng = e.latlng;
+
+    for (const component of this.popupComponents.values()) {
+      if (component) {
+        component.instance.latLng = latLng;
+        component.changeDetectorRef.detectChanges();
+      }
+    }
+
+    if (!this.currentPosMarker) {
+      this.currentPosMarker = L.circle(latLng, radius).addTo(this.map!);
+    } else {
+      this.currentPosMarker.setLatLng(latLng);
+      this.currentPosMarker.setRadius(radius);
+    }
+  };
 
   ngOnDestroy() {
     if (this.map) {
