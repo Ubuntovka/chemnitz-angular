@@ -2,7 +2,19 @@
   overflow: hidden;
   background-color: #F8F8F8;
   padding: 20px 10px;
+  position: relative;
 }
+
+.top-image {
+  position: absolute;
+  top: 1dvh;
+  left: 14dvw;
+  width: 4dvw;
+  height: 8dvh;
+  object-fit: cover;
+  z-index: 1;
+}
+
 
 .header a {
   float: left;
