@@ -2,15 +2,12 @@ import {Component, Input} from '@angular/core';
 import {ApiService} from '../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MapService} from '../../../services/map.service';
-import {JsonPipe, NgClass} from '@angular/common';
 import { getDistance } from 'geolib';
 import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-popup',
   imports: [
-    JsonPipe,
-    NgClass
   ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'
@@ -39,16 +36,7 @@ export class PopupComponent {
   toggleVisited() {
     if (this.isVisited) {
       this.popupVisitedClass = 'popup-action-visited'
-      // this.apiService.removeVisited(this.location._id).subscribe({
-      //   next: () => {
-      //     this.isVisited = false;
-      //     this.mapService.removeVisited(this.location._id); // notify the map
-      //   },
-      //   error: (err) => {
-      //     console.error(err);
-      //   }
-      // });
-    } else {
+      } else {
       const [lng, lat] = this.location.geometry?.coordinates || [];
       const distance = getDistance(
         { latitude: this.latLng.lat, longitude: this.latLng.lng },
@@ -59,35 +47,19 @@ export class PopupComponent {
           next: () => {
             this.isVisited = true;
             this.mapService.addVisited(this.location._id); // notify the map
+            this.snackBar.open("Great job! You’ve marked this location as visited.", "Hide");
           },
           error: (err) => {
             console.error(err);
+            this.snackBar.open("Something went wrong :(", "Hide");
           }
         });
       } else {
+        this.snackBar.open("You need to be at this location to mark it as visited.", "Hide");
         console.log("User is too far away.");
       }
     }
   }
-
-
-  // toggleVisited() {
-  //   if (this.isVisited) {
-  //     this.apiService.removeVisited(this.location._id)
-  //   } else {
-  //     const [lng, lat] = this.location.geometry?.coordinates || [];
-  //     const distance = getDistance(
-  //       { latitude: this.latLng.lat, longitude: this.latLng.lng },
-  //       { latitude: lat, longitude: lng }
-  //     );
-  //     if (distance < 150) {
-  //       console.log("User is within the location.");
-  //       this.isVisited = true;
-  //     } else {
-  //       console.log("User is too far away.");
-  //     }
-  //   }
-  // }
 
   private handleFavoriteResult() {
     return {

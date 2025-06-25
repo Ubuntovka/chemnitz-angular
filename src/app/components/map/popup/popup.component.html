@@ -13,8 +13,6 @@
         ', Chemnitz'}}</p>
       <p>Opening hours: {{location.properties?.opening_hours || "-//-"}}</p>
     </div>
-    <p>{{this.latLng | json}}</p>
-
     <div class="popup-actions">
       <button (click)="toggleFavourite()">{{isFavorite ? '❌ Remove from Favorites' : '⭐ Add to Favorites'}}</button>
     </div>
