@@ -5,10 +5,11 @@ import {MapService} from '../../services/map.service';
 import {Subscription} from 'rxjs';
 import {PopupComponent} from './popup/popup.component';
 import {Icon} from 'leaflet';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-map',
-  imports: [],
+  imports: [MatSlideToggleModule],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
@@ -22,7 +23,11 @@ export class MapComponent implements OnInit, OnDestroy {
   private visitedChangeSub: Subscription;
   private markers: { [id: string]: L.Marker } = {};
   private currentPosMarker?: L.Circle;
+
   visitedLocations: string[] = [];
+  disabled = false;
+  showingVisitedGrey = false;
+
 
 
   private popupComponents: Map<string, ComponentRef<PopupComponent>> = new Map();
@@ -31,6 +36,7 @@ export class MapComponent implements OnInit, OnDestroy {
   blueIcon: Icon
   greenIcon: Icon
   redIcon: Icon
+  greyIcon: Icon
 
   constructor(
     private apiService: ApiService,
@@ -41,6 +47,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.blueIcon = this.createIcon('media/marker-icon-blue.png');
     this.greenIcon = this.createIcon('media/marker-icon-green.png');
     this.redIcon = this.createIcon('media/marker-icon-red.png');
+    this.greyIcon = this.createIcon('media/marker-icon-grey.png');
 
     this.markerFocusSub = this.mapService.markerFocus$.subscribe(id => {
       const marker = this.markers[id];
@@ -81,8 +88,6 @@ export class MapComponent implements OnInit, OnDestroy {
         component.instance.isVisited = visitedEvent.isVisited;
         component.changeDetectorRef.detectChanges(); // live re-render
       }
-
-      // optional: change marker icon color if you want
     });
   }
 
@@ -120,29 +125,6 @@ export class MapComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-
-  // fetchLocations() {
-  //   this.apiService.getLocations().subscribe((data: any[]) => {
-  //     this.locations = data;
-  //
-  //     if (this.apiService.isLoggedIn()){
-  //       this.apiService.favorites().subscribe({
-  //         next: (favorites: any) => {
-  //           this.favoriteLocations = favorites;
-  //           console.log("fetched favorite locations");
-  //         },
-  //         complete: () => {
-  //           console.log("creating map and markers");
-  //           this.createMapAndMarkers();
-  //         }
-  //       })
-  //     } else {
-  //       this.createMapAndMarkers();
-  //     }
-  //
-  //   });
-  // }
 
   createMapAndMarkers() {
     this.map = L.map('map', {zoomControl: false}).setView([50.8333, 12.9166], 15);
@@ -219,6 +201,21 @@ export class MapComponent implements OnInit, OnDestroy {
       this.currentPosMarker.setRadius(radius);
     }
   };
+
+  showVisited() {
+    this.showingVisitedGrey = !this.showingVisitedGrey;
+
+    this.visitedLocations.forEach(id => {
+      const marker = this.markers[id];
+      const location = this.locations.find(loc => loc._id === id);
+      if (!marker || !location) return;
+
+      const icon = this.showingVisitedGrey ? this.greyIcon : this.iconColor(location);
+      marker.setIcon(icon);
+    });
+  }
+
+
 
   ngOnDestroy() {
     if (this.map) {
