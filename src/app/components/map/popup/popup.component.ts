@@ -47,6 +47,23 @@ export class PopupComponent {
           next: () => {
             this.isVisited = true;
             this.mapService.addVisited(this.location._id); // notify the map
+            // this.apiService.increaseRanking(1);
+
+            this.apiService.increaseRanking(1).subscribe({
+              next: () => {
+                // this.apiService.getRanking().subscribe({
+                //   next: (res) => {
+                //     console.log("Updated ranking:", res.ranking);
+                //     this.snackBar.open(`Location visited! Your new ranking is ${res.ranking}.`, "Hide");
+                //   }
+                // });
+              },
+              error: (err) => {
+                console.error(err);
+                this.snackBar.open("Error increasing ranking", "Hide");
+              }
+            });
+
             this.snackBar.open("Great job! You’ve marked this location as visited.", "Hide");
           },
           error: (err) => {

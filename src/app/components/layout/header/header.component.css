@@ -7,7 +7,8 @@
 
 .top-image {
   position: absolute;
-  top: 1dvh;
+  top: 0.5dvh;
+  bottom: 0.5dvh;
   left: 14dvw;
   width: 4dvw;
   height: 8dvh;

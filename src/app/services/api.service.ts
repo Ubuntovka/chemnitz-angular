@@ -105,5 +105,19 @@ export class ApiService {
     return this.http.get(this.apiUrl + "/api/users/visited/all", {});
   }
 
+  increaseRanking(ranking: number): Observable<any> {
+    const body = {ranking: ranking};
+    return this.http.patch(this.apiUrl + '/api/users/ranking/update', body, {});
+  }
+
+  // getRanking(): Observable<any> {
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${this.getToken()}`
+  //   });
+  //   return this.http.get(this.apiUrl + "/api/users/ranking", { headers });
+  // }
+
+
+
 
 }
