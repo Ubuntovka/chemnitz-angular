@@ -2,12 +2,15 @@ import {Component, Input} from '@angular/core';
 import {ApiService} from '../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MapService} from '../../../services/map.service';
-import {JsonPipe} from '@angular/common';
+import {JsonPipe, NgClass} from '@angular/common';
+import { getDistance } from 'geolib';
+import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-popup',
   imports: [
-    JsonPipe
+    JsonPipe,
+    NgClass
   ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'
@@ -16,6 +19,8 @@ export class PopupComponent {
   @Input() location: any;
   @Input() isFavorite: boolean = false;
   @Input() latLng: any;
+  @Input() isVisited: boolean = false;
+  popupVisitedClass: string = 'popup-action'
 
   constructor(
     private apiService: ApiService,
@@ -31,8 +36,57 @@ export class PopupComponent {
     }
   }
 
+  toggleVisited() {
+    if (this.isVisited) {
+      this.popupVisitedClass = 'popup-action-visited'
+      // this.apiService.removeVisited(this.location._id).subscribe({
+      //   next: () => {
+      //     this.isVisited = false;
+      //     this.mapService.removeVisited(this.location._id); // notify the map
+      //   },
+      //   error: (err) => {
+      //     console.error(err);
+      //   }
+      // });
+    } else {
+      const [lng, lat] = this.location.geometry?.coordinates || [];
+      const distance = getDistance(
+        { latitude: this.latLng.lat, longitude: this.latLng.lng },
+        { latitude: lat, longitude: lng }
+      );
+      if (distance < 150) {
+        this.apiService.addVisited(this.location._id).subscribe({
+          next: () => {
+            this.isVisited = true;
+            this.mapService.addVisited(this.location._id); // notify the map
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        });
+      } else {
+        console.log("User is too far away.");
+      }
+    }
+  }
+
+
   // toggleVisited() {
-  //
+  //   if (this.isVisited) {
+  //     this.apiService.removeVisited(this.location._id)
+  //   } else {
+  //     const [lng, lat] = this.location.geometry?.coordinates || [];
+  //     const distance = getDistance(
+  //       { latitude: this.latLng.lat, longitude: this.latLng.lng },
+  //       { latitude: lat, longitude: lng }
+  //     );
+  //     if (distance < 150) {
+  //       console.log("User is within the location.");
+  //       this.isVisited = true;
+  //     } else {
+  //       console.log("User is too far away.");
+  //     }
+  //   }
   // }
 
   private handleFavoriteResult() {

@@ -63,6 +63,16 @@ html, body {
   background: #e0e0e0;
 }
 
+.popup-actions-visited{
+  flex: 1;
+  padding: 8px;
+  background: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
 .popup-body {
   margin-top: 3vh;
 }

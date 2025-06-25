@@ -90,5 +90,20 @@ export class ApiService {
     return this.http.get(this.apiUrl + "/api/users/favorites", {});
   }
 
+  addVisited(locationId: string) {
+    const body = {location: locationId}
+    return this.http.post(this.apiUrl + "/api/users/visited/add", body, {headers: {Accept: 'application/json'}});
+  }
+
+  removeVisited(locationId: string) {
+    const body = {location: locationId}
+    return this.http.post(this.apiUrl + "/api/users/visited/remove", body, {headers: {Accept: 'application/json'}});
+  }
+
+  visitedAll(): Observable<any> {
+    console.log("service");
+    return this.http.get(this.apiUrl + "/api/users/visited/all", {});
+  }
+
 
 }

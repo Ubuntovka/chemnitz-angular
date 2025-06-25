@@ -19,8 +19,11 @@ export class MapComponent implements OnInit, OnDestroy {
   private map?: L.Map = undefined;
   private markerFocusSub: Subscription;
   private favoriteChangeSub: Subscription;
+  private visitedChangeSub: Subscription;
   private markers: { [id: string]: L.Marker } = {};
   private currentPosMarker?: L.Circle;
+  visitedLocations: string[] = [];
+
 
   private popupComponents: Map<string, ComponentRef<PopupComponent>> = new Map();
 
@@ -70,7 +73,19 @@ export class MapComponent implements OnInit, OnDestroy {
 
       // this.markers[changeEvent.favoriteId].setIcon(changeEvent.isFavorite ? this.redIcon : this.blueIcon)
     });
+
+
+    this.visitedChangeSub = this.mapService.visitedChange.subscribe(visitedEvent => {
+      let component = this.popupComponents.get(visitedEvent.visitedId);
+      if (component) {
+        component.instance.isVisited = visitedEvent.isVisited;
+        component.changeDetectorRef.detectChanges(); // live re-render
+      }
+
+      // optional: change marker icon color if you want
+    });
   }
+
 
   ngOnInit() {
     this.fetchLocations();
@@ -81,23 +96,53 @@ export class MapComponent implements OnInit, OnDestroy {
     this.apiService.getLocations().subscribe((data: any[]) => {
       this.locations = data;
 
-      if (this.apiService.isLoggedIn()){
+      if (this.apiService.isLoggedIn()) {
         this.apiService.favorites().subscribe({
           next: (favorites: any) => {
             this.favoriteLocations = favorites;
-            console.log("fetched favorite locations");
+            console.log("Fetched favorite locations");
           },
           complete: () => {
-            console.log("creating map and markers");
-            this.createMapAndMarkers();
+            this.apiService.visitedAll().subscribe({
+              next: (visited: any) => {
+                this.visitedLocations = visited;
+                console.log("Fetched visited locations");
+              },
+              complete: () => {
+                console.log("Creating map and markers");
+                this.createMapAndMarkers();
+              }
+            });
           }
-        })
+        });
       } else {
         this.createMapAndMarkers();
       }
-
     });
   }
+
+
+  // fetchLocations() {
+  //   this.apiService.getLocations().subscribe((data: any[]) => {
+  //     this.locations = data;
+  //
+  //     if (this.apiService.isLoggedIn()){
+  //       this.apiService.favorites().subscribe({
+  //         next: (favorites: any) => {
+  //           this.favoriteLocations = favorites;
+  //           console.log("fetched favorite locations");
+  //         },
+  //         complete: () => {
+  //           console.log("creating map and markers");
+  //           this.createMapAndMarkers();
+  //         }
+  //       })
+  //     } else {
+  //       this.createMapAndMarkers();
+  //     }
+  //
+  //   });
+  // }
 
   createMapAndMarkers() {
     this.map = L.map('map', {zoomControl: false}).setView([50.8333, 12.9166], 15);
@@ -118,6 +163,7 @@ export class MapComponent implements OnInit, OnDestroy {
       let component = createComponent(PopupComponent, {environmentInjector: this.injector});
       component.instance.location = location;
       component.instance.isFavorite = isFavorite;
+      component.instance.isVisited = this.visitedLocations.includes(location._id);
       component.changeDetectorRef.detectChanges();
 
       const [lng, lat] = location.geometry?.coordinates || [];
@@ -181,6 +227,7 @@ export class MapComponent implements OnInit, OnDestroy {
     }
     this.markerFocusSub?.unsubscribe();
     this.favoriteChangeSub?.unsubscribe();
+    this.visitedChangeSub?.unsubscribe();
   }
 
   private createIcon(iconUrl: string): Icon {
