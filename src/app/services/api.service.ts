@@ -101,7 +101,6 @@ export class ApiService {
   }
 
   visitedAll(): Observable<any> {
-    console.log("service");
     return this.http.get(this.apiUrl + "/api/users/visited/all", {});
   }
 
@@ -110,14 +109,8 @@ export class ApiService {
     return this.http.patch(this.apiUrl + '/api/users/ranking/update', body, {});
   }
 
-  // getRanking(): Observable<any> {
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `Bearer ${this.getToken()}`
-  //   });
-  //   return this.http.get(this.apiUrl + "/api/users/ranking", { headers });
-  // }
-
-
-
+  userRanking(): Observable<any> {
+    return this.http.get(this.apiUrl + "/api/users/ranking/all", {});
+  }
 
 }

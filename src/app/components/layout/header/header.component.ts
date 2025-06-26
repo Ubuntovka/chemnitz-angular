@@ -3,6 +3,7 @@ import {RouterLink} from '@angular/router';
 import {ApiService} from '../../../services/api.service';
 import {NgClass, NgIf} from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {async} from 'rxjs';
 
 @Component({
   selector: 'app-headers',
@@ -17,6 +18,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class HeaderComponent implements OnInit {
 
   mobileMenuClass: string = "header-right";
+  userRanking: number = 0; // or number, depending on your API
 
   toggleMenu() {
     if (this.mobileMenuClass === "header-right") {
@@ -28,7 +30,11 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit() {
-
+    if (this.apiService.isLoggedIn()) {
+      this.apiService.userRanking().subscribe((ranking: any) => {
+        this.userRanking = ranking.ranking;
+      });
+    }
   }
   constructor(protected apiService: ApiService) {
   }
