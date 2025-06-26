@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 import {PopupComponent} from './popup/popup.component';
 import {Icon} from 'leaflet';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map',
@@ -42,6 +43,8 @@ export class MapComponent implements OnInit, OnDestroy {
     private apiService: ApiService,
     private mapService: MapService,
     private injector: EnvironmentInjector,
+    private snackBar: MatSnackBar,
+
   ) {
     this.yellowIcon = this.createIcon('media/marker-icon-yellow.png');
     this.blueIcon = this.createIcon('media/marker-icon-blue.png');
@@ -93,8 +96,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.disabled = !this.apiService.isLoggedIn();
     this.fetchLocations();
-
   }
 
   fetchLocations() {
@@ -215,7 +218,11 @@ export class MapComponent implements OnInit, OnDestroy {
     });
   }
 
-
+  handleToggleClick() {
+    if (this.disabled) {
+      this.snackBar.open("You need to be registered to use this functionality.", "Hide");
+    }
+  }
 
   ngOnDestroy() {
     if (this.map) {

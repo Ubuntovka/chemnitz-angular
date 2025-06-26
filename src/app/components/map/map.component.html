@@ -1,6 +1,6 @@
 <div id="map-container">
   <div id="map"></div>
-  <div class="toggle-container">
+  <div class="toggle-container" (click)="handleToggleClick()">
     <mat-slide-toggle
       class="example-margin"
       (change)="showVisited()"
