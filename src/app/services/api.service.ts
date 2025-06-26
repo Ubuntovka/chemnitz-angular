@@ -113,4 +113,8 @@ export class ApiService {
     return this.http.get(this.apiUrl + "/api/users/ranking/all", {});
   }
 
+  getAllUsersAndRankings(): Observable<any> {
+    return this.http.get(this.apiUrl + '/api/users/ranking/users');
+  }
+
 }

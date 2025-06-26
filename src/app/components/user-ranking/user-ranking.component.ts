@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ApiService} from '../../services/api.service';
 
 @Component({
   selector: 'app-user-ranking',
@@ -7,9 +8,22 @@ import {Component, OnInit} from '@angular/core';
   styleUrl: './user-ranking.component.css'
 })
 export class UserRankingComponent implements OnInit {
-  constructor() {}
+  usersRankings: any[] = [];
 
-  ngOnInit() {
+  constructor(
+    private apiService: ApiService,
+  ) {
 
   }
+
+  ngOnInit() {
+    this.fetchData();
+  }
+
+  fetchData() {
+    this.apiService.getAllUsersAndRankings().subscribe((data: any) => {
+      this.usersRankings = data;
+    })
+  }
+
 }
