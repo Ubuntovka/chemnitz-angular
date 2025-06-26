@@ -4,10 +4,12 @@ import {MainPageWrapperComponent} from './components/main-page-wrapper/main-page
 import {LoginComponent} from './components/login/login.component';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
 import {authGuard} from './guards/auth.guard';
+import {UserRankingComponent} from './components/user-ranking/user-ranking.component';
 
 export const routes: Routes = [
   { path: '', component: MainPageWrapperComponent },
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'profile', component: UserProfileComponent, canActivate: [authGuard]},
+  {path: 'ranking', component: UserRankingComponent, canActivate: [authGuard]},
 ];
