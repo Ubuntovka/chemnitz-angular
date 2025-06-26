@@ -18,7 +18,7 @@ import {async} from 'rxjs';
 export class HeaderComponent implements OnInit {
 
   mobileMenuClass: string = "header-right";
-  userRanking: number = 0; // or number, depending on your API
+  userRanking: number = 0;
 
   toggleMenu() {
     if (this.mobileMenuClass === "header-right") {
