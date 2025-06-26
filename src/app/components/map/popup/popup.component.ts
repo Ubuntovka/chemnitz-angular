@@ -90,7 +90,7 @@ export class PopupComponent {
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open(err.error, "Hide")
+        this.snackBar.open("You need to be registered to use this functionality.", "Hide")
       }
     };
   }
