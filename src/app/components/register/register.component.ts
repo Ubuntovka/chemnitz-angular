@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
   });
   thirdFormGroup = this._formBuilder.group({
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(8)]],
   })
   isLinear = true;
 

@@ -3,7 +3,6 @@ import {RouterLink} from '@angular/router';
 import {ApiService} from '../../../services/api.service';
 import {NgClass, NgIf} from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {async} from 'rxjs';
 
 @Component({
   selector: 'app-headers',
