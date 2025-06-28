@@ -109,7 +109,7 @@ export class ApiService {
   }
 
   userRanking(): Observable<any> {
-    return this.http.get(this.apiUrl + "/api/users/ranking/all", {});
+    return this.http.get(this.apiUrl + "/api/users/ranking/me", {});
   }
 
   getAllUsersAndRankings(): Observable<any> {
