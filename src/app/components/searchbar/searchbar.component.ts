@@ -9,6 +9,7 @@ import {MatIcon} from '@angular/material/icon';
 import {NgClass, NgIf} from '@angular/common';
 import {MatChipsModule} from '@angular/material/chips';
 import {FilterLocationsService} from '../../services/filter-locations.service';
+import {MapListService} from '../../services/map-list.service';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class SearchbarComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private mapService: MapService,
-    private filterService: FilterLocationsService
+    private filterService: FilterLocationsService,
+    private mapListService: MapListService
   ) {
   }
 
@@ -78,6 +80,7 @@ export class SearchbarComponent implements OnInit {
 
     this.filteredByChipsLocations = this.filterService.filterLocationsByType(type, this.locations);
     this.filteredLocations = this.filteredByChipsLocations;
+    this.mapListService.updateLocations(this.filteredLocations);
 
 
   }
@@ -86,6 +89,7 @@ export class SearchbarComponent implements OnInit {
   locationsBySearch() {
     const term = this.searchTerm.toLowerCase();
     this.filteredLocations = this.filterService.searchLocations(term, this.filteredByChipsLocations);
+    this.mapListService.updateLocations(this.filteredLocations);
     this.setActiveMobileClass();
   }
 
