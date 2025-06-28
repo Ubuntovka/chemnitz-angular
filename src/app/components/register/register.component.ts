@@ -84,7 +84,9 @@ export class RegisterComponent implements OnInit {
 
   // email
   updateErrorMessage() {
-    if (this.email.hasError('required') || this.password.hasError('required')) {
+    if (this.email.hasError('required') ||
+      this.password.hasError('required') ||
+      this.username.hasError('required')) {
       this.errorMessage.set('You must enter a value');
     } else if (this.email.hasError('email')) {
       this.errorMessage.set('Not a valid email');

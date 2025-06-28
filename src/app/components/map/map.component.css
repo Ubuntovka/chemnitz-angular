@@ -30,8 +30,11 @@
   #map{
     display: flex;
     flex-direction: column;
+    margin: 0;
+  }
+
+  #map-container{
     width: 100dvw;
-    margin-left: 0;
   }
 
 }
