@@ -89,6 +89,7 @@ export class SearchbarComponent implements OnInit {
   locationsBySearch() {
     const term = this.searchTerm.toLowerCase();
     this.filteredLocations = this.filterService.searchLocations(term, this.filteredByChipsLocations);
+    this.mapListService.updateLocations(this.filteredLocations);
     this.setActiveMobileClass();
   }
 
