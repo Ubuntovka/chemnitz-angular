@@ -7,6 +7,7 @@ import {PopupComponent} from './popup/popup.component';
 import {Icon} from 'leaflet';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {MapListService} from '../../services/map-list.service';
 
 @Component({
   selector: 'app-map',
@@ -22,6 +23,7 @@ export class MapComponent implements OnInit, OnDestroy {
   private markerFocusSub: Subscription;
   private favoriteChangeSub: Subscription;
   private visitedChangeSub: Subscription;
+  private filteredLocationsSub: Subscription;
   private markers: { [id: string]: L.Marker } = {};
   private currentPosMarker?: L.Circle;
 
@@ -44,6 +46,7 @@ export class MapComponent implements OnInit, OnDestroy {
     private mapService: MapService,
     private injector: EnvironmentInjector,
     private snackBar: MatSnackBar,
+    private mapListService: MapListService,
 
   ) {
     this.yellowIcon = this.createIcon('media/marker-icon-yellow.png');
@@ -77,13 +80,9 @@ export class MapComponent implements OnInit, OnDestroy {
       } else {
         icon = this.iconColor(location);
       }
-
       this.markers[changeEvent.favoriteId].setIcon(icon);
-
-
       // this.markers[changeEvent.favoriteId].setIcon(changeEvent.isFavorite ? this.redIcon : this.blueIcon)
     });
-
 
     this.visitedChangeSub = this.mapService.visitedChange.subscribe(visitedEvent => {
       let component = this.popupComponents.get(visitedEvent.visitedId);
@@ -92,6 +91,27 @@ export class MapComponent implements OnInit, OnDestroy {
         component.changeDetectorRef.detectChanges(); // live re-render
       }
     });
+
+    this.filteredLocationsSub = this.mapListService.filteredLocations$.subscribe(filteredLocations => {
+      if (!this.map) return;
+
+      this.locations.forEach(location => {
+        const marker = this.markers[location._id];
+          if (filteredLocations.find(loc => loc._id === location._id)) {
+            console.log("includes layer");
+            if (!this.map!.hasLayer(marker)) {
+              this.map!.addLayer(marker);
+            }
+          } else {
+            console.log("remove layer");
+            if (this.map!.hasLayer(marker)) {
+              this.map!.removeLayer(marker);
+            }
+          }
+      });
+
+    });
+
   }
 
 

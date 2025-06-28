@@ -11,7 +11,7 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'http://192.168.0.180:3000';
 
   constructor(private http: HttpClient) {
   }
