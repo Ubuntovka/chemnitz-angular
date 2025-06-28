@@ -53,7 +53,6 @@ export class ApiService {
   }
 
   logout(): Observable<any> {
-    localStorage.removeItem('token');
     return this.http.post(this.apiUrl + '/api/users/logout', {});
   }
 
@@ -90,5 +89,31 @@ export class ApiService {
     return this.http.get(this.apiUrl + "/api/users/favorites", {});
   }
 
+  addVisited(locationId: string) {
+    const body = {location: locationId}
+    return this.http.post(this.apiUrl + "/api/users/visited/add", body, {headers: {Accept: 'application/json'}});
+  }
+
+  removeVisited(locationId: string) {
+    const body = {location: locationId}
+    return this.http.post(this.apiUrl + "/api/users/visited/remove", body, {headers: {Accept: 'application/json'}});
+  }
+
+  visitedAll(): Observable<any> {
+    return this.http.get(this.apiUrl + "/api/users/visited/all", {});
+  }
+
+  increaseRanking(ranking: number): Observable<any> {
+    const body = {ranking: ranking};
+    return this.http.patch(this.apiUrl + '/api/users/ranking/update', body, {});
+  }
+
+  userRanking(): Observable<any> {
+    return this.http.get(this.apiUrl + "/api/users/ranking/me", {});
+  }
+
+  getAllUsersAndRankings(): Observable<any> {
+    return this.http.get(this.apiUrl + '/api/users/ranking/users');
+  }
 
 }

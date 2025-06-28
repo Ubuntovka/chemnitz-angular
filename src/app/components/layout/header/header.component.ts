@@ -17,6 +17,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class HeaderComponent implements OnInit {
 
   mobileMenuClass: string = "header-right";
+  userRanking: number = 0;
 
   toggleMenu() {
     if (this.mobileMenuClass === "header-right") {
@@ -28,17 +29,26 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.setRanking();
   }
   constructor(protected apiService: ApiService) {
   }
 
-  logout(){
-    this.apiService.logout();
-    this.logoutSnackBar();
-    window.location.reload();
-    this.mobileMenuClass = "header-right";
+  logout() {
+    this.apiService.logout().subscribe({
+      next: () => {
+        localStorage.removeItem('token');
+        this.logoutSnackBar();
+        window.location.reload();
+        this.mobileMenuClass = "header-right";
+      },
+      error: (err) => {
+        console.error('Logout failed:', err);
+        this.logoutSnackBar();
+      }
+    });
   }
+
 
   private _snackBar = inject(MatSnackBar);
 
@@ -47,4 +57,14 @@ export class HeaderComponent implements OnInit {
       duration: 3000
     });
   }
+
+  setRanking(){
+    if (this.apiService.isLoggedIn()) {
+      this.apiService.userRanking().subscribe((ranking: any) => {
+        this.userRanking = ranking.ranking;
+      });
+    }
+  }
+
 }
+

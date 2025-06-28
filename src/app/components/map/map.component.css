@@ -1,8 +1,28 @@
-#map {
+#map-container {
+  position: relative;
   height: 91dvh;
   width: 73dvw;
-  flex-grow: 1;
   overflow: hidden;
+  flex-grow: 1;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.toggle-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1001; /* Must be greater than the map */
+  background-color: transparent; /* optional for visibility */
+  padding: 6px;
+  border-radius: 4px;
 }
 
 @media screen and (max-width: 600px) {
@@ -10,9 +30,11 @@
   #map{
     display: flex;
     flex-direction: column;
+    margin: 0;
+  }
+
+  #map-container{
     width: 100dvw;
-    /*margin-top: 1dvh;*/
-    margin-left: 0;
   }
 
 }

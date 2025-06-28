@@ -1,11 +1,13 @@
 <div class="header">
   <a class="logo" routerLink="/">ChemnitzMap</a>
+<!--  <img class="top-image" src="media/karl-marx-head.png" alt="">-->
 
   <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle menu">
     ☰
   </button>
 
   <div [ngClass]="mobileMenuClass">
+    <a *ngIf="apiService.isLoggedIn()" class="active ranking" routerLink="/ranking">{{ userRanking }}</a>
     <a *ngIf="apiService.isLoggedIn()" (click)="toggleMenu()" routerLink="/profile">Account</a>
     <a *ngIf="apiService.isLoggedIn()" class="active" (click)="logout()">Logout</a>
     <a *ngIf="!apiService.isLoggedIn()" class="active" (click)="toggleMenu()" routerLink="/login">Sign in</a>

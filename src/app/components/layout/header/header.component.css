@@ -2,7 +2,20 @@
   overflow: hidden;
   background-color: #F8F8F8;
   padding: 20px 10px;
+  position: relative;
 }
+
+.top-image {
+  position: absolute;
+  top: 0.5dvh;
+  bottom: 0.5dvh;
+  left: 14dvw;
+  width: 4dvw;
+  height: 8dvh;
+  object-fit: cover;
+  z-index: 1;
+}
+
 
 .header a {
   float: left;
@@ -22,6 +35,7 @@
 .header a:hover {
   background-color: #ddd;
   color: black;
+  border-radius: 0.5rem;
 }
 
 .header a.logo:hover{
@@ -30,6 +44,10 @@
 
 .header a.active {
   text-decoration: underline;
+}
+
+.header a.active.ranking {
+  font-weight: bold;
 }
 
 .header-right {

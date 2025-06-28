@@ -32,8 +32,11 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 
 export class RegisterComponent implements OnInit {
 
+  errorMessage = signal('');
+
   constructor(protected apiService: ApiService, private router: Router) {
-    merge(this.email.statusChanges, this.email.valueChanges)
+    merge(this.email.statusChanges, this.email.valueChanges,
+      this.password.statusChanges, this.password.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
   }
@@ -50,7 +53,7 @@ export class RegisterComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
   });
   thirdFormGroup = this._formBuilder.group({
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(8)]],
   })
   isLinear = true;
 
@@ -80,16 +83,19 @@ export class RegisterComponent implements OnInit {
 
 
   // email
-  errorMessage = signal('');
   updateErrorMessage() {
-    if (this.email.hasError('required')) {
+    if (this.email.hasError('required') ||
+      this.password.hasError('required') ||
+      this.username.hasError('required')) {
       this.errorMessage.set('You must enter a value');
     } else if (this.email.hasError('email')) {
       this.errorMessage.set('Not a valid email');
+    } else if (this.password.hasError('minlength')) {
+      this.errorMessage.set('Your password should be at least 8 characters long');
     } else {
       this.errorMessage.set('');
     }
-  };
+  }
 
   // Snackbars
   private _snackBar = inject(MatSnackBar);

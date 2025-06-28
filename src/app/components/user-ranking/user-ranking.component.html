@@ -1,0 +1,10 @@
+<h1>Top Users By Ranking</h1>
+<ul>
+  @for (e of usersRankings; track e)
+  {
+    <li>
+      {{ e.name }}
+      {{ e.ranking }}
+    </li>
+  }
+</ul>

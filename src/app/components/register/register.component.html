@@ -26,6 +26,9 @@
           placeholder="pat@example.com"
           required
         />
+        @if (email.invalid){
+          <mat-error>{{errorMessage()}}</mat-error>
+        }
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
@@ -43,6 +46,7 @@
           formControlName="password"
         />
         <button
+          type="button"
           mat-icon-button
           matSuffix
           (click)="clickEvent($event)"
@@ -51,6 +55,9 @@
         >
           <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        @if (password.invalid){
+          <mat-error>{{errorMessage()}}</mat-error>
+        }
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>

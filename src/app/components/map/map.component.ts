@@ -5,10 +5,12 @@ import {MapService} from '../../services/map.service';
 import {Subscription} from 'rxjs';
 import {PopupComponent} from './popup/popup.component';
 import {Icon} from 'leaflet';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map',
-  imports: [],
+  imports: [MatSlideToggleModule],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
@@ -19,7 +21,15 @@ export class MapComponent implements OnInit, OnDestroy {
   private map?: L.Map = undefined;
   private markerFocusSub: Subscription;
   private favoriteChangeSub: Subscription;
+  private visitedChangeSub: Subscription;
   private markers: { [id: string]: L.Marker } = {};
+  private currentPosMarker?: L.Circle;
+
+  visitedLocations: string[] = [];
+  disabled = false;
+  showingVisitedGrey = false;
+
+
 
   private popupComponents: Map<string, ComponentRef<PopupComponent>> = new Map();
 
@@ -27,16 +37,20 @@ export class MapComponent implements OnInit, OnDestroy {
   blueIcon: Icon
   greenIcon: Icon
   redIcon: Icon
+  greyIcon: Icon
 
   constructor(
     private apiService: ApiService,
     private mapService: MapService,
     private injector: EnvironmentInjector,
+    private snackBar: MatSnackBar,
+
   ) {
     this.yellowIcon = this.createIcon('media/marker-icon-yellow.png');
     this.blueIcon = this.createIcon('media/marker-icon-blue.png');
     this.greenIcon = this.createIcon('media/marker-icon-green.png');
     this.redIcon = this.createIcon('media/marker-icon-red.png');
+    this.greyIcon = this.createIcon('media/marker-icon-grey.png');
 
     this.markerFocusSub = this.mapService.markerFocus$.subscribe(id => {
       const marker = this.markers[id];
@@ -69,32 +83,49 @@ export class MapComponent implements OnInit, OnDestroy {
 
       // this.markers[changeEvent.favoriteId].setIcon(changeEvent.isFavorite ? this.redIcon : this.blueIcon)
     });
+
+
+    this.visitedChangeSub = this.mapService.visitedChange.subscribe(visitedEvent => {
+      let component = this.popupComponents.get(visitedEvent.visitedId);
+      if (component) {
+        component.instance.isVisited = visitedEvent.isVisited;
+        component.changeDetectorRef.detectChanges(); // live re-render
+      }
+    });
   }
 
-  ngOnInit() {
-    this.fetchLocations();
 
+  ngOnInit() {
+    this.disabled = !this.apiService.isLoggedIn();
+    this.fetchLocations();
   }
 
   fetchLocations() {
     this.apiService.getLocations().subscribe((data: any[]) => {
       this.locations = data;
 
-      if (this.apiService.isLoggedIn()){
+      if (this.apiService.isLoggedIn()) {
         this.apiService.favorites().subscribe({
           next: (favorites: any) => {
             this.favoriteLocations = favorites;
-            console.log("fetched favorite locations");
+            console.log("Fetched favorite locations");
           },
           complete: () => {
-            console.log("creating map and markers");
-            this.createMapAndMarkers();
+            this.apiService.visitedAll().subscribe({
+              next: (visited: any) => {
+                this.visitedLocations = visited;
+                console.log("Fetched visited locations");
+              },
+              complete: () => {
+                console.log("Creating map and markers");
+                this.createMapAndMarkers();
+              }
+            });
           }
-        })
+        });
       } else {
         this.createMapAndMarkers();
       }
-
     });
   }
 
@@ -117,6 +148,7 @@ export class MapComponent implements OnInit, OnDestroy {
       let component = createComponent(PopupComponent, {environmentInjector: this.injector});
       component.instance.location = location;
       component.instance.isFavorite = isFavorite;
+      component.instance.isVisited = this.visitedLocations.includes(location._id);
       component.changeDetectorRef.detectChanges();
 
       const [lng, lat] = location.geometry?.coordinates || [];
@@ -142,20 +174,54 @@ export class MapComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.map.locate({setView: true, maxZoom: 16});
+    this.requestAndUpdateLocation();
+  }
 
-    const onLocationFound = (e: any) => {
-      const radius = e.accuracy;
-
-      // L.marker(e.latlng).addTo(this.map!)
-      //   .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-      L.circle(e.latlng, radius).addTo(this.map!);
-    };
-
-    this.map.on('locationfound', onLocationFound);
+  requestAndUpdateLocation() {
+    if (!this.map) return;
+    this.map.locate({watch: true, setView: true, maxZoom: 16});
+    this.map.on('locationfound', (e) => {
+      this.onLocationFound(e)
+    });
+  }
 
 
+  private onLocationFound(e: any) {
+    const radius = e.accuracy;
+    const latLng = e.latlng;
+
+    for (const component of this.popupComponents.values()) {
+      if (component) {
+        component.instance.latLng = latLng;
+        component.changeDetectorRef.detectChanges();
+      }
+    }
+
+    if (!this.currentPosMarker) {
+      this.currentPosMarker = L.circle(latLng, radius).addTo(this.map!);
+    } else {
+      this.currentPosMarker.setLatLng(latLng);
+      this.currentPosMarker.setRadius(radius);
+    }
+  };
+
+  showVisited() {
+    this.showingVisitedGrey = !this.showingVisitedGrey;
+
+    this.visitedLocations.forEach(id => {
+      const marker = this.markers[id];
+      const location = this.locations.find(loc => loc._id === id);
+      if (!marker || !location) return;
+
+      const icon = this.showingVisitedGrey ? this.greyIcon : this.iconColor(location);
+      marker.setIcon(icon);
+    });
+  }
+
+  handleToggleClick() {
+    if (this.disabled) {
+      this.snackBar.open("You need to be registered to use this functionality.", "Hide");
+    }
   }
 
   ngOnDestroy() {
@@ -165,6 +231,7 @@ export class MapComponent implements OnInit, OnDestroy {
     }
     this.markerFocusSub?.unsubscribe();
     this.favoriteChangeSub?.unsubscribe();
+    this.visitedChangeSub?.unsubscribe();
   }
 
   private createIcon(iconUrl: string): Icon {
