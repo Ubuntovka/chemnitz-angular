@@ -96,7 +96,7 @@ export class UserProfileComponent implements OnInit {
 
   meInfo(){
     this.apiService.me().subscribe((data: any) => {
-      this.user = data.user;
+      this.user = data;
     });
   }
 
