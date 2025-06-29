@@ -5,7 +5,7 @@
     "filters filters"
     "list list";
 
-  grid-template-columns: 1fr 46px;
+  grid-template-columns: calc(100% - 46px) 46px;
   grid-template-rows: 76px auto 1fr;  /* Adjust 50px as needed */
   height: 100%; /* or 100vh if sidebar is fullscreen */
 }
@@ -23,6 +23,7 @@
 .searchbar-form mat-form-field {
   margin: 10px;
   width: calc(100% - 20px);
+  min-width: 0;
 }
 
 .filter-button {

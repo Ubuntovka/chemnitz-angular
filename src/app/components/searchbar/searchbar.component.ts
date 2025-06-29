@@ -107,7 +107,7 @@ export class SearchbarComponent implements OnInit {
   }
 
   setActiveMobileClass() {
-    if (this.listForMobileClass == 'search-page'){
+    if (this.searchTerm.length > 0 && this.filteredLocations.length > 0) {
       this.listForMobileClass = 'search-page mobile-active';
     } else {
       this.listForMobileClass = 'search-page';
