@@ -7,7 +7,7 @@
   </button>
 
   <div [ngClass]="mobileMenuClass">
-    <a *ngIf="apiService.isLoggedIn()" class="active ranking" routerLink="/ranking">{{ userRanking }}</a>
+    <a *ngIf="apiService.isLoggedIn()" class="active ranking" routerLink="/ranking">Ranking</a>
     <a *ngIf="apiService.isLoggedIn()" (click)="toggleMenu()" routerLink="/profile">Account</a>
     <a *ngIf="apiService.isLoggedIn()" class="active" (click)="logout()">Logout</a>
     <a *ngIf="!apiService.isLoggedIn()" class="active" (click)="toggleMenu()" routerLink="/login">Sign in</a>

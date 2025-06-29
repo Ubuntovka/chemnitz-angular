@@ -1,10 +1,20 @@
-<h1>Top Users By Ranking</h1>
-<ul>
-  @for (e of usersRankings; track e)
-  {
-    <li>
-      {{ e.name }}
-      {{ e.ranking }}
-    </li>
-  }
-</ul>
+<h1 class="h1">Top Users By Ranking</h1>
+
+<div class="ranking-list">
+  <div class="ranking-container">
+    <ul class="ul">
+      @for (e of usersRankings; track e; let idx = $index)
+      {
+        <li class="li" [ngClass]="getRankClass(e, idx)">
+          <div class="rank-badge">{{ idx + 1 }}</div>
+          <div class="li-content">
+            <strong>{{ e.name }}</strong> — Points: {{ e.ranking }}
+          </div>
+        </li>
+
+      }
+    </ul>
+  </div>
+</div>
+
+
