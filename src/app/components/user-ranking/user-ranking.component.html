@@ -5,7 +5,8 @@
       <li class="li">
         <div class="rank-badge">{{ getCurrentUserRankIndex() + 1}}</div>
         <div class="li-content">
-          <strong>You</strong> — {{ currentUser.ranking }} points
+          <span class="li-text">You</span>
+          <span class="li-points">{{ currentUser.ranking }} <img class="points-image" src="media/karl-marx-head.png" alt=""></span>
         </div>
       </li>
 
@@ -14,7 +15,8 @@
         <li class="li" [ngClass]="getRankClass(idx)">
           <div class="rank-badge">{{ idx + 1 }}</div>
           <div class="li-content">
-            <strong>{{ e.name }}</strong> — {{ e.ranking }} points
+            <span class="li-text">{{ e.name }}</span>
+            <span class="li-points">{{ e.ranking }} <img class="points-image" src="media/karl-marx-head.png" alt=""></span>
           </div>
         </li>
       }
