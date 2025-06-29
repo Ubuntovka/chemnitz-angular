@@ -36,7 +36,6 @@
 
 .li-content {
   font-size: 1rem;
-  font-family: 'Segoe UI', sans-serif;
   width: 100%;
   text-align: left;
 }
@@ -90,7 +89,7 @@
 
 .points-image {
   vertical-align: middle;
-  width: 3dvw;
+  width: 40px;
 }
 
 /* Mobile optimization */
@@ -108,6 +107,6 @@
   }
 
   .points-image {
-    width: 10dvw;
+    width: 40px;
   }
 }

@@ -1,35 +1,35 @@
 .header {
   overflow: hidden;
   background-color: #F8F8F8;
-  padding: 20px 10px;
-  position: relative;
+  padding: 8px 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100% - 20px);
+  display: block;
+  z-index: 2000;
 }
 
 .top-image {
-  position: absolute;
-  top: 0.5dvh;
-  bottom: 0.5dvh;
-  left: 14dvw;
-  width: 4dvw;
-  height: 8dvh;
-  object-fit: cover;
-  z-index: 1;
+  width: 60px;
+  vertical-align: middle;
 }
 
 
 .header a {
-  float: left;
+  display: inline-block;
   color: black;
   text-align: center;
-  padding: 1dvh 2dvh 1dvh 2dvh;
+  padding: 5px 10px;
   text-decoration: none;
   font-size: 18px;
-  line-height: 2dvh;
 }
 
 .header a.logo {
   font-size: 25px;
   font-weight: bolder;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 
 .header a:hover {
@@ -50,16 +50,29 @@
   font-weight: bold;
 }
 
-.header-right {
-  float: right;
-}
-
 .menu-toggle {
   display: none;
   font-size: 1.5rem;
   background: none;
   border: none;
   cursor: pointer;
+  float: right;
+  margin-top: 12px;
+}
+
+.logo-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.header-right {
+  float: right;
+  margin-top: 12px;
+  margin-right: 15px;
+}
+
+.header-buttons a {
+  vertical-align: middle;
 }
 
 
@@ -67,22 +80,28 @@
 @media (max-width: 600px) {
   .menu-toggle {
     display: block;
-    float: right;
   }
 
   .header-right {
     display: none;
+    margin-top: 10px;
   }
 
   .header-right.mobile{
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding-top: 1rem;
   }
 
-  .header-right a {
-    padding: 1rem 0;
+  .header-right.mobile a {
+    display: block;
     width: 100%;
+    text-align: left;
+    margin-top: 10px;
   }
+
+  .header-right.mobile a:first-child {
+    margin-top: 0;
+  }
+
 }
