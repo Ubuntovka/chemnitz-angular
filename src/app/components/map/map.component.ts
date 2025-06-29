@@ -252,6 +252,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.markerFocusSub?.unsubscribe();
     this.favoriteChangeSub?.unsubscribe();
     this.visitedChangeSub?.unsubscribe();
+    this.filteredLocationsSub?.unsubscribe();
   }
 
   private createIcon(iconUrl: string): Icon {
