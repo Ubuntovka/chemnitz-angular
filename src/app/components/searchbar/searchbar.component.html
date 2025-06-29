@@ -2,15 +2,17 @@
 <div class="sidebar">
   <div class="sidebar-row-bg"></div>
 
-  <mat-form-field class="searchbar-form" appearance="outline" subscriptSizing="dynamic">
-    <mat-label>Search ...</mat-label>
-    <mat-icon matPrefix aria-label="Search icon">search</mat-icon>
-    <input matInput
-           type="text"
-           [(ngModel)]="searchTerm"
-           (keyup)="locationsBySearch()"
-    >
-  </mat-form-field>
+  <div class="searchbar-form">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Search ...</mat-label>
+      <mat-icon matPrefix aria-label="Search icon">search</mat-icon>
+      <input matInput
+             type="text"
+             [(ngModel)]="searchTerm"
+             (keyup)="locationsBySearch()"
+      >
+    </mat-form-field>
+  </div>
 
   <button class="filter-button" matPrefix aria-label="Search icon" mat-icon-button (click)="setActiveClass()"><mat-icon>tune</mat-icon></button>
 

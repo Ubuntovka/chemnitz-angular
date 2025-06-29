@@ -5,7 +5,7 @@
     "filters filters"
     "list list";
 
-  grid-template-columns: 1fr 42px;
+  grid-template-columns: 1fr 46px;
   grid-template-rows: 76px auto 1fr;  /* Adjust 50px as needed */
   height: 100%; /* or 100vh if sidebar is fullscreen */
 }
@@ -18,7 +18,11 @@
 
 .searchbar-form {
   grid-area: search;
-  padding: 10px;
+}
+
+.searchbar-form mat-form-field {
+  margin: 10px;
+  width: calc(100% - 20px);
 }
 
 .filter-button {
@@ -94,10 +98,21 @@
 }
 
 @media screen and (max-width: 600px) {
+  .sidebar {
+    pointer-events: none;
+  }
+
   .sidebar-row-bg {
     background: rgba(255, 255, 255, 0.50);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* for safari */
+  }
+
+  .searchbar-form,
+  .filter-button,
+  .filter-locations,
+  .locations-list {
+    pointer-events: all;
   }
 
   .locations-list {
