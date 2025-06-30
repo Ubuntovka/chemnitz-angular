@@ -44,6 +44,7 @@
 
 .header a.active {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .header a.active.ranking {
