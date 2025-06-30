@@ -118,6 +118,21 @@ export class UserProfileComponent implements OnInit {
     event.stopPropagation();
   }
 
+  deleteAccount(){
+    if (confirm("Are you sure you want to permanently delete your account?")) {
+      this.apiService.deleteUser().subscribe({
+        next: () => {
+          localStorage.removeItem('token');
+          this._snackBar.open("Your account has been deleted.", "Hide", { duration: 3000 });
+          this.router.navigate(['/login']);
+        },
+        error: () => {
+          this._snackBar.open("Error. Could not delete account.", "Hide", { duration: 3000 });
+        }
+      });
+    }
+  }
+
   // Snackbars
   private _snackBar = inject(MatSnackBar);
 
