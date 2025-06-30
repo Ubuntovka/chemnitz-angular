@@ -1,25 +1,35 @@
 .main-layout-container {
-  display: flex;
-  height: 91dvh;
+  display: block;
+  height: calc(100dvh - 76px);
+}
+
+.searchbar,
+.map {
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+}
+
+.searchbar {
+  width: 27%;
+}
+
+.map {
+  width: 73%;
 }
 
 @media screen and (max-width: 600px) {
 
-  .main-layout-container {
-    display: flex;
-    flex-direction: column; /* Stack vertically */
-    height: 100vh; /* Or 91dvh, depending on what you want */
-    position: relative;
-  }
-
   .searchbar {
     position: absolute;
-    z-index: 11;
+    z-index: 1002;
+    width: 100%;
+    height: calc(100dvh - 76px);
+    pointer-events: none;
   }
 
   .map {
-    position: absolute;
-    z-index: 10;
+    width: 100%;
   }
 
 }

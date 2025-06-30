@@ -1,52 +1,53 @@
 
-<mat-form-field class="searchbar-form" appearance="outline" subscriptSizing="dynamic">
-  <mat-label>Search ...</mat-label>
-  <mat-icon matPrefix aria-label="Search icon">search</mat-icon>
-  <input matInput
-         type="text"
-         [(ngModel)]="searchTerm"
-         (keyup)="locationsBySearch()"
-  >
-</mat-form-field>
+<div class="sidebar">
+  <div class="sidebar-row-bg"></div>
 
-<mat-icon class="filter-button" matPrefix aria-label="Search icon"
-           (click)="setActiveClass()">tune</mat-icon>
+  <div class="searchbar-form">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Search ...</mat-label>
+      <mat-icon matPrefix aria-label="Search icon">search</mat-icon>
+      <input matInput
+             type="text"
+             [(ngModel)]="searchTerm"
+             (keyup)="locationsBySearch()"
+      >
+    </mat-form-field>
+  </div>
 
-<div [ngClass]="listForMobileClass">
-<div [ngClass]="filterLocationsClass">
-  <mat-chip-set aria-label="Types of locations">
-    <mat-chip class="filter-filters" (click)="locationsByFilter('museum')" [highlighted]="activeFilter.includes('museum')">
-      <mat-icon matChipAvatar aria-label="Museum icon" style="color: #148c56">museum</mat-icon>
-      Museum
-    </mat-chip>
-    <mat-chip class="filter-filters" (click)="locationsByFilter('theatre')" [highlighted]="activeFilter.includes('theatre')">
-      <mat-icon matChipAvatar aria-label="Theatre icon" style="color: #148c56">theater_comedy</mat-icon>
-      Theater
-    </mat-chip>
-    <mat-chip  class="filter-filters"(click)="locationsByFilter('restaurant')" [highlighted]="activeFilter.includes('restaurant')">
-      <mat-icon matChipAvatar aria-label="Restaurant icon" style="color: #277fca">restaurant</mat-icon>
-      Restaurant
-    </mat-chip>
-    <mat-chip class="filter-filters" (click)="locationsByFilter('hotel')" [highlighted]="activeFilter.includes('hotel')">
-      <mat-icon matChipAvatar aria-label="Hotel icon" style="color: #277fca">hotel</mat-icon>
-      Hotel
-    </mat-chip>
-    <mat-chip class="filter-filters" (click)="locationsByFilter('artwork')" [highlighted]="activeFilter.includes('artwork')">
-      <mat-icon matChipAvatar aria-label="Brush icon" style="color: #bc614d">brush</mat-icon>
-      Artwork
-    </mat-chip>
-    <mat-chip class="filter-filters" (click)="locationsByFilter('heritage')" [highlighted]="activeFilter.includes('heritage')">
-      <mat-icon matChipAvatar aria-label="Local see icon" style="color: #bc614d">local_see</mat-icon>
-      Heritage Site
-    </mat-chip>
-  </mat-chip-set>
-</div>
+  <button class="filter-button" matPrefix aria-label="Search icon" mat-icon-button (click)="setActiveClass()"><mat-icon>tune</mat-icon></button>
+
+  <div [ngClass]="[filterLocationsClass, listForMobileClass]">
+    <mat-chip-set aria-label="Types of locations">
+      <mat-chip class="filter-filters" (click)="locationsByFilter('museum')" [highlighted]="activeFilter.includes('museum')">
+        <mat-icon matChipAvatar aria-label="Museum icon" style="color: #148c56">museum</mat-icon>
+        Museum
+      </mat-chip>
+      <mat-chip class="filter-filters" (click)="locationsByFilter('theatre')" [highlighted]="activeFilter.includes('theatre')">
+        <mat-icon matChipAvatar aria-label="Theatre icon" style="color: #148c56">theater_comedy</mat-icon>
+        Theater
+      </mat-chip>
+      <mat-chip  class="filter-filters"(click)="locationsByFilter('restaurant')" [highlighted]="activeFilter.includes('restaurant')">
+        <mat-icon matChipAvatar aria-label="Restaurant icon" style="color: #277fca">restaurant</mat-icon>
+        Restaurant
+      </mat-chip>
+      <mat-chip class="filter-filters" (click)="locationsByFilter('hotel')" [highlighted]="activeFilter.includes('hotel')">
+        <mat-icon matChipAvatar aria-label="Hotel icon" style="color: #277fca">hotel</mat-icon>
+        Hotel
+      </mat-chip>
+      <mat-chip class="filter-filters" (click)="locationsByFilter('artwork')" [highlighted]="activeFilter.includes('artwork')">
+        <mat-icon matChipAvatar aria-label="Brush icon" style="color: #bc614d">brush</mat-icon>
+        Artwork
+      </mat-chip>
+      <mat-chip class="filter-filters" (click)="locationsByFilter('heritage')" [highlighted]="activeFilter.includes('heritage')">
+        <mat-icon matChipAvatar aria-label="Local see icon" style="color: #bc614d">local_see</mat-icon>
+        Heritage Site
+      </mat-chip>
+    </mat-chip-set>
+  </div>
 
 
-<div [ngClass]="locationsListClass">
-  <ul class="ul">
-    @for (e of filteredLocations; track e)
-    {
+  <ul [ngClass]="[locationsListClass, listForMobileClass]">
+    @for (e of filteredLocations; track e) {
       <li class="li" (click)="select(e._id)">
         <div class="li-content">
           <div class="name">
@@ -76,6 +77,6 @@
       </li>
     }
   </ul>
-</div>
+
 
 </div>

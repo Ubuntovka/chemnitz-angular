@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../../services/api.service';
-import * as L from 'leaflet';
 import {MapService} from '../../services/map.service';
 import {FormsModule} from '@angular/forms';
 import {MatFormField, MatInput, MatInputModule} from '@angular/material/input';
@@ -10,6 +9,7 @@ import {NgClass, NgIf} from '@angular/common';
 import {MatChipsModule} from '@angular/material/chips';
 import {FilterLocationsService} from '../../services/filter-locations.service';
 import {MapListService} from '../../services/map-list.service';
+import {MatIconButton} from '@angular/material/button';
 
 
 @Component({
@@ -24,6 +24,7 @@ import {MapListService} from '../../services/map-list.service';
     NgClass,
     MatChipsModule,
     NgIf,
+    MatIconButton,
   ],
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.css',
@@ -97,7 +98,7 @@ export class SearchbarComponent implements OnInit {
     if (this.filterLocationsClass == 'filter-locations') {
       this.filterLocationsClass = 'filter-locations active';
       this.locationsListClass = 'locations-list active';
-      this.listForMobileClass = 'search-page active';
+      this.listForMobileClass = 'search-page mobile-active';
     } else {
       this.filterLocationsClass = 'filter-locations';
       this.locationsListClass = 'locations-list';
@@ -106,8 +107,8 @@ export class SearchbarComponent implements OnInit {
   }
 
   setActiveMobileClass() {
-    if (this.listForMobileClass == 'search-page'){
-      this.listForMobileClass = 'search-page active';
+    if (this.searchTerm.length > 0 && this.filteredLocations.length > 0) {
+      this.listForMobileClass = 'search-page mobile-active';
     } else {
       this.listForMobileClass = 'search-page';
     }
