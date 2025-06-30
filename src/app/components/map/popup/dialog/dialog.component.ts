@@ -1,4 +1,4 @@
-import {Component, createComponent, Inject, Input, OnInit} from '@angular/core';
+import {Component, createComponent, inject, Inject, Input, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
@@ -18,6 +18,8 @@ import {MatFormField} from '@angular/material/input';
 import {RouterLink} from '@angular/router';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog',
@@ -48,7 +50,9 @@ export class DialogComponent implements OnInit {
     comment: this.comment,
   });
 
-  constructor(@Inject(MAT_DIALOG_DATA) public location: any, protected apiService: ApiService ) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public location: any,
+              protected apiService: ApiService,
+              protected dialogRef: MatDialogRef<DialogComponent>) { }
   ngOnInit() {
   }
 
@@ -64,13 +68,18 @@ export class DialogComponent implements OnInit {
       const commentValue = this.comment.value ?? undefined;
       this.apiService.addReview(this.rating, commentValue, this.location._id).subscribe({
         next: (response) => {
-          console.log(response);
+          this._snackBar.open("Your review has been saved.", "Hide", { duration: 3000 });
+          this.dialogRef.close();
         },
         error: (err) => {
-          console.log(err);
+          this._snackBar.open("Something went wrong...", "Hide", { duration: 3000 });
+          this.dialogRef.close();
         },
       });
     }
   }
+
+  // Snackbars
+  private _snackBar = inject(MatSnackBar);
 
 }

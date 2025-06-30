@@ -18,7 +18,7 @@ location.properties?.description || location.properties?.tourism || location.pro
       Submit
     </button>
 
-    <button class="cancel-button" mat-button="outlined" type="button" routerLink="/">
+    <button class="cancel-button" mat-button="outlined" type="button" (click)="this.dialogRef.close();">
       Cancel
     </button>
   </form>
