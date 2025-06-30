@@ -120,4 +120,9 @@ export class ApiService {
     return this.http.get(this.apiUrl + '/api/users/ranking/users');
   }
 
+  addReview(rating: number, comment: string | undefined, locationId: string) : Observable<any> {
+    const body = {rating: rating, comment: comment, locationId: locationId};
+    return this.http.post(this.apiUrl + "/reviews/add", body, {});
+  }
+
 }
