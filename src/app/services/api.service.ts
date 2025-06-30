@@ -74,6 +74,10 @@ export class ApiService {
     return this.http.patch(this.apiUrl + '/api/users/update', body, {});
   }
 
+  deleteUser(): Observable<any> {
+    return this.http.delete(this.apiUrl + '/api/users/delete', {});
+  }
+
   addFavorite(locationId: string) {
     const body = {location: locationId}
     return this.http.post(this.apiUrl + "/api/users/favorite/add", body, {headers: {Accept: 'application/json'}});
