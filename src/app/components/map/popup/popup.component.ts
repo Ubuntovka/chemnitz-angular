@@ -1,13 +1,17 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {ApiService} from '../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MapService} from '../../../services/map.service';
 import { getDistance } from 'geolib';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import {DialogComponent} from './dialog/dialog.component';
 
 @Component({
   selector: 'app-popup',
   imports: [
+    MatButtonModule, MatDialogModule
   ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'
@@ -110,4 +114,18 @@ export class PopupComponent {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   }
+
+  readonly dialog = inject(MatDialog);
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data:
+        this.location
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }

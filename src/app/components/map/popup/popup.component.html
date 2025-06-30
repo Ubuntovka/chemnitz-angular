@@ -17,8 +17,12 @@
       <button (click)="toggleFavourite()">{{isFavorite ? '❌ Remove from Favorites' : '⭐ Add to Favorites'}}</button>
     </div>
     <div class="popup-actions">
-      <button (click)="toggleVisited()">{{isVisited ? 'Visited' : 'Add to Visited'}}</button>
+      <button (click)="toggleVisited()">{{isVisited ? '📍✅ Visited' : '📍 Add to Visited'}}</button>
     </div>
+    <div class="popup-actions">
+      <button (click)="openDialog()">💬⭐ Leave review</button>
+    </div>
+
     <div class="popup-body">
       <h2>Other information:</h2>
       <div>
