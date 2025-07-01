@@ -8,6 +8,10 @@
   cursor: pointer;
 }
 
+.star-rating.commented {
+  cursor: default;
+}
+
 mat-icon {
   font-size: 32px;
   color: gray;

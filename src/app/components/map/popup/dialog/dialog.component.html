@@ -1,31 +1,59 @@
-<h2 mat-dialog-title> {{location.properties?.name || location.properties?.artwork_type ||
-location.properties?.description || location.properties?.tourism || location.properties?.amenity || 'Unknown Location'}} </h2>
+<h2 mat-dialog-title> {{
+    location.properties?.name || location.properties?.artwork_type ||
+    location.properties?.description || location.properties?.tourism || location.properties?.amenity || 'Unknown Location'
+  }} </h2>
 
 <mat-dialog-content class="mat-typography">
-  <div class="star-rating">
+
+  @if (!isCommented){
+
+    <div class="star-rating">
+      <mat-icon
+        *ngFor="let star of stars; let i = index"
+        (click)="rate(i + 1)"
+        [ngClass]="{ filled: i < rating }"
+      >star
+      </mat-icon>
+    </div>
+
+    <form class="example-form" [formGroup]="reviewForm" (ngSubmit)="addReview()">
+      <mat-form-field class="example-full-width">
+        <mat-label>Leave a comment</mat-label>
+        <textarea matInput placeholder="" formControlName="comment"></textarea>
+      </mat-form-field>
+
+      <button class="sign-in-button" mat-button="outlined" type="submit" aria-label="Show an example snack-bar">
+        Submit
+      </button>
+      <button class="cancel-button" mat-button="outlined" type="button" (click)="this.dialogRef.close();">
+        Cancel
+      </button>
+    </form>
+  } @else {
+    <p>You have already commented on this location.</p>
+    <p>Your review:</p>
+    <div class="star-rating commented">
     <mat-icon
       *ngFor="let star of stars; let i = index"
-      (click)="rate(i + 1)"
-      [ngClass]="{ filled: i < rating }"
-    >star</mat-icon>
-  </div>
-  <form class="example-form" [formGroup]="reviewForm" (ngSubmit)="addReview()">
-    <mat-form-field class="example-full-width">
-      <mat-label>Leave a comment</mat-label>
-      <textarea matInput placeholder="" formControlName="comment"></textarea>
-    </mat-form-field>
-    <button class="sign-in-button" mat-button="outlined" type="submit" aria-label="Show an example snack-bar">
-      Submit
-    </button>
+      [ngClass]="{ filled: i < this.review.rating}"
+    >star
+    </mat-icon>
+    </div>
+    @if(this.review.comment && this.review.comment !== "") {
+      <p>Comment: {{this.review.comment}}</p>
+    } @else {
+      <p>You have not left any comment</p>
+    }
 
-    <button class="cancel-button" mat-button="outlined" type="button" (click)="this.dialogRef.close();">
-      Cancel
-    </button>
-  </form>
+
+  }
+
+
+
 
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-<!--  <button mat-button mat-dialog-close>Cancel</button>-->
-<!--  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Publish</button>-->
+  <!--  <button mat-button mat-dialog-close>Cancel</button>-->
+  <!--  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Publish</button>-->
 </mat-dialog-actions>

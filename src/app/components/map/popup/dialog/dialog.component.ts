@@ -21,6 +21,14 @@ import {ApiService} from '../../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 
+
+interface Review {
+  comment: string;
+  rating: number;
+  location?: { _id: string };
+  user: { _id: string };
+}
+
 @Component({
   selector: 'app-dialog',
   imports: [
@@ -43,6 +51,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrl: './dialog.component.css'
 })
 export class DialogComponent implements OnInit {
+  isCommented: boolean = false;
+  review: any = {};
 
   readonly comment = new FormControl('', []);
 
@@ -54,6 +64,7 @@ export class DialogComponent implements OnInit {
               protected apiService: ApiService,
               protected dialogRef: MatDialogRef<DialogComponent>) { }
   ngOnInit() {
+    this.checkIfCommented();
   }
 
   rating: number = 0;
@@ -78,6 +89,18 @@ export class DialogComponent implements OnInit {
       });
     }
   }
+
+  checkIfCommented() {
+    this.apiService.getUserReviews().subscribe((reviews: any) => {
+      for (const review of reviews) {
+        if (review.location === this.location._id) {
+          this.isCommented = true;
+          this.review = review;
+        }
+      }
+    });
+  }
+
 
   // Snackbars
   private _snackBar = inject(MatSnackBar);

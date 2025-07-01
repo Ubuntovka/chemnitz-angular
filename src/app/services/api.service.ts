@@ -6,6 +6,13 @@ interface LoginResponse {
   token: string;
 }
 
+interface Review {
+  location?: { _id: string };
+  user: { _id: string };
+  comment: string;
+  rating: number;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -124,5 +131,10 @@ export class ApiService {
     const body = {rating: rating, comment: comment, locationId: locationId};
     return this.http.post(this.apiUrl + "/reviews/add", body, {});
   }
+
+  getUserReviews() {
+    return this.http.get<Review[]>(this.apiUrl + '/reviews/user');
+  }
+
 
 }
