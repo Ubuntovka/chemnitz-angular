@@ -118,14 +118,21 @@ export class PopupComponent {
   readonly dialog = inject(MatDialog);
 
   openDialog() {
+    if (!this.isVisited){
+      this._snackBar.open("To be able to leave a review you need to visit the location first.",
+        "Hide", { duration: 10000 });
+      return;
+    }
     const dialogRef = this.dialog.open(DialogComponent, {
-      data:
-        this.location
+      data: this.location
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  // Snackbars
+  private _snackBar = inject(MatSnackBar);
 
 }

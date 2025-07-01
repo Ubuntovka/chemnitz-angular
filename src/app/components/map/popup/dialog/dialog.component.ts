@@ -43,7 +43,6 @@ interface Review {
     MatFormField,
     MatInputModule,
     MatFormFieldModule,
-    RouterLink,
     FormsModule,
     ReactiveFormsModule,
   ],
