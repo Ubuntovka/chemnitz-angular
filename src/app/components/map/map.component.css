@@ -17,7 +17,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 1001; /* Must be greater than the map */
+  z-index: 101; /* Must be greater than the map */
   background-color: transparent; /* optional for visibility */
   padding: 6px;
   border-radius: 4px;

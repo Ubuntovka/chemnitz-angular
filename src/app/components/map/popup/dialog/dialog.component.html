@@ -1,0 +1,53 @@
+<h2 mat-dialog-title> {{
+    location.properties?.name || location.properties?.artwork_type ||
+    location.properties?.description || location.properties?.tourism || location.properties?.amenity || 'Unknown Location'
+  }} </h2>
+
+<mat-dialog-content class="mat-typography">
+
+  @if (!isCommented) {
+
+    <div class="star-rating">
+      <mat-icon
+        *ngFor="let star of stars; let i = index"
+        (click)="rate(i + 1)"
+        [ngClass]="{ filled: i < rating }"
+      >star
+      </mat-icon>
+    </div>
+
+    <form class="review-form" [formGroup]="reviewForm" (ngSubmit)="addReview()">
+      <mat-form-field class="form-full-width">
+        <mat-label>Leave a comment</mat-label>
+        <textarea matInput placeholder="" formControlName="comment"></textarea>
+      </mat-form-field>
+
+      <button class="sign-in-button" mat-button="outlined" type="submit" aria-label="Show an example snack-bar">
+        Submit
+      </button>
+      <button class="cancel-button" mat-button="outlined" type="button" (click)="this.dialogRef.close();">
+        Cancel
+      </button>
+    </form>
+  } @else {
+    <p style="font-weight: bold">Your review:</p>
+    <div class="star-rating commented">
+      <mat-icon
+        *ngFor="let star of stars; let i = index"
+        [ngClass]="{ filled: i < this.review.rating}"
+      >star
+      </mat-icon>
+    </div>
+    <div class="reviewed-comment">
+      @if (this.review.comment && this.review.comment !== "") {
+        <p>“{{ this.review.comment }}”</p>
+      } @else {
+        <p>You have not left any comment</p>
+      }
+    </div>
+
+    <button class="cancel-button" mat-button="outlined" type="button" (click)="this.dialogRef.close();">
+      Close
+    </button>
+  }
+</mat-dialog-content>
