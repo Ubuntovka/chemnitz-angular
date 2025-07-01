@@ -9,6 +9,14 @@
           location.properties?.tourism || location.properties?.amenity ||
           location.properties?.tourism_1
         }}</span>
+      @if (this.reviews) {
+        <div class="reviews-container">
+          <div class="rating">
+            <div class="rating-number">{{ averageRating | number:'1.1-1'}}</div>
+            <mat-icon>star</mat-icon>
+          </div>
+        </div>
+      }
     </div>
     <div class="popup-body">
       <span>Phone number: {{ location.properties?.phone || "-//-" }}</span>
@@ -37,7 +45,23 @@
         }
       </div>
     </div>
+
+  @if (this.reviews) {
+    <p style="font-weight: bold">Comments:</p>
+
+    <div class="reviews-list">
+      @for (review of this.comments; track review) {
+        @if(review !== ""){
+          <div class="comment-card">
+            <span class="quote">“</span>{{ review }}<span class="quote">”</span>
+          </div>
+        }
+      }
+    </div>
+
+  }
   </div>
+
 } @else {
   <b>Nothing here</b>
 }

@@ -6,11 +6,13 @@ interface LoginResponse {
   token: string;
 }
 
-interface Review {
+export interface Review {
+  _id?: string;
   location?: { _id: string };
   user: { _id: string };
   comment: string;
   rating: number;
+  createdAt?: Date;
 }
 
 
@@ -134,6 +136,15 @@ export class ApiService {
 
   getUserReviews() {
     return this.http.get<Review[]>(this.apiUrl + '/reviews/user');
+  }
+
+  // getReviewsByLocation(locationId: string): Observable<any> {
+  //   const body = {locationId: locationId};
+  //   return this.http.get(this.apiUrl + "/reviews/location", body, {headers: {Accept: 'application/json'}});
+  // }
+
+  getReviewsByLocation(locationId: string): Observable<Review[]> {
+    return this.http.get<Review[]>(this.apiUrl + "/reviews/location/" + locationId);
   }
 
 
