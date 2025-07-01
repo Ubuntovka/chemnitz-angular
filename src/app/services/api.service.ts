@@ -68,7 +68,7 @@ export class ApiService {
       Authorization: `Bearer ${this.getToken()}`
     };
 
-    return this.http.get(this.apiUrl + '/api/users/me', { headers });
+    return this.http.get(this.apiUrl + '/api/users/me', {headers});
   }
 
   updateUser(oldPassword: string | undefined, name: string | undefined, email: string | undefined, password: string | undefined): Observable<any> {
@@ -127,7 +127,7 @@ export class ApiService {
     return this.http.get(this.apiUrl + '/api/users/ranking/users');
   }
 
-  addReview(rating: number, comment: string | undefined, locationId: string) : Observable<any> {
+  addReview(rating: number, comment: string | undefined, locationId: string): Observable<any> {
     const body = {rating: rating, comment: comment, locationId: locationId};
     return this.http.post(this.apiUrl + "/reviews/add", body, {});
   }

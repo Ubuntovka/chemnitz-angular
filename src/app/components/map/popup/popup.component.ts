@@ -2,10 +2,9 @@ import {Component, inject, Input, OnInit} from '@angular/core';
 import {ApiService} from '../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MapService} from '../../../services/map.service';
-import { getDistance } from 'geolib';
+import {getDistance} from 'geolib';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import {DialogComponent} from './dialog/dialog.component';
 
 @Component({
@@ -27,7 +26,8 @@ export class PopupComponent {
     private apiService: ApiService,
     private snackBar: MatSnackBar,
     private mapService: MapService
-  ) {}
+  ) {
+  }
 
   toggleFavourite() {
     if (this.isFavorite) {
@@ -40,30 +40,22 @@ export class PopupComponent {
   toggleVisited() {
     if (this.isVisited) {
       this.popupVisitedClass = 'popup-action-visited'
-      } else {
+    } else {
       const [lng, lat] = this.location.geometry?.coordinates || [];
       const distance = getDistance(
-        { latitude: this.latLng.lat, longitude: this.latLng.lng },
-        { latitude: lat, longitude: lng }
+        {latitude: this.latLng.lat, longitude: this.latLng.lng},
+        {latitude: lat, longitude: lng}
       );
       if (distance < 150) {
         this.apiService.addVisited(this.location._id).subscribe({
           next: () => {
             this.isVisited = true;
             this.mapService.addVisited(this.location._id); // notify the map
-            // this.apiService.increaseRanking(1);
 
             this.apiService.increaseRanking(1).subscribe({
               next: () => {
-                // this.apiService.getRanking().subscribe({
-                //   next: (res) => {
-                //     console.log("Updated ranking:", res.ranking);
-                //     this.snackBar.open(`Location visited! Your new ranking is ${res.ranking}.`, "Hide");
-                //   }
-                // });
               },
               error: (err) => {
-                console.error(err);
                 this.snackBar.open("Error increasing ranking", "Hide");
               }
             });
@@ -71,7 +63,6 @@ export class PopupComponent {
             this.snackBar.open("Great job! You’ve marked this location as visited.", "Hide");
           },
           error: (err) => {
-            console.error(err);
             this.snackBar.open("Something went wrong :(", "Hide");
           }
         });
@@ -93,14 +84,13 @@ export class PopupComponent {
         }
       },
       error: (err: any) => {
-        console.log(err);
         this.snackBar.open("You need to be registered to use this functionality.", "Hide")
       }
     };
   }
 
-  getProperties(): {title: string, value: any}[] {
-    let result: {title: string, value: any}[] = [];
+  getProperties(): { title: string, value: any }[] {
+    let result: { title: string, value: any }[] = [];
     for (let property in this.location.properties) {
       result.push({title: this.getPropertyTitle(property), value: this.location.properties[property]});
     }
@@ -118,9 +108,9 @@ export class PopupComponent {
   readonly dialog = inject(MatDialog);
 
   openDialog() {
-    if (!this.isVisited){
+    if (!this.isVisited) {
       this._snackBar.open("To be able to leave a review you need to visit the location first.",
-        "Hide", { duration: 10000 });
+        "Hide", {duration: 10000});
       return;
     }
     const dialogRef = this.dialog.open(DialogComponent, {

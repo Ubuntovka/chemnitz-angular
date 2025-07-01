@@ -1,25 +1,21 @@
-import {Component, createComponent, inject, Inject, Input, OnInit} from '@angular/core';
+import {Component, inject, Inject, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
-  // MatDialog,
   MatDialogActions,
-  // MatDialogClose,
   MatDialogContent,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {PopupComponent} from '../popup.component';
 import {MatIcon} from '@angular/material/icon';
 import {NgClass} from '@angular/common';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatFormField} from '@angular/material/input';
-import {RouterLink} from '@angular/router';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { MatDialogRef } from '@angular/material/dialog';
+import {MatDialogRef} from '@angular/material/dialog';
 
 
 interface Review {
@@ -33,8 +29,6 @@ interface Review {
   selector: 'app-dialog',
   imports: [
     MatButton,
-    MatDialogActions,
-    // MatDialogClose,
     MatDialogContent,
     MatDialogTitle,
     MatIcon,
@@ -61,7 +55,9 @@ export class DialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public location: any,
               protected apiService: ApiService,
-              protected dialogRef: MatDialogRef<DialogComponent>) { }
+              protected dialogRef: MatDialogRef<DialogComponent>) {
+  }
+
   ngOnInit() {
     this.checkIfCommented();
   }
@@ -96,12 +92,12 @@ export class DialogComponent implements OnInit {
             });
           }
 
-          this._snackBar.open("Your review has been saved.", "Hide", { duration: 3000 });
+          this._snackBar.open("Your review has been saved.", "Hide", {duration: 3000});
           this.dialogRef.close();
 
         },
         error: (err) => {
-          this._snackBar.open("Something went wrong...", "Hide", { duration: 3000 });
+          this._snackBar.open("Something went wrong...", "Hide", {duration: 3000});
           this.dialogRef.close();
         },
       });
@@ -118,7 +114,6 @@ export class DialogComponent implements OnInit {
       }
     });
   }
-
 
   // Snackbars
   private _snackBar = inject(MatSnackBar);

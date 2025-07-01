@@ -5,7 +5,7 @@
 
 <mat-dialog-content class="mat-typography">
 
-  @if (!isCommented){
+  @if (!isCommented) {
 
     <div class="star-rating">
       <mat-icon
@@ -32,31 +32,22 @@
   } @else {
     <p style="font-weight: bold">Your review:</p>
     <div class="star-rating commented">
-    <mat-icon
-      *ngFor="let star of stars; let i = index"
-      [ngClass]="{ filled: i < this.review.rating}"
-    >star
-    </mat-icon>
+      <mat-icon
+        *ngFor="let star of stars; let i = index"
+        [ngClass]="{ filled: i < this.review.rating}"
+      >star
+      </mat-icon>
     </div>
     <div class="reviewed-comment">
-    @if(this.review.comment && this.review.comment !== "") {
-      <p>“{{this.review.comment}}”</p>
-    } @else {
-      <p>You have not left any comment</p>
-    }
+      @if (this.review.comment && this.review.comment !== "") {
+        <p>“{{ this.review.comment }}”</p>
+      } @else {
+        <p>You have not left any comment</p>
+      }
     </div>
 
     <button class="cancel-button" mat-button="outlined" type="button" (click)="this.dialogRef.close();">
       Close
     </button>
-
-
   }
-
-
 </mat-dialog-content>
-
-<!--<mat-dialog-actions align="end">-->
-<!--  &lt;!&ndash;  <button mat-button mat-dialog-close>Cancel</button>&ndash;&gt;-->
-<!--  &lt;!&ndash;  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Publish</button>&ndash;&gt;-->
-<!--</mat-dialog-actions>-->
