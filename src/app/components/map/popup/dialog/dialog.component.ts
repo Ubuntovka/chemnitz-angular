@@ -78,8 +78,27 @@ export class DialogComponent implements OnInit {
       const commentValue = this.comment.value ?? undefined;
       this.apiService.addReview(this.rating, commentValue, this.location._id).subscribe({
         next: (response) => {
+          if (commentValue === undefined || commentValue === "") {
+            this.apiService.increaseRanking(1).subscribe({
+              next: () => {
+              },
+              error: (err) => {
+                this._snackBar.open("Error increasing ranking", "Hide");
+              }
+            });
+          } else {
+            this.apiService.increaseRanking(3).subscribe({
+              next: () => {
+              },
+              error: (err) => {
+                this._snackBar.open("Error increasing ranking", "Hide");
+              }
+            });
+          }
+
           this._snackBar.open("Your review has been saved.", "Hide", { duration: 3000 });
           this.dialogRef.close();
+
         },
         error: (err) => {
           this._snackBar.open("Something went wrong...", "Hide", { duration: 3000 });
