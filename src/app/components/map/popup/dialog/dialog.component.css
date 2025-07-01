@@ -1,11 +1,11 @@
 .mat-typography {
-  margin: 50px auto;
 }
 
 .star-rating {
   display: flex;
-  gap: 5px;
   cursor: pointer;
+  padding-bottom: 30px;
+  padding-top: 40px;
 }
 
 .star-rating.commented {
@@ -13,7 +13,7 @@
 }
 
 mat-icon {
-  font-size: 32px;
+  font-size: 40px;
   color: gray;
   transition: color 0.2s;
   width: 100%;
@@ -26,13 +26,13 @@ mat-icon.filled {
   color: gold;
 }
 
-.example-form {
+.review-form {
   min-width: 150px;
   max-width: 500px;
   width: 100%;
 }
 
-.example-full-width {
+.form-full-width {
   width: 100%;
 }
 

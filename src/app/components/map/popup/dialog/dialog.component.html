@@ -16,8 +16,8 @@
       </mat-icon>
     </div>
 
-    <form class="example-form" [formGroup]="reviewForm" (ngSubmit)="addReview()">
-      <mat-form-field class="example-full-width">
+    <form class="review-form" [formGroup]="reviewForm" (ngSubmit)="addReview()">
+      <mat-form-field class="form-full-width">
         <mat-label>Leave a comment</mat-label>
         <textarea matInput placeholder="" formControlName="comment"></textarea>
       </mat-form-field>
@@ -49,11 +49,9 @@
   }
 
 
-
-
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <!--  <button mat-button mat-dialog-close>Cancel</button>-->
-  <!--  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Publish</button>-->
-</mat-dialog-actions>
+<!--<mat-dialog-actions align="end">-->
+<!--  &lt;!&ndash;  <button mat-button mat-dialog-close>Cancel</button>&ndash;&gt;-->
+<!--  &lt;!&ndash;  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Publish</button>&ndash;&gt;-->
+<!--</mat-dialog-actions>-->
