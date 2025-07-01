@@ -5,11 +5,12 @@
   display: flex;
   cursor: pointer;
   padding-bottom: 30px;
-  padding-top: 40px;
+  /*padding-top: 40px;*/
 }
 
 .star-rating.commented {
   cursor: default;
+  padding: 0;
 }
 
 mat-icon {
@@ -36,3 +37,10 @@ mat-icon.filled {
   width: 100%;
 }
 
+::ng-deep h2[mat-dialog-title] {
+  padding-bottom: 50px;
+}
+
+.reviewed-comment {
+  padding-bottom: 20px;
+}

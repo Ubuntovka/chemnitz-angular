@@ -30,8 +30,7 @@
       </button>
     </form>
   } @else {
-    <p>You have already commented on this location.</p>
-    <p>Your review:</p>
+    <p style="font-weight: bold">Your review:</p>
     <div class="star-rating commented">
     <mat-icon
       *ngFor="let star of stars; let i = index"
@@ -39,11 +38,17 @@
     >star
     </mat-icon>
     </div>
+    <div class="reviewed-comment">
     @if(this.review.comment && this.review.comment !== "") {
-      <p>Comment: {{this.review.comment}}</p>
+      <p>“{{this.review.comment}}”</p>
     } @else {
       <p>You have not left any comment</p>
     }
+    </div>
+
+    <button class="cancel-button" mat-button="outlined" type="button" (click)="this.dialogRef.close();">
+      Close
+    </button>
 
 
   }
