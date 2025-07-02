@@ -63,7 +63,7 @@ export class SearchbarComponent implements OnInit {
       this.filteredByChipsLocations = data;
     });
 
-    if (this.apiService.isLoggedIn()){
+    if (this.apiService.isLoggedIn()) {
       this.apiService.favorites().subscribe({
         next: (favorites: any) => {
           this.favoriteLocations = favorites;
@@ -113,7 +113,6 @@ export class SearchbarComponent implements OnInit {
       this.listForMobileClass = 'search-page';
     }
   }
-
 
 
 }

@@ -1,32 +1,46 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
-import {ApiService} from '../../../services/api.service';
+import {ApiService, Review} from '../../../services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MapService} from '../../../services/map.service';
 import {getDistance} from 'geolib';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {DialogComponent} from './dialog/dialog.component';
+import {MatIcon} from '@angular/material/icon';
+import {CommonModule} from '@angular/common';
+import {ChangeDetectorRef} from '@angular/core';
 
 @Component({
   selector: 'app-popup',
   imports: [
-    MatButtonModule, MatDialogModule
+    MatButtonModule,
+    MatDialogModule,
+    MatIcon,
+    CommonModule,
   ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'
 })
-export class PopupComponent {
+export class PopupComponent implements OnInit {
   @Input() location: any;
   @Input() isFavorite: boolean = false;
   @Input() latLng: any;
   @Input() isVisited: boolean = false;
   popupVisitedClass: string = 'popup-action'
+  reviews: Review[] = [];
+  averageRating: number = 0;
+  comments: string[] = [];
 
   constructor(
     private apiService: ApiService,
     private snackBar: MatSnackBar,
-    private mapService: MapService
+    private mapService: MapService,
+    private cdRef: ChangeDetectorRef
   ) {
+  }
+
+  ngOnInit() {
+    this.loadReviewsByLocation(this.location._id)
   }
 
   toggleFavourite() {
@@ -119,6 +133,25 @@ export class PopupComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  loadReviewsByLocation(locationId: string): void {
+    this.apiService.getReviewsByLocation(locationId).subscribe((data) => {
+      this.reviews = data;
+
+      if (this.reviews.length > 0) {
+        const total = this.reviews.reduce((sum, review) => sum + review.rating, 0);
+        this.averageRating = total / this.reviews.length;
+
+        this.comments = this.reviews
+          .filter((review) => review.comment)
+          .map((review) => review.comment);
+
+        this.cdRef.detectChanges();
+        console.log("avr rating func" + this.averageRating);
+      }
+
     });
   }
 

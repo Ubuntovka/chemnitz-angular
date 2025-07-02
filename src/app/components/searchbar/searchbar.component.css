@@ -6,8 +6,8 @@
     "list list";
 
   grid-template-columns: calc(100% - 46px) 46px;
-  grid-template-rows: 76px auto 1fr;  /* Adjust 50px as needed */
-  height: 100%; /* or 100vh if sidebar is fullscreen */
+  grid-template-rows: 76px auto 1fr;
+  height: 100%;
 }
 
 .sidebar-row-bg {

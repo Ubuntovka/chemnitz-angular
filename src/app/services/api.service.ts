@@ -1,16 +1,25 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
+import {jwtDecode} from 'jwt-decode';
+
+interface JwtPayload {
+  exp: number;
+  [key: string]: any;
+}
+
 
 interface LoginResponse {
   token: string;
 }
 
-interface Review {
+export interface Review {
+  _id?: string;
   location?: { _id: string };
   user: { _id: string };
   comment: string;
   rating: number;
+  createdAt?: Date;
 }
 
 
@@ -18,7 +27,7 @@ interface Review {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://192.168.0.180:3000';
+  private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {
   }
@@ -46,7 +55,7 @@ export class ApiService {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<LoginResponse>(this.apiUrl + '/api/users/login', body, {headers}).pipe(
       tap(response => {
-        localStorage.setItem('token', response.token); // Store token
+        localStorage.setItem('token', response.token);
       })
     );
   }
@@ -56,11 +65,34 @@ export class ApiService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired();
   }
 
   logout(): Observable<any> {
     return this.http.post(this.apiUrl + '/api/users/logout', {});
+  }
+
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+
+    try {
+      const decoded: JwtPayload = jwtDecode(token);
+      const now = Date.now();
+      return decoded.exp * 1000 < now;
+    } catch (e) {
+      return true;
+    }
+  }
+
+  checkTokenOnStartup(): void {
+    if (this.isTokenExpired()) {
+      localStorage.removeItem('token');
+      console.log('Token expired. Cleared from storage.');
+    } else {
+      console.log('Token is valid.');
+    }
   }
 
   me(): Observable<any> {
@@ -134,6 +166,10 @@ export class ApiService {
 
   getUserReviews() {
     return this.http.get<Review[]>(this.apiUrl + '/reviews/user');
+  }
+
+  getReviewsByLocation(locationId: string): Observable<Review[]> {
+    return this.http.get<Review[]>(this.apiUrl + "/reviews/location/" + locationId);
   }
 
 

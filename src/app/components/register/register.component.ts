@@ -64,18 +64,21 @@ export class RegisterComponent implements OnInit {
   register() {
     this.apiService.registerUser(this.username.value, this.email.value, this.password.value)
       .subscribe({
-        next: (response) => {console.log('Registered successfully', response);
+        next: (response) => {
+          console.log('Registered successfully', response);
           this.successfulSnackBar();
           this.router.navigate(['/login']);
         },
-        error: (err) => {console.error('Registration error', err)
-        this.errorSnackBar();
+        error: (err) => {
+          console.error('Registration error', err)
+          this.errorSnackBar();
         }
       });
   };
 
   // password
   hide = signal(true);
+
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
@@ -105,6 +108,7 @@ export class RegisterComponent implements OnInit {
       duration: 20000
     });
   }
+
   errorSnackBar() {
     this._snackBar.open("Registration error.", "Hide", {
       duration: 5000

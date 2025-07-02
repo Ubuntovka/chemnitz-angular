@@ -12,10 +12,10 @@
         </mat-form-field>
 
         <p class="field-name">Your email:</p>
-          <mat-form-field class="form-field" appearance="outline">
-            <mat-label>{{ user.email }}</mat-label>
-            <input matInput placeholder="Choose a new one" formControlName="email">
-          </mat-form-field>
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>{{ user.email }}</mat-label>
+          <input matInput placeholder="Choose a new one" formControlName="email">
+        </mat-form-field>
 
         <p class="field-name">Your current password:</p>
         <mat-form-field class="form-field" appearance="outline">
@@ -29,7 +29,7 @@
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide()"
           >
-            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
         </mat-form-field>
 
@@ -45,7 +45,7 @@
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide()"
           >
-            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
         </mat-form-field>
 
@@ -60,7 +60,7 @@
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide()"
           >
-            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
         </mat-form-field>
 
@@ -76,7 +76,6 @@
       <button class="delete-button" mat-flat-button (click)="deleteAccount()">
         Delete your account forever
       </button>
-
 
     </div>
   </div>

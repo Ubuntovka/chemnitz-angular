@@ -1,24 +1,61 @@
 @if (location) {
   <div class="popup-card">
     <div class="popup-header">
-      <h4>{{
+      <h2>{{
           location.properties?.name || location.properties?.artwork_type ||
           location.properties?.description || location.properties?.tourism || location.properties?.amenity || 'Unknown Location'
-        }}</h4>
+        }}</h2>
       <span class="popup-subtitle">{{
           location.properties?.tourism || location.properties?.amenity ||
           location.properties?.tourism_1
         }}</span>
+      @if (this.reviews) {
+        <div class="reviews-container">
+          <div class="rating">
+            <div>{{ averageRating | number:'1.1-1' }}</div>
+            <mat-icon>star</mat-icon>
+          </div>
+        </div>
+      }
     </div>
+
     <div class="popup-body">
-      <span>Phone number: {{ location.properties?.phone || "-//-" }}</span>
-      <p>Website: {{ location.properties?.website || "-//-" }}</p>
-      <p>Address: {{
-          location.properties?.['addr:street'] + ' ' + location.properties?.['addr:housenumber'] +
-          ', Chemnitz'
-        }}</p>
-      <p>Opening hours: {{ location.properties?.opening_hours || "-//-" }}</p>
+      @if (location.properties?.phone || location.properties?.['contact:phone']) {
+        <div class="contact-info">
+          <mat-icon>phone</mat-icon>
+          {{ location.properties?.phone || location.properties?.['contact:phone'] }}
+        </div>
+      }
+      @if (location.properties?.website || location.properties?.['contact:website']) {
+        <div class="contact-info">
+          <mat-icon>link</mat-icon>
+          <a target="_blank" rel="noopener noreferrer"
+             href="{{ location.properties?.website || location.properties?.['contact:website'] }}">{{ location.properties?.website || location.properties?.['contact:website'] }}</a>
+        </div>
+      }
+      @if (location.properties?.email || location.properties?.['contact:email']) {
+        <div class="contact-info">
+          <mat-icon>email</mat-icon>
+          {{ location.properties?.email || location.properties?.['contact:email'] }}
+        </div>
+      }
+      @if (location.properties?.['addr:street'] + ' ' + location.properties?.['addr:housenumber']) {
+        <div class="contact-info">
+          <mat-icon>location_on</mat-icon>
+          {{
+            location.properties?.['addr:street'] + ' ' + location.properties?.['addr:housenumber'] +
+            ', Chemnitz'
+          }}
+        </div>
+      }
+      @if (location.properties?.opening_hours) {
+        <div class="contact-info">
+          <mat-icon>schedule</mat-icon>
+          {{ location.properties?.opening_hours || "-//-" }}
+        </div>
+      }
     </div>
+
     <div class="popup-actions">
       <button (click)="toggleFavourite()">{{ isFavorite ? '❌ Remove from Favorites' : '⭐ Add to Favorites' }}</button>
     </div>
@@ -26,7 +63,7 @@
       <button (click)="toggleVisited()">{{ isVisited ? '📍✅ Visited' : '📍 Add to Visited' }}</button>
     </div>
     <div class="popup-actions">
-      <button (click)="openDialog()">💬⭐ Leave a review</button>
+      <button (click)="openDialog()">💬 Leave a review</button>
     </div>
 
     <div class="popup-body">
@@ -37,7 +74,21 @@
         }
       </div>
     </div>
+
+    @if (this.reviews) {
+      <h2>Comments:</h2>
+      <div class="reviews-list">
+        @for (review of this.comments; track review) {
+          @if (review !== "") {
+            <div class="comment-card">
+              <span class="quote">“</span>{{ review }}<span class="quote">”</span>
+            </div>
+          }
+        }
+      </div>
+    }
   </div>
+
 } @else {
   <b>Nothing here</b>
 }
