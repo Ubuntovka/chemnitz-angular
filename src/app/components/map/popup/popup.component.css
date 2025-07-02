@@ -1,7 +1,3 @@
-mat-icon {
-  color: gold;
-}
-
 .reviews-container {
   display: flex;
   align-items: center;
@@ -22,11 +18,25 @@ mat-icon {
   margin-left: 0.1rem;
   vertical-align: middle;
   margin-bottom: 0.1rem;
+  color: gold;
 }
 
 .reviews-list {
   display: flex;
   flex-direction: column;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+.contact-info mat-icon {
+  width: 100%;
+  height: 100%;
+  max-width: 25px;
+  margin-right: 5px;
 }
 
 .comments-title {
