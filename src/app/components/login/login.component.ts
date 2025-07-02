@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  login(){
-    if (this.loginForm.valid){
+  login() {
+    if (this.loginForm.valid) {
       const emailValue = this.email.value;
       const passwordValue = this.password.value;
       this.apiService.loginUser(emailValue, passwordValue)
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
           next: (response) => {
             this.router.navigate(['/']);
             this.successfulSnackBar();
-            },
+          },
           error: (err) => {
             this.errorSnackBar();
           },
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  logout(){
+  logout() {
     this.apiService.logout();
   }
 
@@ -81,6 +81,7 @@ export class LoginComponent implements OnInit {
 
   // password
   hide = signal(true);
+
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
@@ -94,6 +95,7 @@ export class LoginComponent implements OnInit {
       duration: 3000
     });
   }
+
   errorSnackBar() {
     this._snackBar.open("Sign-in error. Check your credentials.", "Hide", {
       duration: 3000

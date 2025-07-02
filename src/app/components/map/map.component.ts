@@ -32,7 +32,6 @@ export class MapComponent implements OnInit, OnDestroy {
   showingVisitedGrey = false;
 
 
-
   private popupComponents: Map<string, ComponentRef<PopupComponent>> = new Map();
 
   yellowIcon: Icon
@@ -47,7 +46,6 @@ export class MapComponent implements OnInit, OnDestroy {
     private injector: EnvironmentInjector,
     private snackBar: MatSnackBar,
     private mapListService: MapListService,
-
   ) {
     this.yellowIcon = this.createIcon('media/marker-icon-yellow.png');
     this.blueIcon = this.createIcon('media/marker-icon-blue.png');
@@ -81,7 +79,6 @@ export class MapComponent implements OnInit, OnDestroy {
         icon = this.iconColor(location);
       }
       this.markers[changeEvent.favoriteId].setIcon(icon);
-      // this.markers[changeEvent.favoriteId].setIcon(changeEvent.isFavorite ? this.redIcon : this.blueIcon)
     });
 
     this.visitedChangeSub = this.mapService.visitedChange.subscribe(visitedEvent => {
@@ -97,17 +94,17 @@ export class MapComponent implements OnInit, OnDestroy {
 
       this.locations.forEach(location => {
         const marker = this.markers[location._id];
-          if (filteredLocations.find(loc => loc._id === location._id)) {
-            console.log("includes layer");
-            if (!this.map!.hasLayer(marker)) {
-              this.map!.addLayer(marker);
-            }
-          } else {
-            console.log("remove layer");
-            if (this.map!.hasLayer(marker)) {
-              this.map!.removeLayer(marker);
-            }
+        if (filteredLocations.find(loc => loc._id === location._id)) {
+          console.log("includes layer");
+          if (!this.map!.hasLayer(marker)) {
+            this.map!.addLayer(marker);
           }
+        } else {
+          console.log("remove layer");
+          if (this.map!.hasLayer(marker)) {
+            this.map!.removeLayer(marker);
+          }
+        }
       });
 
     });
@@ -273,7 +270,7 @@ export class MapComponent implements OnInit, OnDestroy {
       location.properties?.amenity === 'theatre') {
       return this.greenIcon;
     } else if (location.properties?.amenity === 'restaurant' ||
-      location.properties?.tourism === 'hotel'){
+      location.properties?.tourism === 'hotel') {
       return this.blueIcon;
     } else if (location.properties?.tourism === 'artwork' ||
       location.properties?.tourism === 'heritage' ||

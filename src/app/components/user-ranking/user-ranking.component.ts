@@ -20,8 +20,6 @@ export interface UserRanking {
 
 export class UserRankingComponent implements OnInit {
   usersRankings: UserRanking[] = [];
-  // userRanking: number = 0;
-  // userName: string = "";
   currentUser: any = [];
 
 
@@ -57,7 +55,7 @@ export class UserRankingComponent implements OnInit {
     });
   }
 
-  setRanking(){
+  setRanking() {
     if (this.apiService.isLoggedIn()) {
       this.apiService.me().subscribe((data: UserRanking[]) => {
         this.currentUser = data;
@@ -66,9 +64,5 @@ export class UserRankingComponent implements OnInit {
     }
 
 
-
   }
-
-
-  protected readonly console = console;
 }

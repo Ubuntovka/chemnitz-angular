@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {RegisterComponent} from './components/register/register.component';
 import {MainPageWrapperComponent} from './components/main-page-wrapper/main-page-wrapper.component';
 import {LoginComponent} from './components/login/login.component';
@@ -7,7 +7,7 @@ import {authGuard} from './guards/auth.guard';
 import {UserRankingComponent} from './components/user-ranking/user-ranking.component';
 
 export const routes: Routes = [
-  { path: '', component: MainPageWrapperComponent },
+  {path: '', component: MainPageWrapperComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'profile', component: UserProfileComponent, canActivate: [authGuard]},

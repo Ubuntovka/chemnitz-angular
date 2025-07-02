@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 interface JwtPayload {
   exp: number;
+
   [key: string]: any;
 }
 
@@ -55,7 +56,7 @@ export class ApiService {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<LoginResponse>(this.apiUrl + '/api/users/login', body, {headers}).pipe(
       tap(response => {
-        localStorage.setItem('token', response.token); // Store token
+        localStorage.setItem('token', response.token);
       })
     );
   }

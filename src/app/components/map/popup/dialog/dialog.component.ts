@@ -2,7 +2,6 @@ import {Component, inject, Inject, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions,
   MatDialogContent,
   MatDialogTitle
 } from "@angular/material/dialog";

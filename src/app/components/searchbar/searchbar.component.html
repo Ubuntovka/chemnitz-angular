@@ -1,4 +1,3 @@
-
 <div class="sidebar">
   <div class="sidebar-row-bg"></div>
 
@@ -14,31 +13,39 @@
     </mat-form-field>
   </div>
 
-  <button class="filter-button" matPrefix aria-label="Search icon" mat-icon-button (click)="setActiveClass()"><mat-icon>tune</mat-icon></button>
+  <button class="filter-button" matPrefix aria-label="Search icon" mat-icon-button (click)="setActiveClass()">
+    <mat-icon>tune</mat-icon>
+  </button>
 
   <div [ngClass]="[filterLocationsClass, listForMobileClass]">
     <mat-chip-set aria-label="Types of locations">
-      <mat-chip class="filter-filters" (click)="locationsByFilter('museum')" [highlighted]="activeFilter.includes('museum')">
+      <mat-chip class="filter-filters" (click)="locationsByFilter('museum')"
+                [highlighted]="activeFilter.includes('museum')">
         <mat-icon matChipAvatar aria-label="Museum icon" style="color: #148c56">museum</mat-icon>
         Museum
       </mat-chip>
-      <mat-chip class="filter-filters" (click)="locationsByFilter('theatre')" [highlighted]="activeFilter.includes('theatre')">
+      <mat-chip class="filter-filters" (click)="locationsByFilter('theatre')"
+                [highlighted]="activeFilter.includes('theatre')">
         <mat-icon matChipAvatar aria-label="Theatre icon" style="color: #148c56">theater_comedy</mat-icon>
         Theater
       </mat-chip>
-      <mat-chip  class="filter-filters"(click)="locationsByFilter('restaurant')" [highlighted]="activeFilter.includes('restaurant')">
+      <mat-chip class="filter-filters" (click)="locationsByFilter('restaurant')"
+                [highlighted]="activeFilter.includes('restaurant')">
         <mat-icon matChipAvatar aria-label="Restaurant icon" style="color: #277fca">restaurant</mat-icon>
         Restaurant
       </mat-chip>
-      <mat-chip class="filter-filters" (click)="locationsByFilter('hotel')" [highlighted]="activeFilter.includes('hotel')">
+      <mat-chip class="filter-filters" (click)="locationsByFilter('hotel')"
+                [highlighted]="activeFilter.includes('hotel')">
         <mat-icon matChipAvatar aria-label="Hotel icon" style="color: #277fca">hotel</mat-icon>
         Hotel
       </mat-chip>
-      <mat-chip class="filter-filters" (click)="locationsByFilter('artwork')" [highlighted]="activeFilter.includes('artwork')">
+      <mat-chip class="filter-filters" (click)="locationsByFilter('artwork')"
+                [highlighted]="activeFilter.includes('artwork')">
         <mat-icon matChipAvatar aria-label="Brush icon" style="color: #bc614d">brush</mat-icon>
         Artwork
       </mat-chip>
-      <mat-chip class="filter-filters" (click)="locationsByFilter('heritage')" [highlighted]="activeFilter.includes('heritage')">
+      <mat-chip class="filter-filters" (click)="locationsByFilter('heritage')"
+                [highlighted]="activeFilter.includes('heritage')">
         <mat-icon matChipAvatar aria-label="Local see icon" style="color: #bc614d">local_see</mat-icon>
         Heritage Site
       </mat-chip>
@@ -51,27 +58,43 @@
       <li class="li" (click)="select(e._id)">
         <div class="li-content">
           <div class="name">
-            <mat-icon *ngIf="e.properties?.tourism === 'museum'" aria-label="Museum icon" style="color: #148c56">museum</mat-icon>
+            <mat-icon *ngIf="e.properties?.tourism === 'museum'" aria-label="Museum icon" style="color: #148c56">
+              museum
+            </mat-icon>
             <mat-icon *ngIf="e.properties?.tourism === 'theatre' || e.properties?.amenity === 'theatre'"
-                      aria-label="Museum icon" style="color: #148c56">theater_comedy</mat-icon>
-            <mat-icon *ngIf="e.properties?.amenity === 'restaurant'" aria-label="Restaurant icon" style="color: #277fca">restaurant</mat-icon>
-            <mat-icon *ngIf="e.properties?.tourism === 'hotel'" aria-label="Hotel icon" style="color: #277fca">hotel</mat-icon>
-            <mat-icon *ngIf="e.properties?.tourism === 'artwork'" aria-label="Artwork icon" style="color: #bc614d">brush</mat-icon>
+                      aria-label="Museum icon" style="color: #148c56">theater_comedy
+            </mat-icon>
+            <mat-icon *ngIf="e.properties?.amenity === 'restaurant'" aria-label="Restaurant icon"
+                      style="color: #277fca">restaurant
+            </mat-icon>
+            <mat-icon *ngIf="e.properties?.tourism === 'hotel'" aria-label="Hotel icon" style="color: #277fca">hotel
+            </mat-icon>
+            <mat-icon *ngIf="e.properties?.tourism === 'artwork'" aria-label="Artwork icon" style="color: #bc614d">
+              brush
+            </mat-icon>
             <mat-icon *ngIf="e.properties?.tourism === 'heritage' || e.properties?.tourism_1 === 'heritage'"
-                      aria-label="Heritage icon" style="color: #bc614d">local_see</mat-icon>
+                      aria-label="Heritage icon" style="color: #bc614d">local_see
+            </mat-icon>
             <span class="span-name">
-              {{ e.properties?.name || e.properties?.artwork_type ||
-            e.properties?.description || e.properties?.tourism || e.properties?.amenity }}
+              {{
+                e.properties?.name || e.properties?.artwork_type ||
+                e.properties?.description || e.properties?.tourism || e.properties?.amenity
+              }}
             </span>
-            <mat-icon *ngIf="favoriteLocations.includes(e._id)" matChipAvatar aria-label="favorite icon" style="color: gold; padding-right: 1dvw">star</mat-icon>
+            <mat-icon *ngIf="favoriteLocations.includes(e._id)" matChipAvatar aria-label="favorite icon"
+                      style="color: gold; padding-right: 1dvw">star
+            </mat-icon>
           </div>
 
-          @if (!e.properties?.['addr:street']){
+          @if (!e.properties?.['addr:street']) {
             <div class="address">No address data available</div>
           } @else {
-            <div class="address">{{ (e.properties?.['addr:street'] ? ' ' + e.properties['addr:street'] : '') +
-            (e.properties?.['addr:housenumber'] ? ' ' + e.properties['addr:housenumber'] : '') +
-            ', ' + e.properties?.['addr:city']}}</div>
+            <div class="address">{{
+                (e.properties?.['addr:street'] ? ' ' + e.properties['addr:street'] : '') +
+                (e.properties?.['addr:housenumber'] ? ' ' + e.properties['addr:housenumber'] : '') +
+                ', ' + e.properties?.['addr:city']
+              }}
+            </div>
           }
         </div>
       </li>

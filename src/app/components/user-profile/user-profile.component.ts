@@ -1,7 +1,7 @@
-import {booleanAttribute, Component, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import { MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
+import {MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {Router, RouterLink} from '@angular/router';
 import {MatIcon} from '@angular/material/icon';
 import {ApiService} from '../../services/api.service';
@@ -56,7 +56,7 @@ export class UserProfileComponent implements OnInit {
     this.meInfo();
   }
 
-  updateUserInfo(){
+  updateUserInfo() {
     if (this.accountForm.valid) {
 
       const usernameValue = this.name.value ?? undefined;
@@ -90,11 +90,11 @@ export class UserProfileComponent implements OnInit {
         this.errorSnackBar();
       }
 
-      }
+    }
 
   }
 
-  meInfo(){
+  meInfo() {
     this.apiService.me().subscribe((data: any) => {
       this.user = data;
     });
@@ -113,21 +113,22 @@ export class UserProfileComponent implements OnInit {
 
   // password
   hide = signal(true);
+
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
 
-  deleteAccount(){
+  deleteAccount() {
     if (confirm("Are you sure you want to permanently delete your account?")) {
       this.apiService.deleteUser().subscribe({
         next: () => {
           localStorage.removeItem('token');
-          this._snackBar.open("Your account has been deleted.", "Hide", { duration: 3000 });
+          this._snackBar.open("Your account has been deleted.", "Hide", {duration: 3000});
           this.router.navigate(['/login']);
         },
         error: () => {
-          this._snackBar.open("Error. Could not delete account.", "Hide", { duration: 3000 });
+          this._snackBar.open("Error. Could not delete account.", "Hide", {duration: 3000});
         }
       });
     }
@@ -141,17 +142,20 @@ export class UserProfileComponent implements OnInit {
       duration: 3000
     });
   }
+
   errorSnackBar() {
     this._snackBar.open("Error. Something went wrong...", "Hide", {
       duration: 3000
     });
   }
-  notTheSamePasswordSnackBar(){
+
+  notTheSamePasswordSnackBar() {
     this._snackBar.open("Error. New passwords do not match.", "Hide", {
       duration: 10000
     });
   }
-  noCurrentPasswordSnackBar(){
+
+  noCurrentPasswordSnackBar() {
     this._snackBar.open("Error. Please provide your current password.", "Hide", {
       duration: 10000
     })

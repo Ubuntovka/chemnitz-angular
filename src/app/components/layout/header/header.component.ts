@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.setRanking();
   }
+
   constructor(protected apiService: ApiService) {
   }
 
@@ -58,7 +59,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  setRanking(){
+  setRanking() {
     if (this.apiService.isLoggedIn()) {
       this.apiService.userRanking().subscribe((ranking: any) => {
         this.userRanking = ranking.ranking;

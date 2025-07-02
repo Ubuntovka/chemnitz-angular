@@ -55,7 +55,7 @@
 }
 
 .first-place {
-  background-color: #ffe066; /* Soft bright gold */
+  background-color: #ffe066;
   color: #222;
   font-weight: bold;
 }
@@ -95,7 +95,7 @@
 
 /* Mobile optimization */
 @media (max-width: 600px) {
-  .h1{
+  .h1 {
     font-size: 1.5rem;
   }
 

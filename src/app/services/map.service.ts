@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 export interface FavoriteChangeEvent {
   favoriteId: string;
@@ -49,12 +49,6 @@ export class MapService {
     } as VisitedChangeEvent)
   }
 
-  removeVisited(id: string) {
-    this.visitedChangeSubject.next({
-      visitedId: id,
-      isVisited: false
-    } as VisitedChangeEvent);
+  constructor() {
   }
-
-  constructor() { }
 }

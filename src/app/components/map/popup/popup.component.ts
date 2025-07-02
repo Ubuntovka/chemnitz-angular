@@ -8,7 +8,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {DialogComponent} from './dialog/dialog.component';
 import {MatIcon} from '@angular/material/icon';
 import {CommonModule} from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
+import {ChangeDetectorRef} from '@angular/core';
 
 @Component({
   selector: 'app-popup',
