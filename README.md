@@ -19,6 +19,8 @@ To access the app through your local network:
 ng serve --host "0.0.0.0" --port 4200
 ```
 This will start the development server and bind it to all network interfaces, making the app accessible on your local network. Open your browser and navigate to `http://localhost:4200` or http://<your-local-ip>:4200.
+> Note: For access through your local network, you need to change a host in apiUrl on the line 30 in api.service.ts file.
+
 
 ## Build for Production
 
