@@ -27,7 +27,7 @@ export interface Review {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'https://katsala.com/api/chemnitz';
 
   constructor(private http: HttpClient) {
   }
