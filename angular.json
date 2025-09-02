@@ -31,8 +31,7 @@
               "src/styles.css",
               "node_modules/leaflet/dist/leaflet.css"
             ],
-            "scripts": [],
-            "baseHref": "/chemnitz-map/"
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -48,14 +47,12 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all",
-              "baseHref": "/chemnitz-map/"
+              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "baseHref": "/chemnitz-map/"
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
